@@ -1,0 +1,468 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Generar portafolio — Folium81</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Lora:ital,wght@0,500;0,600;0,700;1,500;1,600&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="styles.css" />
+    <script src="theme-init.js"></script>
+  </head>
+  <body class="page-wizard">
+    <script src="auth-guard.js"></script>
+    <header class="navbar navbar--auth">
+      <div class="navbar__inner container">
+        <a href="dashboard.html" class="wordmark">Folium81</a>
+        <div class="navbar__auth">
+          <span class="navbar__email" id="navEmail">demo@utp.ac.pa</span>
+          <nav class="navbar__auth-links" aria-label="Cuenta">
+            <a href="perfil.html">Perfil</a>
+            <span class="navbar__sep" aria-hidden="true">·</span>
+            <a href="configuracion.html">Configuración</a>
+            <span class="navbar__sep" aria-hidden="true">·</span>
+            <a href="login.html" class="nav-logout">Cerrar sesión</a>
+          </nav>
+        </div>
+      </div>
+    </header>
+
+    <div class="wizard-layout">
+      <aside class="wizard-sidebar" aria-label="Pasos del asistente">
+        <h2 class="wizard-sidebar__title">Pasos</h2>
+        <ol class="wizard-steps">
+          <li>
+            <button type="button" class="wizard-step" id="wizard-nav-1" data-step="1">
+              <span class="wizard-step__circle" aria-hidden="true">
+                <span class="wizard-step__num">1</span>
+                <span class="wizard-step__check">✓</span>
+              </span>
+              <span class="wizard-step__label">Datos del estudiante</span>
+            </button>
+          </li>
+          <li>
+            <button type="button" class="wizard-step" id="wizard-nav-2" data-step="2">
+              <span class="wizard-step__circle" aria-hidden="true">
+                <span class="wizard-step__num">2</span>
+                <span class="wizard-step__check">✓</span>
+              </span>
+              <span class="wizard-step__label">Archivos requeridos</span>
+            </button>
+          </li>
+          <li>
+            <button type="button" class="wizard-step" id="wizard-nav-3" data-step="3">
+              <span class="wizard-step__circle" aria-hidden="true">
+                <span class="wizard-step__num">3</span>
+                <span class="wizard-step__check">✓</span>
+              </span>
+              <span class="wizard-step__label">Archivos opcionales</span>
+            </button>
+          </li>
+          <li>
+            <button type="button" class="wizard-step" id="wizard-nav-4" data-step="4">
+              <span class="wizard-step__circle" aria-hidden="true">
+                <span class="wizard-step__num">4</span>
+                <span class="wizard-step__check">✓</span>
+              </span>
+              <span class="wizard-step__label">Conclusión (opcional)</span>
+            </button>
+          </li>
+          <li>
+            <button type="button" class="wizard-step" id="wizard-nav-5" data-step="5">
+              <span class="wizard-step__circle" aria-hidden="true">
+                <span class="wizard-step__num">5</span>
+                <span class="wizard-step__check">✓</span>
+              </span>
+              <span class="wizard-step__label">Revisar y generar</span>
+            </button>
+          </li>
+        </ol>
+      </aside>
+
+      <div class="wizard-main">
+        <section class="wizard-panel" id="wizard-panel-1" aria-labelledby="wizard-h1">
+          <h1 class="wizard-panel__title" id="wizard-h1">Datos del estudiante</h1>
+          <div class="wizard-form">
+            <div class="wizard-field">
+              <label class="wizard-label" for="sf-nombre">Nombre completo</label>
+              <input class="wizard-input" type="text" id="sf-nombre" name="nombre" required placeholder="Juan Carlos López Rodríguez" autocomplete="name" />
+            </div>
+            <div class="wizard-field">
+              <label class="wizard-label" for="sf-cedula">Cédula</label>
+              <input class="wizard-input" type="text" id="sf-cedula" name="cedula" required placeholder="8-123-4567" />
+            </div>
+            <div class="wizard-field">
+              <label class="wizard-label" for="sf-curso">Nombre del curso</label>
+              <input class="wizard-input" type="text" id="sf-curso" name="curso" required placeholder="Bases de Datos I" />
+            </div>
+            <div class="wizard-field">
+              <label class="wizard-label" for="sf-depto">Departamento</label>
+              <select class="wizard-input wizard-select" id="sf-depto" name="depto" required>
+                <option value="" disabled selected>Selecciona un departamento</option>
+                <option>Departamento de Sistemas y Computación</option>
+                <option>Departamento de Ciencias Computacionales</option>
+                <option>Departamento de Tecnologías de la Información y Comunicaciones</option>
+              </select>
+            </div>
+            <div class="wizard-field">
+              <label class="wizard-label" for="sf-facilitador">Facilitador(a)</label>
+              <input class="wizard-input" type="text" id="sf-facilitador" name="facilitador" required placeholder="Ing. María González" />
+            </div>
+            <div class="wizard-field-row">
+              <div class="wizard-field">
+                <label class="wizard-label" for="sf-semestre">Semestre</label>
+                <select class="wizard-input wizard-select" id="sf-semestre" name="semestre" required>
+                  <option value="" disabled selected>—</option>
+                  <option>I</option>
+                  <option>II</option>
+                  <option>Verano</option>
+                </select>
+              </div>
+              <div class="wizard-field">
+                <label class="wizard-label" for="sf-anio">Año</label>
+                <select class="wizard-input wizard-select" id="sf-anio" name="anio" required>
+                  <option value="" disabled selected>—</option>
+                  <option>2024</option>
+                  <option>2025</option>
+                  <option>2026</option>
+                </select>
+              </div>
+            </div>
+          </div>
+          <footer class="wizard-panel__footer wizard-panel__footer--end">
+            <button type="button" class="btn btn--primary" data-wizard-next>Siguiente →</button>
+          </footer>
+        </section>
+
+        <section class="wizard-panel" id="wizard-panel-2" hidden aria-labelledby="wizard-h2">
+          <h1 class="wizard-panel__title" id="wizard-h2">Archivos requeridos</h1>
+          <p class="wizard-panel__subtitle">Estos dos archivos son obligatorios.</p>
+          <div class="wizard-upload-stack">
+            <div class="upload-zone" data-upload-key="planContenido">
+              <input type="file" class="upload-zone__input" accept="application/pdf" aria-label="Plan de Contenido, PDF" />
+              <div class="upload-zone__ui">
+                <p class="upload-zone__title">Plan de Contenido</p>
+                <p class="upload-zone__hint">Arrastra un PDF aquí o haz clic para elegir</p>
+                <p class="upload-zone__meta-line">PDF · Máx. 10MB</p>
+              </div>
+              <div class="upload-zone__meta" hidden>
+                <span class="upload-zone__name"></span>
+                <span class="upload-zone__size"></span>
+                <button type="button" class="upload-zone__remove" aria-label="Quitar archivo" hidden>×</button>
+              </div>
+            </div>
+            <div class="upload-zone" data-upload-key="planSemestral">
+              <input type="file" class="upload-zone__input" accept="application/pdf" aria-label="Planificación Semestral, PDF" />
+              <div class="upload-zone__ui">
+                <p class="upload-zone__title">Planificación Semestral</p>
+                <p class="upload-zone__hint">Arrastra un PDF aquí o haz clic para elegir</p>
+                <p class="upload-zone__meta-line">PDF · Máx. 10MB</p>
+              </div>
+              <div class="upload-zone__meta" hidden>
+                <span class="upload-zone__name"></span>
+                <span class="upload-zone__size"></span>
+                <button type="button" class="upload-zone__remove" aria-label="Quitar archivo" hidden>×</button>
+              </div>
+            </div>
+          </div>
+          <footer class="wizard-panel__footer wizard-panel__footer--split">
+            <button type="button" class="btn btn--outline" data-wizard-prev>← Anterior</button>
+            <button type="button" class="btn btn--primary" data-wizard-next>Siguiente →</button>
+          </footer>
+        </section>
+
+        <section class="wizard-panel" id="wizard-panel-3" hidden aria-labelledby="wizard-h3">
+          <h1 class="wizard-panel__title" id="wizard-h3">Archivos opcionales</h1>
+          <p class="wizard-panel__subtitle">
+            Sube los materiales que tengas. Puedes omitir secciones. La presentación
+            con tu nombre completo y cédula se tomará del paso «Datos del estudiante».
+          </p>
+
+          <div class="wizard-disclosures">
+            <details class="wizard-disclosure">
+              <summary class="wizard-disclosure__summary">
+                <span class="wizard-disclosure__icon" aria-hidden="true"></span>
+                Tareas
+              </summary>
+              <div class="wizard-disclosure__body">
+                <div class="upload-zone" data-upload-key="tareas">
+                  <input type="file" class="upload-zone__input" accept="application/pdf" />
+                  <div class="upload-zone__ui">
+                    <p class="upload-zone__hint">Arrastra PDF o haz clic</p>
+                    <p class="upload-zone__meta-line">PDF · Máx. 10MB</p>
+                  </div>
+                  <div class="upload-zone__meta" hidden>
+                    <span class="upload-zone__name"></span>
+                    <span class="upload-zone__size"></span>
+                    <button type="button" class="upload-zone__remove" hidden>×</button>
+                  </div>
+                </div>
+              </div>
+            </details>
+
+            <details class="wizard-disclosure">
+              <summary class="wizard-disclosure__summary">
+                <span class="wizard-disclosure__icon" aria-hidden="true"></span>
+                Trabajos de Clase
+              </summary>
+              <div class="wizard-disclosure__body">
+                <div class="upload-zone" data-upload-key="trabajos">
+                  <input type="file" class="upload-zone__input" accept="application/pdf" />
+                  <div class="upload-zone__ui">
+                    <p class="upload-zone__hint">Arrastra PDF o haz clic</p>
+                    <p class="upload-zone__meta-line">PDF · Máx. 10MB</p>
+                  </div>
+                  <div class="upload-zone__meta" hidden>
+                    <span class="upload-zone__name"></span>
+                    <span class="upload-zone__size"></span>
+                    <button type="button" class="upload-zone__remove" hidden>×</button>
+                  </div>
+                </div>
+              </div>
+            </details>
+
+            <details class="wizard-disclosure">
+              <summary class="wizard-disclosure__summary">
+                <span class="wizard-disclosure__icon" aria-hidden="true"></span>
+                Proyectos
+              </summary>
+              <div class="wizard-disclosure__body">
+                <div class="upload-zone" data-upload-key="proyectos">
+                  <input type="file" class="upload-zone__input" accept="application/pdf" />
+                  <div class="upload-zone__ui">
+                    <p class="upload-zone__hint">Arrastra PDF o haz clic</p>
+                    <p class="upload-zone__meta-line">PDF · Máx. 10MB</p>
+                  </div>
+                  <div class="upload-zone__meta" hidden>
+                    <span class="upload-zone__name"></span>
+                    <span class="upload-zone__size"></span>
+                    <button type="button" class="upload-zone__remove" hidden>×</button>
+                  </div>
+                </div>
+              </div>
+            </details>
+
+            <details class="wizard-disclosure">
+              <summary class="wizard-disclosure__summary">
+                <span class="wizard-disclosure__icon" aria-hidden="true"></span>
+                Laboratorios y Talleres
+              </summary>
+              <div class="wizard-disclosure__body">
+                <div class="upload-zone" data-upload-key="labs">
+                  <input type="file" class="upload-zone__input" accept="application/pdf" />
+                  <div class="upload-zone__ui">
+                    <p class="upload-zone__hint">Arrastra PDF o haz clic</p>
+                    <p class="upload-zone__meta-line">PDF · Máx. 10MB</p>
+                  </div>
+                  <div class="upload-zone__meta" hidden>
+                    <span class="upload-zone__name"></span>
+                    <span class="upload-zone__size"></span>
+                    <button type="button" class="upload-zone__remove" hidden>×</button>
+                  </div>
+                </div>
+              </div>
+            </details>
+
+            <details class="wizard-disclosure">
+              <summary class="wizard-disclosure__summary">
+                <span class="wizard-disclosure__icon" aria-hidden="true"></span>
+                Parciales
+              </summary>
+              <div class="wizard-disclosure__body">
+                <p class="wizard-parcial-label">Parcial 1 — Enunciado</p>
+                <div class="upload-zone" data-upload-key="parcial1e">
+                  <input type="file" class="upload-zone__input" accept="application/pdf" />
+                  <div class="upload-zone__ui">
+                    <p class="upload-zone__hint">PDF · Máx. 10MB</p>
+                  </div>
+                  <div class="upload-zone__meta" hidden>
+                    <span class="upload-zone__name"></span>
+                    <span class="upload-zone__size"></span>
+                    <button type="button" class="upload-zone__remove" hidden>×</button>
+                  </div>
+                </div>
+                <p class="wizard-parcial-label">Parcial 1 — Respuestas</p>
+                <div class="upload-zone" data-upload-key="parcial1r">
+                  <input type="file" class="upload-zone__input" accept="application/pdf" />
+                  <div class="upload-zone__ui">
+                    <p class="upload-zone__hint">PDF · Máx. 10MB</p>
+                  </div>
+                  <div class="upload-zone__meta" hidden>
+                    <span class="upload-zone__name"></span>
+                    <span class="upload-zone__size"></span>
+                    <button type="button" class="upload-zone__remove" hidden>×</button>
+                  </div>
+                </div>
+                <p class="wizard-parcial-label">Parcial 2 — Enunciado</p>
+                <div class="upload-zone" data-upload-key="parcial2e">
+                  <input type="file" class="upload-zone__input" accept="application/pdf" />
+                  <div class="upload-zone__ui">
+                    <p class="upload-zone__hint">PDF · Máx. 10MB</p>
+                  </div>
+                  <div class="upload-zone__meta" hidden>
+                    <span class="upload-zone__name"></span>
+                    <span class="upload-zone__size"></span>
+                    <button type="button" class="upload-zone__remove" hidden>×</button>
+                  </div>
+                </div>
+                <p class="wizard-parcial-label">Parcial 2 — Respuestas</p>
+                <div class="upload-zone" data-upload-key="parcial2r">
+                  <input type="file" class="upload-zone__input" accept="application/pdf" />
+                  <div class="upload-zone__ui">
+                    <p class="upload-zone__hint">PDF · Máx. 10MB</p>
+                  </div>
+                  <div class="upload-zone__meta" hidden>
+                    <span class="upload-zone__name"></span>
+                    <span class="upload-zone__size"></span>
+                    <button type="button" class="upload-zone__remove" hidden>×</button>
+                  </div>
+                </div>
+              </div>
+            </details>
+
+            <details class="wizard-disclosure">
+              <summary class="wizard-disclosure__summary">
+                <span class="wizard-disclosure__icon" aria-hidden="true"></span>
+                Material Didáctico
+              </summary>
+              <div class="wizard-disclosure__body">
+                <div class="upload-zone" data-upload-key="material">
+                  <input type="file" class="upload-zone__input" accept="application/pdf" />
+                  <div class="upload-zone__ui">
+                    <p class="upload-zone__hint">Arrastra PDF o haz clic</p>
+                    <p class="upload-zone__meta-line">PDF · Máx. 10MB</p>
+                  </div>
+                  <div class="upload-zone__meta" hidden>
+                    <span class="upload-zone__name"></span>
+                    <span class="upload-zone__size"></span>
+                    <button type="button" class="upload-zone__remove" hidden>×</button>
+                  </div>
+                </div>
+              </div>
+            </details>
+
+            <details class="wizard-disclosure">
+              <summary class="wizard-disclosure__summary">
+                <span class="wizard-disclosure__icon" aria-hidden="true"></span>
+                Conclusión final
+              </summary>
+              <div class="wizard-disclosure__body">
+                <p class="wizard-disclosure__lead">
+                  Escribe tu conclusión o genera un borrador con IA a partir de los
+                  archivos que hayas subido en este formulario.
+                </p>
+                <div class="wizard-field">
+                  <div class="wizard-conclusion-head">
+                    <label class="wizard-label" for="conclusionFinal">Texto de la conclusión</label>
+                    <button type="button" class="btn btn--outline btn--sm" id="btn-ia-conclusion-final">
+                      Generar con IA
+                    </button>
+                  </div>
+                  <textarea
+                    class="wizard-textarea"
+                    id="conclusionFinal"
+                    name="conclusion_final"
+                    rows="7"
+                    placeholder="Escribe tu conclusión aquí…"
+                  ></textarea>
+                  <p class="wizard-ia-hint-step3" id="conclusion-final-ia-hint" hidden>
+                    ⚠ Texto sugerido por IA — revisa y edita antes de usar.
+                  </p>
+                </div>
+              </div>
+            </details>
+          </div>
+
+          <footer class="wizard-panel__footer wizard-panel__footer--split">
+            <button type="button" class="btn btn--outline" data-wizard-prev>← Anterior</button>
+            <button type="button" class="btn btn--primary" data-wizard-next>Siguiente →</button>
+          </footer>
+        </section>
+
+        <section class="wizard-panel" id="wizard-panel-4" hidden aria-labelledby="wizard-h4">
+          <h1 class="wizard-panel__title" id="wizard-h4">Conclusión con IA</h1>
+          <p class="wizard-panel__subtitle">
+            Este paso es completamente opcional. Puedes escribir tu conclusión manualmente o saltarlo.
+          </p>
+          <div class="wizard-form">
+            <div class="wizard-field">
+              <label class="wizard-label" for="expectativas">Expectativas iniciales</label>
+              <textarea class="wizard-textarea" id="expectativas" name="expectativas" maxlength="500" rows="4" placeholder="¿Qué esperabas aprender en este curso?"></textarea>
+              <p class="wizard-char-count"><span id="expectativas-count">0</span>/500 caracteres</p>
+            </div>
+            <fieldset class="wizard-fieldset">
+              <legend class="wizard-label">Actividades realizadas</legend>
+              <div class="wizard-checkboxes">
+                <label class="wizard-check"><input type="checkbox" name="act" value="tareas" /> Tareas</label>
+                <label class="wizard-check"><input type="checkbox" name="act" value="trabajos" /> Trabajos de clase</label>
+                <label class="wizard-check"><input type="checkbox" name="act" value="proyectos" /> Proyectos</label>
+                <label class="wizard-check"><input type="checkbox" name="act" value="labs" /> Laboratorios</label>
+                <label class="wizard-check"><input type="checkbox" name="act" value="parciales" /> Parciales</label>
+                <label class="wizard-check"><input type="checkbox" name="act" value="otros" /> Otros</label>
+              </div>
+            </fieldset>
+            <div class="wizard-field wizard-field--narrow">
+              <label class="wizard-label" for="num-parciales">Número de parciales</label>
+              <input class="wizard-input" type="number" id="num-parciales" name="num_parciales" min="0" max="6" value="0" />
+            </div>
+          </div>
+          <div class="wizard-step4-actions">
+            <button type="button" class="btn btn--outline" id="btn-generar-ia">Generar con IA</button>
+          </div>
+          <div class="wizard-ia-output" id="conclusion-output-wrap" hidden>
+            <label class="wizard-ia-warning" for="conclusionOutput">⚠ Generado por IA — Revisa y edita antes de usar</label>
+            <textarea class="wizard-textarea wizard-textarea--conclusion" id="conclusionOutput" rows="8" placeholder=""></textarea>
+            <p class="wizard-regen" id="regeneraciones-label">3/3 regeneraciones disponibles</p>
+          </div>
+          <p class="wizard-omitir-wrap">
+            <a href="#" class="wizard-omitir" id="link-omitir-paso4">Omitir este paso</a>
+          </p>
+          <footer class="wizard-panel__footer wizard-panel__footer--split">
+            <button type="button" class="btn btn--outline" data-wizard-prev>← Anterior</button>
+            <button type="button" class="btn btn--primary" data-wizard-next>Siguiente →</button>
+          </footer>
+        </section>
+
+        <section class="wizard-panel" id="wizard-panel-5" hidden aria-labelledby="wizard-h5">
+          <h1 class="wizard-panel__title" id="wizard-h5">Revisar y generar</h1>
+          <div class="wizard-summary card">
+            <h2 class="wizard-summary__heading">Resumen</h2>
+            <dl class="wizard-summary__grid">
+              <dt>Nombre completo</dt><dd id="sumNombre">—</dd>
+              <dt>Cédula</dt><dd id="sumCedula">—</dd>
+              <dt>Curso</dt><dd id="sumCurso">—</dd>
+              <dt>Departamento</dt><dd id="sumDepto">—</dd>
+              <dt>Facilitador(a)</dt><dd id="sumFacil">—</dd>
+              <dt>Semestre y año</dt><dd id="sumSem">—</dd>
+            </dl>
+            <p class="wizard-summary__pres">
+              <strong>Presentación del estudiante:</strong>
+              <span id="sum-presentacion">No indicada</span>
+            </p>
+            <p class="wizard-summary__files"><strong>Archivos:</strong> <span id="sum-files">Archivos requeridos: 0</span></p>
+            <p class="wizard-summary__conc"><strong>Conclusión:</strong> <span id="sum-conclusion">No incluida</span></p>
+          </div>
+          <div class="wizard-warn-box" role="status">
+            Una vez que generes el portafolio, los archivos subidos se eliminarán. Descárgalo inmediatamente.
+          </div>
+          <div id="wizard-step5-idle">
+            <button type="button" class="btn wizard-btn-generate" id="btn-generar-portafolio">Generar portafolio</button>
+          </div>
+          <div id="wizard-step5-loading" class="wizard-loading" hidden>
+            <div class="wizard-spinner" aria-hidden="true"></div>
+            <p class="wizard-loading__text">Generando tu portafolio...</p>
+          </div>
+          <footer class="wizard-panel__footer wizard-panel__footer--start">
+            <button type="button" class="btn btn--outline" data-wizard-prev>← Anterior</button>
+          </footer>
+        </section>
+      </div>
+    </div>
+
+    <script src="generar.js" defer></script>
+  </body>
+</html>

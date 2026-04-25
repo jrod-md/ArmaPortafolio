@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Panel principal — Folium81</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Lora:ital,wght@0,500;0,600;0,700;1,500;1,600&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="styles.css" />
+    <script src="theme-init.js"></script>
+  </head>
+  <body class="page-dashboard">
+    <script src="auth-guard.js"></script>
+    <header class="navbar navbar--auth">
+      <div class="navbar__inner container">
+        <a href="index.html" class="wordmark">Folium81</a>
+        <div class="navbar__auth">
+          <span class="navbar__email" id="navEmail" aria-label="Correo conectado"
+            >demo@utp.ac.pa</span
+          >
+          <nav class="navbar__auth-links" aria-label="Cuenta">
+            <a href="perfil.html">Perfil</a>
+            <span class="navbar__sep" aria-hidden="true">·</span>
+            <a href="configuracion.html">Configuración</a>
+            <span class="navbar__sep" aria-hidden="true">·</span>
+            <a href="login.html" class="nav-logout">Cerrar sesión</a>
+          </nav>
+        </div>
+      </div>
+    </header>
+
+    <main class="dashboard-main">
+      <div class="dashboard-inner">
+        <header class="dashboard-greeting">
+          <p class="dashboard-overline">Panel principal</p>
+          <h1 class="dashboard-title">
+            Hola, <span id="greetingName">Demo</span>.
+          </h1>
+          <p class="dashboard-lead">
+            Todo listo para generar tu portafolio.
+          </p>
+        </header>
+
+        <article class="dashboard-card card">
+          <h2 class="dashboard-card__title">Generar portafolio</h2>
+          <p class="dashboard-card__desc">
+            Completa el formulario con los datos de tu curso, sube tus PDFs y
+            descarga el ZIP listo para entregar. El proceso toma menos de 5
+            minutos.
+          </p>
+          <a href="generar.html" class="btn btn--primary dashboard-card__cta">Comenzar →</a>
+          <p class="dashboard-card__limit">Límite: 12 portafolios por día</p>
+        </article>
+
+        <aside class="dashboard-reminder" aria-label="Recordatorio">
+          <span class="dashboard-reminder__icon" aria-hidden="true">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <circle cx="12" cy="12" r="9" stroke="#4A3880" stroke-width="1.5" stroke-opacity="0.45" />
+              <path d="M12 7v5l3 2" stroke="#7C5CBF" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+            </svg>
+          </span>
+          <p class="dashboard-reminder__text">
+            Recuerda: los archivos generados se eliminan automáticamente después
+            de 1 hora. Descarga tu portafolio antes de cerrar la sesión.
+          </p>
+        </aside>
+      </div>
+    </main>
+
+    <footer class="dashboard-footer">
+      <p class="dashboard-footer__inner">
+        <a href="index.html">Folium81</a>
+        <span class="dashboard-footer__sep" aria-hidden="true">·</span>
+        <a href="ayuda.html">Ayuda</a>
+        <span class="dashboard-footer__sep" aria-hidden="true">·</span>
+        <a href="faq.html">FAQ</a>
+      </p>
+    </footer>
+
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        var email = window.FOLIUM_SESSION_EMAIL || "";
+        var nameEl = document.getElementById("greetingName");
+        if (nameEl && email) {
+          var local = (email.split("@")[0] || "demo").split(".")[0] || "demo";
+          nameEl.textContent =
+            local.charAt(0).toLocaleUpperCase("es") +
+            local.slice(1).toLocaleLowerCase("es");
+        }
+      });
+    </script>
+  </body>
+</html>

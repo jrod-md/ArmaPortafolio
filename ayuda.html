@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Ayuda — Folium81</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Lora:ital,wght@0,500;0,600;0,700;1,500;1,600&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="styles.css" />
+    <script src="theme-init.js"></script>
+  </head>
+  <body>
+    <header class="navbar">
+      <div class="navbar__inner container">
+        <a href="index.html" class="wordmark">Folium81</a>
+        <nav class="navbar__nav" aria-label="Principal">
+          <a href="nosotros.html">Nosotros</a>
+          <span class="navbar__sep" aria-hidden="true">·</span>
+          <a href="faq.html">FAQ</a>
+          <span class="navbar__sep" aria-hidden="true">·</span>
+          <a href="ayuda.html" aria-current="page">Ayuda</a>
+          <a href="login.html" class="btn btn--outline btn--sm">Iniciar sesión</a>
+        </nav>
+      </div>
+    </header>
+
+    <main>
+      <header class="page-header">
+        <div class="page-header__inner container">
+          <h1 class="page-header__title">Ayuda</h1>
+          <p class="page-header__subtitle">
+            Guías paso a paso para usar Folium81.
+          </p>
+        </div>
+      </header>
+
+      <section class="section help-guides" aria-labelledby="guides-heading">
+        <div class="container">
+          <h2 id="guides-heading" class="visually-hidden">Guías</h2>
+          <div class="help-guides__grid">
+            <article class="guide-card card">
+              <div class="guide-card__badge" aria-hidden="true">1</div>
+              <h3 class="guide-card__title">Cómo iniciar sesión</h3>
+              <ol class="guide-card__steps">
+                <li>Ingresa tu correo @utp.ac.pa</li>
+                <li>Revisa tu bandeja (incluyendo spam)</li>
+                <li>Haz clic en el enlace — expira en 10 minutos</li>
+                <li>Listo, ya estás dentro</li>
+              </ol>
+            </article>
+
+            <article class="guide-card card">
+              <div class="guide-card__badge" aria-hidden="true">2</div>
+              <h3 class="guide-card__title">Cómo generar tu portafolio</h3>
+              <ol class="guide-card__steps">
+                <li>
+                  Completa tus datos: nombre, cédula, curso, facilitador,
+                  semestre
+                </li>
+                <li>
+                  Sube tus PDFs en cada sección (plan de contenido, tareas,
+                  proyectos, etc.)
+                </li>
+                <li>Opcionalmente, genera una conclusión con IA y edítala</li>
+                <li>Revisa el resumen y haz clic en "Generar"</li>
+                <li>Descarga tu ZIP — tienes 1 hora</li>
+              </ol>
+            </article>
+
+            <article class="guide-card card">
+              <div class="guide-card__badge" aria-hidden="true">3</div>
+              <h3 class="guide-card__title">Problemas comunes</h3>
+              <ul class="guide-card__issues">
+                <li>
+                  <p>
+                    <strong>No recibí el correo</strong> → Espera 2 minutos y
+                    revisa spam. Si no llega, solicita otro enlace.
+                  </p>
+                </li>
+                <li>
+                  <p>
+                    <strong>El enlace ya no funciona</strong> → El enlace expira
+                    en 10 minutos. Solicita uno nuevo.
+                  </p>
+                </li>
+                <li>
+                  <p>
+                    <strong>Mi archivo no se acepta</strong> → Asegúrate de que
+                    sea un PDF real y menor a 10MB.
+                  </p>
+                </li>
+                <li>
+                  <p>
+                    <strong>El portafolio tardó mucho</strong> → Intenta con
+                    menos archivos. Si el error persiste, reporta el problema.
+                  </p>
+                </li>
+              </ul>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section class="section help-files" aria-labelledby="files-heading">
+        <div class="container container--narrow">
+          <h2 id="files-heading" class="section__title section__title--left">
+            Requisitos de archivos
+          </h2>
+          <div class="help-table-wrap">
+            <table class="help-table">
+              <thead>
+                <tr>
+                  <th scope="col">Requisito</th>
+                  <th scope="col">Valor</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>Formato aceptado</td>
+                  <td>PDF únicamente</td>
+                </tr>
+                <tr>
+                  <td>Tamaño máximo por archivo</td>
+                  <td>10 MB</td>
+                </tr>
+                <tr>
+                  <td>Total máximo de archivos</td>
+                  <td>50 archivos</td>
+                </tr>
+                <tr>
+                  <td>Tamaño total máximo</td>
+                  <td>50 MB</td>
+                </tr>
+                <tr>
+                  <td>Tiempo de almacenamiento</td>
+                  <td>1 hora (luego se elimina)</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <section class="help-report" aria-labelledby="report-heading">
+        <div class="help-report__inner container">
+          <h2 id="report-heading" class="help-report__title">
+            ¿Encontraste un error?
+          </h2>
+          <p class="help-report__text">
+            Si algo no funciona como debería, puedes reportarlo directamente en
+            GitHub. Incluye qué estabas haciendo y qué mensaje de error viste.
+          </p>
+          <a
+            href="https://github.com"
+            class="btn btn--outline help-report__btn"
+            target="_blank"
+            rel="noopener noreferrer"
+            >Reportar en GitHub</a
+          >
+        </div>
+      </section>
+    </main>
+
+    <footer class="footer">
+      <div class="footer__main container">
+        <div class="footer__brand">
+          <a href="index.html" class="wordmark wordmark--footer">Folium81</a>
+          <p class="footer__tagline">Hecho por estudiantes de FISC, UTP</p>
+        </div>
+        <nav class="footer__nav" aria-label="Pie de página">
+          <a href="nosotros.html">Nosotros</a>
+          <span class="footer__sep">·</span>
+          <a href="faq.html">FAQ</a>
+          <span class="footer__sep">·</span>
+          <a href="ayuda.html">Ayuda</a>
+        </nav>
+        <p class="footer__license">
+          MIT License · Código abierto en GitHub
+        </p>
+      </div>
+      <p class="footer__disclaimer container">
+        No afiliado oficialmente con la Universidad Tecnológica de Panamá.
+      </p>
+    </footer>
+  </body>
+</html>

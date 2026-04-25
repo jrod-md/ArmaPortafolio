@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Acceder — Folium81</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Lora:ital,wght@0,500;0,600;0,700;1,500;1,600&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="styles.css" />
+    <script src="theme-init.js"></script>
+  </head>
+  <body class="page-login">
+    <div class="login-page">
+      <aside class="login-left">
+        <div class="login-left__bg" aria-hidden="true">
+          <svg
+            class="login-left__shapes"
+            viewBox="0 0 400 800"
+            preserveAspectRatio="xMidYMid slice"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <circle cx="320" cy="120" r="140" fill="#B39DDB" fill-opacity="0.12" />
+            <circle cx="60" cy="520" r="180" fill="#7C5CBF" fill-opacity="0.1" />
+            <rect
+              x="200"
+              y="380"
+              width="200"
+              height="200"
+              rx="24"
+              transform="rotate(12 300 480)"
+              fill="#B39DDB"
+              fill-opacity="0.08"
+            />
+            <path
+              d="M-20 680 Q120 620 200 720 T420 660"
+              stroke="#B39DDB"
+              stroke-opacity="0.15"
+              stroke-width="3"
+            />
+          </svg>
+        </div>
+        <div class="login-left__content">
+          <blockquote class="login-left__quote">
+            Tu portafolio listo en 5 minutos.
+          </blockquote>
+          <p class="login-left__note">Solo para correos @utp.ac.pa</p>
+        </div>
+      </aside>
+
+      <main class="login-right">
+        <div class="login-right__inner">
+          <form
+            class="login-form"
+            id="loginForm"
+            data-state="default"
+            novalidate
+          >
+            <a href="index.html" class="wordmark login-form__brand">Folium81</a>
+
+            <h1 class="login-form__title">Acceder</h1>
+            <p class="login-form__lead">
+              Ingresa tu correo institucional. Te enviaremos un enlace de acceso.
+            </p>
+
+            <div class="login-form__block" id="loginBlockFields">
+              <label class="login-form__label" for="email">Correo institucional</label>
+              <input
+                class="login-form__input"
+                type="email"
+                id="email"
+                name="email"
+                placeholder="tu.nombre@utp.ac.pa"
+                autocomplete="email"
+                inputmode="email"
+              />
+              <p class="login-form__hint">Solo se aceptan correos @utp.ac.pa</p>
+              <div
+                class="login-alert login-alert--error"
+                id="loginError"
+                role="alert"
+                hidden
+              >
+                Este correo no es válido o no pertenece a @utp.ac.pa
+              </div>
+            </div>
+
+            <div class="login-form__actions" id="loginActions">
+              <button type="submit" class="login-form__submit">
+                Enviar enlace de acceso
+              </button>
+            </div>
+
+            <div
+              class="login-alert login-alert--success"
+              id="loginSuccess"
+              role="status"
+              aria-live="polite"
+              hidden
+            >
+              ✓ Enlace enviado. Revisa tu correo, incluyendo la carpeta de spam.
+              El enlace expira en 10 minutos.
+            </div>
+            <p class="login-form__retry" id="loginRetryWrap" hidden>
+              <button type="button" class="login-form__retry-btn" id="loginRetry">
+                ¿No llegó? Volver a intentar
+              </button>
+            </p>
+
+            <p class="login-form__legal">
+              Al acceder, aceptas que tus datos son procesados según la Ley 81 de
+              Panamá.
+            </p>
+
+            <div class="login-form__demos" aria-label="Vista previa de estados">
+              <span class="login-form__demos-label">Ver estado</span>
+              <button type="button" class="login-form__demo" data-login-state="default">
+                Predeterminado
+              </button>
+              <span class="login-form__demos-sep" aria-hidden="true">·</span>
+              <button type="button" class="login-form__demo" data-login-state="success">
+                Enviado
+              </button>
+              <span class="login-form__demos-sep" aria-hidden="true">·</span>
+              <button type="button" class="login-form__demo" data-login-state="error">
+                Error
+              </button>
+            </div>
+          </form>
+        </div>
+      </main>
+    </div>
+
+    <script>
+      (function () {
+        var form = document.getElementById("loginForm");
+        var email = document.getElementById("email");
+        var err = document.getElementById("loginError");
+        var success = document.getElementById("loginSuccess");
+        var actions = document.getElementById("loginActions");
+        var fields = document.getElementById("loginBlockFields");
+        var retryWrap = document.getElementById("loginRetryWrap");
+        var retryBtn = document.getElementById("loginRetry");
+
+        function setState(state) {
+          form.dataset.state = state;
+          var isSuccess = state === "success";
+          var isError = state === "error";
+
+          fields.hidden = isSuccess;
+          actions.hidden = isSuccess;
+          success.hidden = !isSuccess;
+          retryWrap.hidden = !isSuccess;
+          err.hidden = !isError;
+        }
+
+        document.querySelectorAll("[data-login-state]").forEach(function (btn) {
+          btn.addEventListener("click", function () {
+            setState(btn.getAttribute("data-login-state") || "default");
+          });
+        });
+
+        retryBtn.addEventListener("click", function () {
+          setState("default");
+          email.focus();
+        });
+
+        form.addEventListener("submit", function (e) {
+          e.preventDefault();
+          var v = (email.value || "").trim().toLowerCase();
+          if (v === "demo@utp.ac.pa") {
+            try {
+              sessionStorage.setItem("folium_demo", "1");
+            } catch (err) {}
+            window.location.href = "dashboard.html";
+            return;
+          }
+          if (!v || !v.endsWith("@utp.ac.pa")) {
+            setState("error");
+            return;
+          }
+          setState("success");
+        });
+      })();
+    </script>
+  </body>
+</html>
