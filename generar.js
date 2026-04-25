@@ -32,6 +32,11 @@
       if (ui) ui.hidden = true;
       if (meta) meta.hidden = false;
       if (removeBtn) removeBtn.hidden = false;
+      root.classList.add("upload-zone--filled");
+      root.classList.remove("upload-zone--enter");
+      window.requestAnimationFrame(function () {
+        root.classList.add("upload-zone--enter");
+      });
     } else {
       delete uploads[key];
       var input = root.querySelector(".upload-zone__input");
@@ -39,7 +44,19 @@
       if (ui) ui.hidden = false;
       if (meta) meta.hidden = true;
       if (removeBtn) removeBtn.hidden = true;
+      root.classList.remove("upload-zone--filled", "upload-zone--enter");
     }
+  }
+
+  function updateProgress() {
+    var bar = $("wizard-progress-bar");
+    var meta = $("wizard-progress-meta");
+    var track = document.querySelector(".wizard-progress__track");
+    if (!bar || !meta || !track) return;
+    var percent = (currentStep / TOTAL_STEPS) * 100;
+    bar.style.width = percent + "%";
+    meta.textContent = "Paso " + currentStep + " de " + TOTAL_STEPS;
+    track.setAttribute("aria-valuenow", String(currentStep));
   }
 
   function bindUploadZone(root) {
@@ -111,7 +128,19 @@
   function showPanel(step) {
     for (var i = 1; i <= TOTAL_STEPS; i++) {
       var panel = $("wizard-panel-" + i);
-      if (panel) panel.hidden = i !== step;
+      if (!panel) continue;
+      if (i !== step) {
+        panel.hidden = true;
+        panel.classList.remove("wizard-panel--enter");
+        continue;
+      }
+      panel.hidden = false;
+      panel.classList.remove("wizard-panel--enter");
+      window.requestAnimationFrame(function (p) {
+        return function () {
+          p.classList.add("wizard-panel--enter");
+        };
+      }(panel));
     }
   }
 
@@ -120,6 +149,7 @@
     currentStep = n;
     showPanel(n);
     updateSidebar();
+    updateProgress();
     if (n === 5) refreshSummary();
     window.scrollTo(0, 0);
     var main = document.querySelector(".wizard-main");
@@ -290,8 +320,13 @@
     if (!btn || !idle || !load) return;
     btn.addEventListener("click", function () {
       btn.disabled = true;
+      var actionButtons = document.querySelectorAll(".wizard-panel button, .wizard-panel a.btn");
+      actionButtons.forEach(function (node) {
+        if (node !== btn) node.setAttribute("aria-disabled", "true");
+      });
       idle.hidden = true;
       load.hidden = false;
+      btn.textContent = "Generando...";
       window.setTimeout(function () {
         window.location.href = "descarga.html";
       }, 2200);
@@ -346,5 +381,6 @@
   bindStep5();
   loadWizardDefaults();
   updateSidebar();
+  updateProgress();
   showPanel(1);
 })();

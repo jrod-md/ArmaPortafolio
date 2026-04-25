@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Acceder — Folium81</title>
+    <title>Acceder - Folium81</title>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
@@ -45,26 +45,36 @@
           </svg>
         </div>
         <div class="login-left__content">
-          <blockquote class="login-left__quote">
-            Tu portafolio listo en 5 minutos.
-          </blockquote>
-          <p class="login-left__note">Solo para correos @utp.ac.pa</p>
+          <blockquote class="login-left__quote">Tu portafolio listo en minutos</blockquote>
+          <p class="login-left__note">Sube PDFs, valida estructura y descarga tu ZIP listo para entregar.</p>
+
+          <article class="login-preview" aria-hidden="true">
+            <h3 class="login-preview__title">Vista previa del portafolio</h3>
+            <ul class="login-preview__list">
+              <li><span>Portada.pdf</span> <small>generada</small></li>
+              <li><span>01_plan_contenido.pdf</span> <small>validado</small></li>
+              <li><span>02_plan_semestral.pdf</span> <small>validado</small></li>
+              <li><span>03_tareas/</span> <small>organizado</small></li>
+              <li><span>folium81_portafolio.zip</span> <small>listo</small></li>
+            </ul>
+          </article>
+
+          <ul class="login-benefits" aria-label="Beneficios">
+            <li><span aria-hidden="true">+</span> Estructura correcta para la entrega</li>
+            <li><span aria-hidden="true">+</span> Proceso guiado paso a paso</li>
+            <li><span aria-hidden="true">+</span> Generacion en pocos minutos</li>
+          </ul>
         </div>
       </aside>
 
       <main class="login-right">
         <div class="login-right__inner">
-          <form
-            class="login-form"
-            id="loginForm"
-            data-state="default"
-            novalidate
-          >
+          <form class="login-form" id="loginForm" data-state="default" novalidate>
             <a href="index.html" class="wordmark login-form__brand">Folium81</a>
 
             <h1 class="login-form__title">Acceder</h1>
             <p class="login-form__lead">
-              Ingresa tu correo institucional. Te enviaremos un enlace de acceso.
+              Ingresa tu correo institucional. Te enviaremos un enlace de acceso seguro.
             </p>
 
             <div class="login-form__block" id="loginBlockFields">
@@ -79,57 +89,25 @@
                 inputmode="email"
               />
               <p class="login-form__hint">Solo se aceptan correos @utp.ac.pa</p>
-              <div
-                class="login-alert login-alert--error"
-                id="loginError"
-                role="alert"
-                hidden
-              >
-                Este correo no es válido o no pertenece a @utp.ac.pa
+              <div class="login-alert login-alert--error" id="loginError" role="alert" hidden>
+                Este correo no es valido o no pertenece a @utp.ac.pa.
               </div>
             </div>
 
             <div class="login-form__actions" id="loginActions">
-              <button type="submit" class="login-form__submit">
-                Enviar enlace de acceso
-              </button>
+              <button type="submit" class="login-form__submit">Enviar enlace de acceso</button>
             </div>
 
-            <div
-              class="login-alert login-alert--success"
-              id="loginSuccess"
-              role="status"
-              aria-live="polite"
-              hidden
-            >
-              ✓ Enlace enviado. Revisa tu correo, incluyendo la carpeta de spam.
-              El enlace expira en 10 minutos.
+            <div class="login-alert login-alert--success" id="loginSuccess" role="status" aria-live="polite" hidden>
+              Enlace enviado. Revisa tu correo, incluyendo la carpeta de spam. El enlace expira en 10 minutos.
             </div>
             <p class="login-form__retry" id="loginRetryWrap" hidden>
-              <button type="button" class="login-form__retry-btn" id="loginRetry">
-                ¿No llegó? Volver a intentar
-              </button>
+              <button type="button" class="login-form__retry-btn" id="loginRetry">No llego? Volver a intentar</button>
             </p>
 
             <p class="login-form__legal">
-              Al acceder, aceptas que tus datos son procesados según la Ley 81 de
-              Panamá.
+              Al acceder, aceptas que tus datos son procesados segun la Ley 81 de Panama.
             </p>
-
-            <div class="login-form__demos" aria-label="Vista previa de estados">
-              <span class="login-form__demos-label">Ver estado</span>
-              <button type="button" class="login-form__demo" data-login-state="default">
-                Predeterminado
-              </button>
-              <span class="login-form__demos-sep" aria-hidden="true">·</span>
-              <button type="button" class="login-form__demo" data-login-state="success">
-                Enviado
-              </button>
-              <span class="login-form__demos-sep" aria-hidden="true">·</span>
-              <button type="button" class="login-form__demo" data-login-state="error">
-                Error
-              </button>
-            </div>
           </form>
         </div>
       </main>
@@ -158,12 +136,6 @@
           err.hidden = !isError;
         }
 
-        document.querySelectorAll("[data-login-state]").forEach(function (btn) {
-          btn.addEventListener("click", function () {
-            setState(btn.getAttribute("data-login-state") || "default");
-          });
-        });
-
         retryBtn.addEventListener("click", function () {
           setState("default");
           email.focus();
@@ -189,3 +161,4 @@
     </script>
   </body>
 </html>
+

@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Descargar portafolio — Folium81</title>
+    <title>Descargar portafolio - Folium81</title>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
@@ -22,83 +22,53 @@
           <span class="navbar__email" id="navEmail">demo@utp.ac.pa</span>
           <nav class="navbar__auth-links" aria-label="Cuenta">
             <a href="perfil.html">Perfil</a>
-            <span class="navbar__sep" aria-hidden="true">·</span>
-            <a href="configuracion.html">Configuración</a>
-            <span class="navbar__sep" aria-hidden="true">·</span>
-            <a href="login.html" class="nav-logout">Cerrar sesión</a>
+            <span class="navbar__sep" aria-hidden="true">�</span>
+            <a href="configuracion.html">Configuracion</a>
+            <span class="navbar__sep" aria-hidden="true">�</span>
+            <a href="login.html" class="nav-logout">Cerrar sesion</a>
           </nav>
         </div>
       </div>
     </header>
 
     <main class="descarga-main">
-      <div class="descarga-inner">
-        <svg
-          class="descarga-icon"
-          width="88"
-          height="88"
-          viewBox="0 0 64 64"
-          fill="none"
-          xmlns="http://www.w3.org/2000/svg"
-          aria-hidden="true"
-        >
-          <path
-            d="M12 22h40v30H12V22z"
-            stroke="#7C5CBF"
-            stroke-width="2.5"
-            stroke-linejoin="round"
-            fill="#7C5CBF"
-            fill-opacity="0.08"
-          />
-          <path
-            d="M20 22V14a6 6 0 0 1 6-6h12a6 6 0 0 1 6 6v8"
-            stroke="#7C5CBF"
-            stroke-width="2.5"
-            stroke-linecap="round"
-          />
-          <path
-            d="M24 36h16M24 42h10"
-            stroke="#7C5CBF"
-            stroke-width="2"
-            stroke-linecap="round"
-            stroke-opacity="0.45"
-          />
-          <path
-            d="M32 46v10M26 50l6-6 6 6"
-            stroke="#7C5CBF"
-            stroke-width="2.2"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-          />
-        </svg>
-
-        <h1 class="descarga-title">Tu portafolio está listo.</h1>
-        <p class="descarga-lead">
-          El archivo incluye la portada oficial, todas tus carpetas y tus archivos
-          organizados según el formato requerido.
-        </p>
-
-        <div class="descarga-card card">
-          <p class="descarga-filename">portafolio_Lopez_BasesDeDatos_I2026.zip</p>
-          <button type="button" class="btn btn--primary descarga-btn">Descargar ZIP</button>
-          <p class="descarga-timer">
-            ⏱ Este archivo se elimina en 1 hora. Descárgalo ahora.
+      <div class="descarga-inner descarga-inner--enhanced">
+        <section class="success-hero card">
+          <div class="success-hero__badge" aria-hidden="true">
+            <svg width="86" height="86" viewBox="0 0 86 86" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <circle cx="43" cy="43" r="42" fill="#7C5CBF" fill-opacity="0.14" stroke="#7C5CBF" stroke-opacity="0.22" />
+              <path d="M26 44l11 11 23-23" stroke="#7C5CBF" stroke-width="6" stroke-linecap="round" stroke-linejoin="round" />
+            </svg>
+          </div>
+          <p class="success-hero__eyebrow">Completado</p>
+          <h1 class="descarga-title">Tu portafolio esta listo</h1>
+          <p class="descarga-lead">
+            Todo quedo estructurado en el formato solicitado: portada, carpetas y documentos organizados.
           </p>
-        </div>
+        </section>
+
+        <section class="descarga-preview card" aria-label="Vista previa">
+          <div class="descarga-preview__sheet" aria-hidden="true">
+            <p class="descarga-preview__line"></p>
+            <p class="descarga-preview__line"></p>
+            <p class="descarga-preview__line descarga-preview__line--short"></p>
+          </div>
+          <div class="descarga-preview__meta">
+            <p class="descarga-filename">portafolio_Lopez_BasesDeDatos_I2026.zip</p>
+            <p class="descarga-timer">Este archivo se elimina en 1 hora. Descargalo ahora.</p>
+          </div>
+          <button type="button" class="btn btn--primary descarga-btn">Descargar ZIP</button>
+        </section>
 
         <div class="descarga-actions">
           <a href="generar.html" class="btn btn--outline descarga-btn-secondary">Generar otro portafolio</a>
-          <p class="descarga-panel-link">
-            <a href="dashboard.html">Ir al panel</a>
-          </p>
+          <p class="descarga-panel-link"><a href="dashboard.html">Ir al panel</a></p>
         </div>
 
         <p class="descarga-note">
-          Por la Ley 81 de Panamá, no guardamos copias de tus archivos. Este es el
-          único momento en que puedes descargar este portafolio.
+          Por la Ley 81 de Panama no guardamos copias de tus archivos. Este es el unico momento para descargar el portafolio.
         </p>
       </div>
     </main>
-
   </body>
 </html>
