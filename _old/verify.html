@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Verificar enlace — Folium81</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Lora:ital,wght@0,500;0,600;0,700;1,500;1,600&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="styles.css" />
+    <script src="theme-init.js"></script>
+  </head>
+  <body class="page-verify">
+    <main class="verify-screen" id="verifyRoot" data-state="verifying">
+      <div
+        class="verify-panel"
+        id="panelVerifying"
+        data-verify-state="verifying"
+        role="status"
+        aria-live="polite"
+        aria-hidden="false"
+      >
+        <div class="verify-spinner" aria-hidden="true"></div>
+        <h1 class="verify-title">Verificando tu enlace...</h1>
+        <p class="verify-subtitle">Esto tarda un momento.</p>
+      </div>
+
+      <div
+        class="verify-panel"
+        id="panelSuccess"
+        data-verify-state="success"
+        role="status"
+        aria-live="polite"
+        hidden
+        aria-hidden="true"
+      >
+        <div class="verify-icon">
+          <svg width="60" height="60" viewBox="0 0 72 72" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="36" cy="36" r="34" stroke="#6A45C6" stroke-opacity="0.25" stroke-width="2" />
+            <path d="M22 37l9 9 20-24" stroke="#6A45C6" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" />
+          </svg>
+        </div>
+        <h1 class="verify-title">¡Bienvenido!</h1>
+        <p class="verify-subtitle">
+          Acceso verificado. Redirigiendo a tu panel...
+        </p>
+        <div class="verify-progress" aria-hidden="true">
+          <div class="verify-progress__fill" id="verifyProgressFill"></div>
+        </div>
+      </div>
+
+      <div
+        class="verify-panel"
+        id="panelError"
+        data-verify-state="error"
+        role="alert"
+        hidden
+        aria-hidden="true"
+      >
+        <div class="verify-icon">
+          <svg width="60" height="60" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="32" cy="32" r="30" stroke="#A34F4F" stroke-opacity="0.45" stroke-width="2" />
+            <path d="M24 24l16 16M40 24L24 40" stroke="#A34F4F" stroke-width="2.5" stroke-linecap="round" />
+          </svg>
+        </div>
+        <h1 class="verify-title">El enlace no es válido.</h1>
+        <p class="verify-body">
+          Este enlace ya fue usado, expiró o no es correcto. Los enlaces de
+          acceso son válidos por 10 minutos y solo pueden usarse una vez.
+        </p>
+        <a href="login.html" class="btn btn--primary verify-error-btn"
+          >Solicitar un nuevo enlace</a
+        >
+        <p class="verify-foot">
+          Si el problema persiste,
+          <a href="ayuda.html">visita Ayuda</a>.
+        </p>
+      </div>
+
+      <div class="verify-demos" aria-label="Vista previa de estados">
+        <span>Ver estado:</span>
+        <button type="button" class="verify-demos__btn" data-verify-demo="verifying">
+          Verificando
+        </button>
+        <span aria-hidden="true">·</span>
+        <button type="button" class="verify-demos__btn" data-verify-demo="success">
+          Éxito
+        </button>
+        <span aria-hidden="true">·</span>
+        <button type="button" class="verify-demos__btn" data-verify-demo="error">
+          Error
+        </button>
+      </div>
+    </main>
+
+    <script>
+      (function () {
+        var root = document.getElementById("verifyRoot");
+        var panels = document.querySelectorAll(".verify-panel");
+        var fill = document.getElementById("verifyProgressFill");
+
+        function runProgressAnimation() {
+          if (!fill) return;
+          fill.classList.remove("verify-progress__fill--run");
+          void fill.offsetWidth;
+          fill.classList.add("verify-progress__fill--run");
+        }
+
+        function setState(state) {
+          if (state !== "verifying" && state !== "success" && state !== "error") {
+            state = "verifying";
+          }
+          root.dataset.state = state;
+          panels.forEach(function (p) {
+            var on = p.dataset.verifyState === state;
+            p.hidden = !on;
+            p.setAttribute("aria-hidden", on ? "false" : "true");
+          });
+          if (state === "success") {
+            runProgressAnimation();
+          }
+        }
+
+        document.querySelectorAll("[data-verify-demo]").forEach(function (btn) {
+          btn.addEventListener("click", function () {
+            setState(btn.getAttribute("data-verify-demo") || "verifying");
+          });
+        });
+
+        var q = new URLSearchParams(window.location.search).get("state");
+        if (q === "success" || q === "error" || q === "verifying") {
+          setState(q);
+        }
+      })();
+    </script>
+  </body>
+</html>
