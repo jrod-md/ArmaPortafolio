@@ -156,6 +156,12 @@
           if (v === "demo@utp.ac.pa") {
             try {
               sessionStorage.setItem("folium_demo", "1");
+              sessionStorage.setItem("folium81_session", JSON.stringify({
+                email: "demo@utp.ac.pa",
+                token: "demo",
+                verifiedAt: Date.now(),
+                expiresAt: Date.now() + 12 * 60 * 60 * 1000
+              }));
             } catch (err) {}
             window.location.href = "dashboard.html";
             return;

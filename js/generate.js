@@ -1,119 +1,256 @@
 import { FACULTIES } from "./faculties.js";
 
-const PAGE_WIDTH = 595.28;
-const PAGE_HEIGHT = 841.89;
+const PAGE_W = 966;
+const PAGE_H = 714;
+const SAFE_TEXT_MAX_X = 550;
+
+const PDF_LIB_URL = "https://cdn.jsdelivr.net/npm/pdf-lib@1.17.1/+esm";
+const FONTKIT_URL = "https://cdn.jsdelivr.net/npm/@pdf-lib/fontkit@1.1.1/+esm";
+
+const OUTPUT_FILENAME = "Portada.pdf";
+const OUTPUT_ZIP_PATH = "01_Portada/Portada.pdf";
+const DEFAULT_FACULTY_ID = "fisc";
+
+const GREEN_LIGHT_RGB = { r: 0.553, g: 0.776, b: 0.247 };
+const GREEN_DARK_RGB = { r: 0.0, g: 0.408, b: 0.22 };
+const NAVY_RGB = { r: 0.122, g: 0.22, b: 0.392 };
+const BLACK_RGB = { r: 0, g: 0, b: 0 };
+
+const TITLE_TEXT = "DISEÑO DEL PORTAFOLIO DIGITAL ESTUDIANTIL";
+const UNIVERSITY_TEXT = "UNIVERSIDAD TECNOLÓGICA DE PANAMÁ";
+const FOOTER_1 =
+  "(Fuentes: - Material suministrado por: Ing. Lourdes de Torres e Ing. Víctor Fuentes";
+const FOOTER_2 =
+  "- Instructivo para la Elaboración del Portafolio del Estudiante de la ISC-UTP - 2016)";
+const FOOTER_3 = "Modificado por: Jefes de Departamentos - 2019";
+
+let pdfLibPromise;
+let fontkitPromise;
+const assetBytesCache = new Map();
 
 export async function generatePortada(data) {
-  const faculty = FACULTIES.find((entry) => entry.id === data?.student?.faculty);
+  const student = data?.student || data || {};
+  const faculty = resolveFaculty(student.faculty);
 
-  const lines = [
-    "UNIVERSIDAD TECNOLOGICA DE PANAMA",
-    faculty?.headerLine || "FACULTAD",
-    "",
-    "PORTAFOLIO DEL CURSO",
-    "",
-    `Estudiante: ${data?.student?.fullName || ""}`,
-    `Cedula: ${data?.student?.cedula || ""}`,
-    `Curso: ${data?.student?.courseName || ""}`,
-    `Departamento: ${data?.student?.department || ""}`,
-    `Facilitador(a): ${data?.student?.facilitator || ""}`,
-    `Periodo: ${data?.student?.semester || ""} ${data?.student?.year || ""}`.trim(),
-  ];
+  const [{ PDFDocument, rgb }, fontkit] = await Promise.all([
+    loadPdfLib(),
+    loadFontkit(),
+  ]);
 
-  const contentStream = buildPdfTextStream(lines);
-  const pdfBytes = buildPdfDocument(contentStream);
+  const pdfDoc = await PDFDocument.create();
+  pdfDoc.registerFontkit(fontkit);
+
+  const [boldBytes, regularBytes, utpLogoBytes, facultyLogoBytes] = await Promise.all([
+    loadAssetBytes("../assets/fonts/LiberationSans-Bold.ttf"),
+    loadAssetBytes("../assets/fonts/LiberationSans-Regular.ttf"),
+    loadAssetBytes("../assets/logos/logo_utp.png"),
+    loadAssetBytes(`../assets/logos/${faculty.logoFile}`),
+  ]);
+
+  const [fontBold, fontRegular, logoUtp, logoFaculty] = await Promise.all([
+    pdfDoc.embedFont(boldBytes),
+    pdfDoc.embedFont(regularBytes),
+    pdfDoc.embedPng(utpLogoBytes),
+    pdfDoc.embedPng(facultyLogoBytes),
+  ]);
+
+  const page = pdfDoc.addPage([PAGE_W, PAGE_H]);
+
+  const GREEN_LIGHT = rgb(GREEN_LIGHT_RGB.r, GREEN_LIGHT_RGB.g, GREEN_LIGHT_RGB.b);
+  const GREEN_DARK = rgb(GREEN_DARK_RGB.r, GREEN_DARK_RGB.g, GREEN_DARK_RGB.b);
+  const NAVY = rgb(NAVY_RGB.r, NAVY_RGB.g, NAVY_RGB.b);
+  const BLACK = rgb(BLACK_RGB.r, BLACK_RGB.g, BLACK_RGB.b);
+
+  drawGreenBands(page, GREEN_LIGHT, GREEN_DARK);
+
+  page.drawImage(logoUtp, {
+    x: 11,
+    y: 557,
+    width: 150,
+    height: 150,
+  });
+
+  page.drawImage(logoFaculty, {
+    x: 814,
+    y: 569,
+    width: 146,
+    height: 139,
+  });
+
+  drawCenteredText(page, UNIVERSITY_TEXT, 22, 647, fontBold, NAVY);
+  drawCenteredText(page, faculty.headerLine, 16, 613, fontBold, NAVY);
+
+  const departmentText = buildDepartmentLine(student.department);
+  const departmentSize = 14;
+  const departmentX = drawCenteredText(
+    page,
+    departmentText,
+    departmentSize,
+    585,
+    fontBold,
+    NAVY
+  );
+
+  drawDepartmentUnderline({
+    page,
+    fontBold,
+    color: NAVY,
+    fullText: departmentText,
+    x: departmentX,
+    y: 585,
+    size: departmentSize,
+  });
+
+  const titleLayout = fitCenteredTextToSafeArea(fontBold, TITLE_TEXT, 40, 34, SAFE_TEXT_MAX_X);
+  drawCenteredText(page, TITLE_TEXT, titleLayout.size, 422, fontBold, BLACK);
+
+  drawCenteredText(page, "CURSO:", 18, 373, fontBold, BLACK);
+  drawCenteredText(page, normalizeText(student.courseName), 18, 340, fontBold, BLACK);
+  drawCenteredText(
+    page,
+    `FACILITADOR(A): ${normalizeText(student.facilitator)}`,
+    18,
+    251,
+    fontBold,
+    BLACK
+  );
+  drawCenteredText(page, `PANAMÁ, ${normalizeText(student.year)}`, 18, 168, fontBold, BLACK);
+
+  drawCenteredText(page, FOOTER_1, 8, 98, fontRegular, BLACK);
+  drawCenteredText(page, FOOTER_2, 8, 84, fontRegular, BLACK);
+  drawCenteredText(page, FOOTER_3, 8, 27, fontBold, BLACK);
+
+  const pdfBytes = await pdfDoc.save();
 
   return {
-    filename: "Portada.pdf",
-    zipPath: "01_Portada/Portada.pdf",
+    filename: OUTPUT_FILENAME,
+    zipPath: OUTPUT_ZIP_PATH,
     blob: new Blob([pdfBytes], { type: "application/pdf" }),
   };
 }
 
-function buildPdfTextStream(lines) {
-  const commands = ["BT", "/F1 18 Tf", "72 760 Td"];
-
-  lines.forEach((line, index) => {
-    if (index > 0) {
-      commands.push("0 -28 Td");
+function resolveFaculty(facultyId) {
+  return (
+    FACULTIES.find((entry) => entry.id === facultyId) ||
+    FACULTIES.find((entry) => entry.id === DEFAULT_FACULTY_ID) ||
+    {
+      id: DEFAULT_FACULTY_ID,
+      headerLine: "FACULTAD DE INGENIERÍA DE SISTEMAS COMPUTACIONALES",
+      logoFile: "logo_fisc.png",
     }
-    commands.push(`(${escapePdfText(line)}) Tj`);
+  );
+}
+
+function normalizeText(value) {
+  return String(value || "").trim();
+}
+
+function buildDepartmentLine(department) {
+  const cleanDepartment = normalizeDepartmentName(department);
+  return `DEPARTAMENTO DE ${cleanDepartment}`.trim();
+}
+
+function normalizeDepartmentName(department) {
+  const clean = normalizeText(department).replace(/^departamento\s+de\s+/i, "");
+  return clean.toUpperCase();
+}
+
+function drawGreenBands(page, lightColor, darkColor) {
+  page.drawSvgPath("M 697 714 L 966 714 L 966 0 L 562 0 Z", {
+    color: lightColor,
+    borderWidth: 0,
   });
 
-  commands.push("ET");
-  return commands.join("\n");
+  page.drawSvgPath("M 821 714 L 966 714 L 966 0 L 716 0 Z", {
+    color: darkColor,
+    borderWidth: 0,
+  });
 }
 
-function buildPdfDocument(contentStream) {
-  const objects = [];
+function drawCenteredText(page, text, size, y, font, color) {
+  const safeText = text || "";
+  const width = font.widthOfTextAtSize(safeText, size);
+  const x = (PAGE_W - width) / 2;
 
-  objects.push("1 0 obj\n<< /Type /Catalog /Pages 2 0 R >>\nendobj");
-  objects.push("2 0 obj\n<< /Type /Pages /Kids [3 0 R] /Count 1 >>\nendobj");
-  objects.push(
-    `3 0 obj\n<< /Type /Page /Parent 2 0 R /MediaBox [0 0 ${PAGE_WIDTH} ${PAGE_HEIGHT}] /Resources << /Font << /F1 4 0 R >> >> /Contents 5 0 R >>\nendobj`
-  );
-  objects.push("4 0 obj\n<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica >>\nendobj");
-  objects.push(
-    `5 0 obj\n<< /Length ${getLatin1Bytes(contentStream).length} >>\nstream\n${contentStream}\nendstream\nendobj`
-  );
-
-  let pdf = "%PDF-1.4\n";
-  const offsets = [0];
-
-  objects.forEach((object) => {
-    offsets.push(getLatin1Bytes(pdf).length);
-    pdf += `${object}\n`;
+  page.drawText(safeText, {
+    x,
+    y,
+    size,
+    font,
+    color,
   });
 
-  const xrefOffset = getLatin1Bytes(pdf).length;
-  pdf += `xref\n0 ${objects.length + 1}\n`;
-  pdf += "0000000000 65535 f \n";
-
-  for (let i = 1; i < offsets.length; i += 1) {
-    pdf += `${String(offsets[i]).padStart(10, "0")} 00000 n \n`;
-  }
-
-  pdf += `trailer\n<< /Size ${objects.length + 1} /Root 1 0 R >>\nstartxref\n${xrefOffset}\n%%EOF`;
-  return getLatin1Bytes(pdf);
+  return x;
 }
 
-function escapePdfText(value) {
-  return value
-    .replace(/\\/g, "\\\\")
-    .replace(/\(/g, "\\(")
-    .replace(/\)/g, "\\)");
-}
+function drawDepartmentUnderline({ page, fontBold, color, fullText, x, y, size }) {
+  const labelText = "DEPARTAMENTO DE ";
+  const deptText = fullText.startsWith(labelText) ? fullText.slice(labelText.length) : fullText;
+  const labelWidth = fontBold.widthOfTextAtSize(labelText, size);
+  const deptWidth = fontBold.widthOfTextAtSize(deptText, size);
 
-function getLatin1Bytes(value) {
-  const bytes = [];
-  for (const char of value) {
-    bytes.push(mapCharCode(char));
-  }
-  return new Uint8Array(bytes);
-}
-
-function mapCharCode(char) {
-  const code = char.charCodeAt(0);
-  if (code <= 255) {
-    return code;
+  if (!deptText || deptWidth <= 0) {
+    return;
   }
 
-  const cp1252Map = {
-    "Á": 193,
-    "É": 201,
-    "Í": 205,
-    "Ó": 211,
-    "Ú": 218,
-    "á": 225,
-    "é": 233,
-    "í": 237,
-    "ó": 243,
-    "ú": 250,
-    "Ñ": 209,
-    "ñ": 241,
-    "Ü": 220,
-    "ü": 252,
+  page.drawLine({
+    start: { x: x + labelWidth, y: y - 2 },
+    end: { x: x + labelWidth + deptWidth, y: y - 2 },
+    thickness: 1,
+    color,
+  });
+}
+
+function fitCenteredTextToSafeArea(font, text, initialSize, minimumSize, maxX) {
+  for (let size = initialSize; size >= minimumSize; size -= 2) {
+    const width = font.widthOfTextAtSize(text, size);
+    const x = (PAGE_W - width) / 2;
+    if (x + width <= maxX) {
+      return { size, x, width };
+    }
+  }
+
+  const fallbackWidth = font.widthOfTextAtSize(text, minimumSize);
+  return {
+    size: minimumSize,
+    x: (PAGE_W - fallbackWidth) / 2,
+    width: fallbackWidth,
   };
+}
 
-  return cp1252Map[char] ?? 63;
+async function loadAssetBytes(relativePath) {
+  const assetUrl = new URL(relativePath, import.meta.url).href;
+  if (!assetBytesCache.has(assetUrl)) {
+    assetBytesCache.set(
+      assetUrl,
+      fetch(assetUrl).then(async (response) => {
+        if (!response.ok) {
+          throw new Error(`asset_unavailable:${relativePath}`);
+        }
+        return response.arrayBuffer();
+      })
+    );
+  }
+
+  return assetBytesCache.get(assetUrl);
+}
+
+async function loadPdfLib() {
+  if (!pdfLibPromise) {
+    pdfLibPromise = globalThis.PDFLib?.PDFDocument
+      ? Promise.resolve(globalThis.PDFLib)
+      : import(PDF_LIB_URL);
+  }
+
+  return pdfLibPromise;
+}
+
+async function loadFontkit() {
+  if (!fontkitPromise) {
+    fontkitPromise = globalThis.fontkit
+      ? Promise.resolve(globalThis.fontkit.default || globalThis.fontkit)
+      : import(FONTKIT_URL).then((mod) => mod.default || mod);
+  }
+
+  return fontkitPromise;
 }
