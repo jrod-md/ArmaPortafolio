@@ -37,39 +37,18 @@
         hidden
         aria-hidden="true"
       >
-        <svg
-          class="verify-icon verify-icon--success"
-          width="72"
-          height="72"
-          viewBox="0 0 72 72"
-          fill="none"
-          xmlns="http://www.w3.org/2000/svg"
-          aria-hidden="true"
-        >
-          <circle
-            cx="36"
-            cy="36"
-            r="34"
-            stroke="#7C5CBF"
-            stroke-opacity="0.25"
-            stroke-width="2"
-          />
-          <path
-            d="M22 37l9 9 20-24"
-            stroke="#7C5CBF"
-            stroke-width="3"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-          />
-        </svg>
+        <div class="verify-icon">
+          <svg width="60" height="60" viewBox="0 0 72 72" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="36" cy="36" r="34" stroke="#6A45C6" stroke-opacity="0.25" stroke-width="2" />
+            <path d="M22 37l9 9 20-24" stroke="#6A45C6" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" />
+          </svg>
+        </div>
         <h1 class="verify-title">¡Bienvenido!</h1>
         <p class="verify-subtitle">
           Acceso verificado. Redirigiendo a tu panel...
         </p>
         <div class="verify-progress" aria-hidden="true">
-          <div class="verify-progress__track">
-            <div class="verify-progress__fill" id="verifyProgressFill"></div>
-          </div>
+          <div class="verify-progress__fill" id="verifyProgressFill"></div>
         </div>
       </div>
 
@@ -81,30 +60,12 @@
         hidden
         aria-hidden="true"
       >
-        <svg
-          class="verify-icon verify-icon--error"
-          width="64"
-          height="64"
-          viewBox="0 0 64 64"
-          fill="none"
-          xmlns="http://www.w3.org/2000/svg"
-          aria-hidden="true"
-        >
-          <circle
-            cx="32"
-            cy="32"
-            r="30"
-            stroke="#A34F4F"
-            stroke-opacity="0.45"
-            stroke-width="2"
-          />
-          <path
-            d="M24 24l16 16M40 24L24 40"
-            stroke="#A34F4F"
-            stroke-width="2.5"
-            stroke-linecap="round"
-          />
-        </svg>
+        <div class="verify-icon">
+          <svg width="60" height="60" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="32" cy="32" r="30" stroke="#A34F4F" stroke-opacity="0.45" stroke-width="2" />
+            <path d="M24 24l16 16M40 24L24 40" stroke="#A34F4F" stroke-width="2.5" stroke-linecap="round" />
+          </svg>
+        </div>
         <h1 class="verify-title">El enlace no es válido.</h1>
         <p class="verify-body">
           Este enlace ya fue usado, expiró o no es correcto. Los enlaces de
@@ -120,15 +81,15 @@
       </div>
 
       <div class="verify-demos" aria-label="Vista previa de estados">
-        <span class="verify-demos__label">Ver estado</span>
+        <span>Ver estado:</span>
         <button type="button" class="verify-demos__btn" data-verify-demo="verifying">
           Verificando
         </button>
-        <span class="verify-demos__sep" aria-hidden="true">·</span>
+        <span aria-hidden="true">·</span>
         <button type="button" class="verify-demos__btn" data-verify-demo="success">
           Éxito
         </button>
-        <span class="verify-demos__sep" aria-hidden="true">·</span>
+        <span aria-hidden="true">·</span>
         <button type="button" class="verify-demos__btn" data-verify-demo="error">
           Error
         </button>

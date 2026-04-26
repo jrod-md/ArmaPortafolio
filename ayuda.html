@@ -14,7 +14,7 @@
     <script src="theme-init.js"></script>
   </head>
   <body>
-    <header class="navbar">
+    <header class="navbar reveal">
       <div class="navbar__inner container">
         <a href="index.html" class="wordmark">Folium81</a>
         <nav class="navbar__nav" aria-label="Principal">
@@ -29,109 +29,71 @@
     </header>
 
     <main>
-      <header class="page-header">
-        <div class="page-header__inner container">
-          <h1 class="page-header__title">Ayuda</h1>
-          <p class="page-header__subtitle">
-            Guías paso a paso para usar Folium81.
-          </p>
-          <div class="help-header-media" aria-hidden="true">
-            <img
-              class="help-header-media__img"
-              src="https://images.unsplash.com/photo-1516534775068-ba3e7458af70?auto=format&fit=crop&w=760&q=80"
-              alt=""
-              loading="lazy"
-            />
-            <img
-              class="help-header-media__img"
-              src="https://images.unsplash.com/photo-1488190211105-8b0e65b80b4e?auto=format&fit=crop&w=760&q=80"
-              alt=""
-              loading="lazy"
-            />
-            <img
-              class="help-header-media__img"
-              src="https://images.unsplash.com/photo-1544717305-2782549b5136?auto=format&fit=crop&w=760&q=80"
-              alt=""
-              loading="lazy"
-            />
+      <header class="hero">
+        <div class="hero__inner container">
+          <div class="hero__content reveal">
+            <h1 class="title-xl">Ayuda</h1>
+            <p class="body-lg hero__sub">
+              Guías paso a paso para usar Folium81.
+            </p>
           </div>
         </div>
       </header>
 
-      <section class="section help-guides" aria-labelledby="guides-heading">
-        <div class="container">
-          <h2 id="guides-heading" class="visually-hidden">Guías</h2>
-          <div class="help-guides__grid">
-            <article class="guide-card card">
-              <div class="guide-card__badge" aria-hidden="true">1</div>
-              <h3 class="guide-card__title">Cómo iniciar sesión</h3>
-              <ol class="guide-card__steps">
-                <li>Ingresa tu correo @utp.ac.pa</li>
-                <li>Revisa tu bandeja (incluyendo spam)</li>
-                <li>Haz clic en el enlace — expira en 10 minutos</li>
-                <li>Listo, ya estás dentro</li>
-              </ol>
-            </article>
+      <section class="section help-guides section--paper reveal" aria-labelledby="guides-heading">
+        <div class="container container--narrow">
+          <h2 id="guides-heading" class="title-lg" style="margin-bottom: 2rem;">Guías</h2>
+          <ol class="editorial-list">
+            <li class="editorial-item">
+              <span class="editorial-item__num" aria-hidden="true">1</span>
+              <h3 class="editorial-item__title">Cómo iniciar sesión</h3>
+              <div class="editorial-item__desc">
+                <ol style="padding-left: 1.5rem;">
+                  <li>Ingresa tu correo @utp.ac.pa</li>
+                  <li>Revisa tu bandeja (incluyendo spam)</li>
+                  <li>Haz clic en el enlace — expira en 10 minutos</li>
+                  <li>Listo, ya estás dentro</li>
+                </ol>
+              </div>
+            </li>
 
-            <article class="guide-card card">
-              <div class="guide-card__badge" aria-hidden="true">2</div>
-              <h3 class="guide-card__title">Cómo generar tu portafolio</h3>
-              <ol class="guide-card__steps">
-                <li>
-                  Completa tus datos: nombre, cédula, curso, facilitador,
-                  semestre
-                </li>
-                <li>
-                  Sube tus PDFs en cada sección (plan de contenido, tareas,
-                  proyectos, etc.)
-                </li>
-                <li>Opcionalmente, genera una conclusión con IA y edítala</li>
-                <li>Revisa el resumen y haz clic en "Generar"</li>
-                <li>Descarga tu ZIP — tienes 1 hora</li>
-              </ol>
-            </article>
+            <li class="editorial-item">
+              <span class="editorial-item__num" aria-hidden="true">2</span>
+              <h3 class="editorial-item__title">Generar tu portafolio</h3>
+              <div class="editorial-item__desc">
+                <ol style="padding-left: 1.5rem;">
+                  <li>Completa tus datos: nombre, cédula, curso, facilitador, semestre</li>
+                  <li>Sube tus PDFs en cada sección (plan de contenido, tareas, proyectos, etc.)</li>
+                  <li>Opcionalmente, genera una conclusión con IA y edítala</li>
+                  <li>Revisa el resumen y haz clic en "Generar"</li>
+                  <li>Descarga tu ZIP — tienes 1 hora</li>
+                </ol>
+              </div>
+            </li>
 
-            <article class="guide-card card">
-              <div class="guide-card__badge" aria-hidden="true">3</div>
-              <h3 class="guide-card__title">Problemas comunes</h3>
-              <ul class="guide-card__issues">
-                <li>
-                  <p>
-                    <strong>No recibí el correo</strong> → Espera 2 minutos y
-                    revisa spam. Si no llega, solicita otro enlace.
-                  </p>
-                </li>
-                <li>
-                  <p>
-                    <strong>El enlace ya no funciona</strong> → El enlace expira
-                    en 10 minutos. Solicita uno nuevo.
-                  </p>
-                </li>
-                <li>
-                  <p>
-                    <strong>Mi archivo no se acepta</strong> → Asegúrate de que
-                    sea un PDF real y menor a 10MB.
-                  </p>
-                </li>
-                <li>
-                  <p>
-                    <strong>El portafolio tardó mucho</strong> → Intenta con
-                    menos archivos. Si el error persiste, reporta el problema.
-                  </p>
-                </li>
-              </ul>
-            </article>
-          </div>
+            <li class="editorial-item">
+              <span class="editorial-item__num" aria-hidden="true">3</span>
+              <h3 class="editorial-item__title">Problemas comunes</h3>
+              <div class="editorial-item__desc">
+                <ul style="padding-left: 1.5rem;">
+                  <li><strong>No recibí el correo:</strong> Espera 2 minutos y revisa spam. Si no llega, solicita otro enlace.</li>
+                  <li><strong>El enlace ya no funciona:</strong> El enlace expira en 10 minutos. Solicita uno nuevo.</li>
+                  <li><strong>Mi archivo no se acepta:</strong> Asegúrate de que sea un PDF real y menor a 10MB.</li>
+                  <li><strong>El portafolio tardó mucho:</strong> Intenta con menos archivos. Si el error persiste, reporta el problema.</li>
+                </ul>
+              </div>
+            </li>
+          </ol>
         </div>
       </section>
 
-      <section class="section help-files" aria-labelledby="files-heading">
+      <section class="section help-files reveal" aria-labelledby="files-heading">
         <div class="container container--narrow">
-          <h2 id="files-heading" class="section__title section__title--left">
+          <h2 id="files-heading" class="title-lg">
             Requisitos de archivos
           </h2>
           <div class="help-table-wrap">
-            <table class="help-table">
+            <table class="editorial-table">
               <thead>
                 <tr>
                   <th scope="col">Requisito</th>
@@ -165,8 +127,8 @@
         </div>
       </section>
 
-      <section class="help-report" aria-labelledby="report-heading">
-        <div class="help-report__inner container">
+      <section class="help-report reveal" aria-labelledby="report-heading">
+        <div class="container container--narrow">
           <h2 id="report-heading" class="help-report__title">
             ¿Encontraste un error?
           </h2>
@@ -176,7 +138,7 @@
           </p>
           <a
             href="https://github.com"
-            class="btn btn--outline help-report__btn"
+            class="btn btn--outline"
             target="_blank"
             rel="noopener noreferrer"
             >Reportar en GitHub</a
@@ -187,15 +149,13 @@
 
     <footer class="footer">
       <div class="footer__main container">
-        <div class="footer__brand">
-          <a href="index.html" class="wordmark wordmark--footer">Folium81</a>
+        <div>
+          <a href="index.html" class="wordmark footer__brand">Folium81</a>
           <p class="footer__tagline">Hecho por estudiantes de FISC, UTP</p>
         </div>
         <nav class="footer__nav" aria-label="Pie de página">
           <a href="nosotros.html">Nosotros</a>
-          <span class="footer__sep">·</span>
           <a href="faq.html">FAQ</a>
-          <span class="footer__sep">·</span>
           <a href="ayuda.html">Ayuda</a>
         </nav>
         <p class="footer__license">

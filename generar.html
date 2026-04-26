@@ -15,7 +15,7 @@
   </head>
   <body class="page-wizard">
     <script src="auth-guard.js"></script>
-    <header class="navbar navbar--auth">
+    <header class="navbar navbar--auth reveal">
       <div class="navbar__inner container">
         <a href="dashboard.html" class="wordmark">Folium81</a>
         <div class="navbar__auth">
@@ -31,7 +31,7 @@
       </div>
     </header>
 
-    <div class="wizard-layout">
+    <div class="wizard-layout reveal">
       <aside class="wizard-sidebar" aria-label="Pasos del asistente">
         <h2 class="wizard-sidebar__title">Pasos</h2>
         <ol class="wizard-steps">
@@ -83,11 +83,11 @@
         </ol>
       </aside>
 
-            <div class="wizard-main">
+      <div class="wizard-main">
         <div class="wizard-progress" aria-live="polite">
           <div class="wizard-progress__top">
-            <p class="wizard-progress__eyebrow">Progreso</p>
-            <p class="wizard-progress__meta" id="wizard-progress-meta">Paso 1 de 5</p>
+            <span class="wizard-progress__eyebrow">Progreso</span>
+            <span class="wizard-progress__meta" id="wizard-progress-meta">Paso 1 de 5</span>
           </div>
           <div class="wizard-progress__track" role="progressbar" aria-valuemin="1" aria-valuemax="5" aria-valuenow="1" aria-labelledby="wizard-progress-meta">
             <span class="wizard-progress__bar" id="wizard-progress-bar" style="width: 20%"></span>
@@ -110,7 +110,7 @@
             </div>
             <div class="wizard-field">
               <label class="wizard-label" for="sf-depto">Departamento</label>
-              <select class="wizard-input wizard-select" id="sf-depto" name="depto" required>
+              <select class="wizard-select" id="sf-depto" name="depto" required>
                 <option value="" disabled selected>Selecciona un departamento</option>
                 <option>Departamento de Sistemas y Computación</option>
                 <option>Departamento de Ciencias Computacionales</option>
@@ -124,7 +124,7 @@
             <div class="wizard-field-row">
               <div class="wizard-field">
                 <label class="wizard-label" for="sf-semestre">Semestre</label>
-                <select class="wizard-input wizard-select" id="sf-semestre" name="semestre" required>
+                <select class="wizard-select" id="sf-semestre" name="semestre" required>
                   <option value="" disabled selected>—</option>
                   <option>I</option>
                   <option>II</option>
@@ -133,7 +133,7 @@
               </div>
               <div class="wizard-field">
                 <label class="wizard-label" for="sf-anio">Año</label>
-                <select class="wizard-input wizard-select" id="sf-anio" name="anio" required>
+                <select class="wizard-select" id="sf-anio" name="anio" required>
                   <option value="" disabled selected>—</option>
                   <option>2024</option>
                   <option>2025</option>
@@ -153,11 +153,9 @@
           <div class="wizard-upload-stack">
             <div class="upload-zone" data-upload-key="planContenido">
               <input type="file" class="upload-zone__input" accept="application/pdf" aria-label="Plan de Contenido, PDF" />
-              <div class="upload-zone__ui">
-                <p class="upload-zone__title">Plan de Contenido</p>
-                <p class="upload-zone__hint">Arrastra un PDF aquí o haz clic para elegir</p>
-                <p class="upload-zone__meta-line">PDF · Máx. 10MB</p>
-              </div>
+              <p class="upload-zone__title">Plan de Contenido</p>
+              <p class="upload-zone__hint">Arrastra un PDF aquí o haz clic para elegir</p>
+              <p class="upload-zone__meta-line">PDF · Máx. 10MB</p>
               <div class="upload-zone__meta" hidden>
                 <span class="upload-zone__name"></span>
                 <span class="upload-zone__size"></span>
@@ -166,11 +164,9 @@
             </div>
             <div class="upload-zone" data-upload-key="planSemestral">
               <input type="file" class="upload-zone__input" accept="application/pdf" aria-label="Planificación Semestral, PDF" />
-              <div class="upload-zone__ui">
-                <p class="upload-zone__title">Planificación Semestral</p>
-                <p class="upload-zone__hint">Arrastra un PDF aquí o haz clic para elegir</p>
-                <p class="upload-zone__meta-line">PDF · Máx. 10MB</p>
-              </div>
+              <p class="upload-zone__title">Planificación Semestral</p>
+              <p class="upload-zone__hint">Arrastra un PDF aquí o haz clic para elegir</p>
+              <p class="upload-zone__meta-line">PDF · Máx. 10MB</p>
               <div class="upload-zone__meta" hidden>
                 <span class="upload-zone__name"></span>
                 <span class="upload-zone__size"></span>
@@ -194,16 +190,13 @@
           <div class="wizard-disclosures">
             <details class="wizard-disclosure">
               <summary class="wizard-disclosure__summary">
-                <span class="wizard-disclosure__icon" aria-hidden="true"></span>
                 Tareas
               </summary>
               <div class="wizard-disclosure__body">
                 <div class="upload-zone" data-upload-key="tareas">
                   <input type="file" class="upload-zone__input" accept="application/pdf" />
-                  <div class="upload-zone__ui">
-                    <p class="upload-zone__hint">Arrastra PDF o haz clic</p>
-                    <p class="upload-zone__meta-line">PDF · Máx. 10MB</p>
-                  </div>
+                  <p class="upload-zone__hint">Arrastra PDF o haz clic</p>
+                  <p class="upload-zone__meta-line">PDF · Máx. 10MB</p>
                   <div class="upload-zone__meta" hidden>
                     <span class="upload-zone__name"></span>
                     <span class="upload-zone__size"></span>
@@ -215,16 +208,13 @@
 
             <details class="wizard-disclosure">
               <summary class="wizard-disclosure__summary">
-                <span class="wizard-disclosure__icon" aria-hidden="true"></span>
                 Trabajos de Clase
               </summary>
               <div class="wizard-disclosure__body">
                 <div class="upload-zone" data-upload-key="trabajos">
                   <input type="file" class="upload-zone__input" accept="application/pdf" />
-                  <div class="upload-zone__ui">
-                    <p class="upload-zone__hint">Arrastra PDF o haz clic</p>
-                    <p class="upload-zone__meta-line">PDF · Máx. 10MB</p>
-                  </div>
+                  <p class="upload-zone__hint">Arrastra PDF o haz clic</p>
+                  <p class="upload-zone__meta-line">PDF · Máx. 10MB</p>
                   <div class="upload-zone__meta" hidden>
                     <span class="upload-zone__name"></span>
                     <span class="upload-zone__size"></span>
@@ -236,16 +226,13 @@
 
             <details class="wizard-disclosure">
               <summary class="wizard-disclosure__summary">
-                <span class="wizard-disclosure__icon" aria-hidden="true"></span>
                 Proyectos
               </summary>
               <div class="wizard-disclosure__body">
                 <div class="upload-zone" data-upload-key="proyectos">
                   <input type="file" class="upload-zone__input" accept="application/pdf" />
-                  <div class="upload-zone__ui">
-                    <p class="upload-zone__hint">Arrastra PDF o haz clic</p>
-                    <p class="upload-zone__meta-line">PDF · Máx. 10MB</p>
-                  </div>
+                  <p class="upload-zone__hint">Arrastra PDF o haz clic</p>
+                  <p class="upload-zone__meta-line">PDF · Máx. 10MB</p>
                   <div class="upload-zone__meta" hidden>
                     <span class="upload-zone__name"></span>
                     <span class="upload-zone__size"></span>
@@ -257,16 +244,13 @@
 
             <details class="wizard-disclosure">
               <summary class="wizard-disclosure__summary">
-                <span class="wizard-disclosure__icon" aria-hidden="true"></span>
                 Laboratorios y Talleres
               </summary>
               <div class="wizard-disclosure__body">
                 <div class="upload-zone" data-upload-key="labs">
                   <input type="file" class="upload-zone__input" accept="application/pdf" />
-                  <div class="upload-zone__ui">
-                    <p class="upload-zone__hint">Arrastra PDF o haz clic</p>
-                    <p class="upload-zone__meta-line">PDF · Máx. 10MB</p>
-                  </div>
+                  <p class="upload-zone__hint">Arrastra PDF o haz clic</p>
+                  <p class="upload-zone__meta-line">PDF · Máx. 10MB</p>
                   <div class="upload-zone__meta" hidden>
                     <span class="upload-zone__name"></span>
                     <span class="upload-zone__size"></span>
@@ -278,16 +262,13 @@
 
             <details class="wizard-disclosure">
               <summary class="wizard-disclosure__summary">
-                <span class="wizard-disclosure__icon" aria-hidden="true"></span>
                 Parciales
               </summary>
               <div class="wizard-disclosure__body">
                 <p class="wizard-parcial-label">Parcial 1 — Enunciado</p>
                 <div class="upload-zone" data-upload-key="parcial1e">
                   <input type="file" class="upload-zone__input" accept="application/pdf" />
-                  <div class="upload-zone__ui">
-                    <p class="upload-zone__hint">PDF · Máx. 10MB</p>
-                  </div>
+                  <p class="upload-zone__hint">PDF · Máx. 10MB</p>
                   <div class="upload-zone__meta" hidden>
                     <span class="upload-zone__name"></span>
                     <span class="upload-zone__size"></span>
@@ -297,9 +278,7 @@
                 <p class="wizard-parcial-label">Parcial 1 — Respuestas</p>
                 <div class="upload-zone" data-upload-key="parcial1r">
                   <input type="file" class="upload-zone__input" accept="application/pdf" />
-                  <div class="upload-zone__ui">
-                    <p class="upload-zone__hint">PDF · Máx. 10MB</p>
-                  </div>
+                  <p class="upload-zone__hint">PDF · Máx. 10MB</p>
                   <div class="upload-zone__meta" hidden>
                     <span class="upload-zone__name"></span>
                     <span class="upload-zone__size"></span>
@@ -309,9 +288,7 @@
                 <p class="wizard-parcial-label">Parcial 2 — Enunciado</p>
                 <div class="upload-zone" data-upload-key="parcial2e">
                   <input type="file" class="upload-zone__input" accept="application/pdf" />
-                  <div class="upload-zone__ui">
-                    <p class="upload-zone__hint">PDF · Máx. 10MB</p>
-                  </div>
+                  <p class="upload-zone__hint">PDF · Máx. 10MB</p>
                   <div class="upload-zone__meta" hidden>
                     <span class="upload-zone__name"></span>
                     <span class="upload-zone__size"></span>
@@ -321,9 +298,7 @@
                 <p class="wizard-parcial-label">Parcial 2 — Respuestas</p>
                 <div class="upload-zone" data-upload-key="parcial2r">
                   <input type="file" class="upload-zone__input" accept="application/pdf" />
-                  <div class="upload-zone__ui">
-                    <p class="upload-zone__hint">PDF · Máx. 10MB</p>
-                  </div>
+                  <p class="upload-zone__hint">PDF · Máx. 10MB</p>
                   <div class="upload-zone__meta" hidden>
                     <span class="upload-zone__name"></span>
                     <span class="upload-zone__size"></span>
@@ -335,16 +310,13 @@
 
             <details class="wizard-disclosure">
               <summary class="wizard-disclosure__summary">
-                <span class="wizard-disclosure__icon" aria-hidden="true"></span>
                 Material Didáctico
               </summary>
               <div class="wizard-disclosure__body">
                 <div class="upload-zone" data-upload-key="material">
                   <input type="file" class="upload-zone__input" accept="application/pdf" />
-                  <div class="upload-zone__ui">
-                    <p class="upload-zone__hint">Arrastra PDF o haz clic</p>
-                    <p class="upload-zone__meta-line">PDF · Máx. 10MB</p>
-                  </div>
+                  <p class="upload-zone__hint">Arrastra PDF o haz clic</p>
+                  <p class="upload-zone__meta-line">PDF · Máx. 10MB</p>
                   <div class="upload-zone__meta" hidden>
                     <span class="upload-zone__name"></span>
                     <span class="upload-zone__size"></span>
@@ -356,11 +328,10 @@
 
             <details class="wizard-disclosure">
               <summary class="wizard-disclosure__summary">
-                <span class="wizard-disclosure__icon" aria-hidden="true"></span>
                 Conclusión final
               </summary>
               <div class="wizard-disclosure__body">
-                <p class="wizard-disclosure__lead">
+                <p style="margin-bottom: 1.5rem; color: var(--text-muted);">
                   Escribe tu conclusión o genera un borrador con IA a partir de los
                   archivos que hayas subido en este formulario.
                 </p>
@@ -414,7 +385,7 @@
                 <label class="wizard-check"><input type="checkbox" name="act" value="otros" /> Otros</label>
               </div>
             </fieldset>
-            <div class="wizard-field wizard-field--narrow">
+            <div class="wizard-field">
               <label class="wizard-label" for="num-parciales">Número de parciales</label>
               <input class="wizard-input" type="number" id="num-parciales" name="num_parciales" min="0" max="6" value="0" />
             </div>
@@ -424,7 +395,7 @@
           </div>
           <div class="wizard-ia-output" id="conclusion-output-wrap" hidden>
             <label class="wizard-ia-warning" for="conclusionOutput">⚠ Generado por IA — Revisa y edita antes de usar</label>
-            <textarea class="wizard-textarea wizard-textarea--conclusion" id="conclusionOutput" rows="8" placeholder=""></textarea>
+            <textarea class="wizard-textarea" id="conclusionOutput" rows="8" placeholder=""></textarea>
             <p class="wizard-regen" id="regeneraciones-label">3/3 regeneraciones disponibles</p>
           </div>
           <p class="wizard-omitir-wrap">
@@ -438,7 +409,7 @@
 
         <section class="wizard-panel" id="wizard-panel-5" hidden aria-labelledby="wizard-h5">
           <h1 class="wizard-panel__title" id="wizard-h5">Revisar y generar</h1>
-          <div class="wizard-summary card">
+          <div class="wizard-summary">
             <h2 class="wizard-summary__heading">Resumen</h2>
             <dl class="wizard-summary__grid">
               <dt>Nombre completo</dt><dd id="sumNombre">—</dd>
@@ -448,22 +419,28 @@
               <dt>Facilitador(a)</dt><dd id="sumFacil">—</dd>
               <dt>Semestre y año</dt><dd id="sumSem">—</dd>
             </dl>
-            <p class="wizard-summary__pres">
-              <strong>Presentación del estudiante:</strong>
+            <p style="margin-bottom: 0.5rem;">
+              <strong style="color: var(--text-muted); font-weight: 500;">Presentación:</strong>
               <span id="sum-presentacion">No indicada</span>
             </p>
-            <p class="wizard-summary__files"><strong>Archivos:</strong> <span id="sum-files">Archivos requeridos: 0</span></p>
-            <p class="wizard-summary__conc"><strong>Conclusión:</strong> <span id="sum-conclusion">No incluida</span></p>
+            <p style="margin-bottom: 0.5rem;">
+              <strong style="color: var(--text-muted); font-weight: 500;">Archivos:</strong> 
+              <span id="sum-files">Archivos requeridos: 0</span>
+            </p>
+            <p style="margin-bottom: 0.5rem;">
+              <strong style="color: var(--text-muted); font-weight: 500;">Conclusión:</strong> 
+              <span id="sum-conclusion">No incluida</span>
+            </p>
           </div>
           <div class="wizard-warn-box" role="status">
             Una vez que generes el portafolio, los archivos subidos se eliminarán. Descárgalo inmediatamente.
           </div>
           <div id="wizard-step5-idle">
-            <button type="button" class="btn wizard-btn-generate" id="btn-generar-portafolio">Generar portafolio</button>
+            <button type="button" class="btn btn--primary wizard-btn-generate" id="btn-generar-portafolio">Generar portafolio</button>
           </div>
           <div id="wizard-step5-loading" class="wizard-loading" hidden>
             <div class="wizard-spinner" aria-hidden="true"></div>
-            <p class="wizard-loading__text">Generando tu portafolio...</p>
+            <p>Generando tu portafolio...</p>
           </div>
           <footer class="wizard-panel__footer wizard-panel__footer--start">
             <button type="button" class="btn btn--outline" data-wizard-prev>← Anterior</button>
@@ -475,4 +452,3 @@
     <script src="generar.js" defer></script>
   </body>
 </html>
-

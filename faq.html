@@ -14,7 +14,7 @@
     <script src="theme-init.js"></script>
   </head>
   <body>
-    <header class="navbar">
+    <header class="navbar reveal">
       <div class="navbar__inner container">
         <a href="index.html" class="wordmark">Folium81</a>
         <nav class="navbar__nav" aria-label="Principal">
@@ -29,15 +29,15 @@
     </header>
 
     <main>
-      <header class="page-header">
-        <div class="page-header__inner container">
-          <h1 class="page-header__title page-header__title--solo">
-            Preguntas frecuentes
-          </h1>
+      <header class="hero">
+        <div class="hero__inner container">
+          <div class="hero__content reveal">
+            <h1 class="title-xl">Preguntas frecuentes</h1>
+          </div>
         </div>
       </header>
 
-      <section class="section faq-content" aria-label="Preguntas y respuestas">
+      <section class="section faq-content reveal" aria-label="Preguntas y respuestas">
         <div class="container container--narrow">
           <div class="faq-accordion">
             <details class="faq-item">
@@ -177,12 +177,12 @@
         </div>
       </section>
 
-      <section class="faq-help" aria-labelledby="faq-help-heading">
-        <div class="faq-help__inner container">
-          <h2 id="faq-help-heading" class="faq-help__title">
+      <section class="help-report section--paper reveal" aria-labelledby="faq-help-heading">
+        <div class="container container--narrow">
+          <h2 id="faq-help-heading" class="help-report__title">
             ¿No encontraste lo que buscabas?
           </h2>
-          <a href="ayuda.html" class="btn btn--primary faq-help__btn"
+          <a href="ayuda.html" class="btn btn--primary"
             >Ir a Ayuda →</a
           >
         </div>
@@ -191,15 +191,13 @@
 
     <footer class="footer">
       <div class="footer__main container">
-        <div class="footer__brand">
-          <a href="index.html" class="wordmark wordmark--footer">Folium81</a>
+        <div>
+          <a href="index.html" class="wordmark footer__brand">Folium81</a>
           <p class="footer__tagline">Hecho por estudiantes de FISC, UTP</p>
         </div>
         <nav class="footer__nav" aria-label="Pie de página">
           <a href="nosotros.html">Nosotros</a>
-          <span class="footer__sep">·</span>
           <a href="faq.html">FAQ</a>
-          <span class="footer__sep">·</span>
           <a href="ayuda.html">Ayuda</a>
         </nav>
         <p class="footer__license">

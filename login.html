@@ -11,149 +11,65 @@
       rel="stylesheet"
     />
     <link rel="stylesheet" href="styles.css" />
-    <style>
-      .portfolio-preview {
-        margin-top: 1rem;
-        border: 1px solid rgba(255, 255, 255, 0.25);
-        border-radius: 12px;
-        background: rgba(20, 10, 44, 0.22);
-        padding: 0.85rem;
-      }
-
-      .portfolio-preview__title {
-        margin: 0 0 0.6rem;
-        font-size: 0.78rem;
-        letter-spacing: 0.1em;
-        text-transform: uppercase;
-        color: rgba(255, 255, 255, 0.86);
-      }
-
-      .portfolio-preview__group {
-        margin-bottom: 0.55rem;
-      }
-
-      .portfolio-preview__heading {
-        margin: 0 0 0.28rem;
-        font-size: 0.84rem;
-        font-weight: 600;
-        color: rgba(255, 255, 255, 0.94);
-      }
-
-      .portfolio-preview__list {
-        margin: 0.45rem 0 0;
-        padding: 0 0 0 0.9rem;
-        display: grid;
-        gap: 0.2rem;
-      }
-
-      .portfolio-preview__line {
-        color: rgba(231, 224, 255, 0.88);
-        font-size: 0.8rem;
-        line-height: 1.35;
-        border-radius: 6px;
-        padding: 0.18rem 0.3rem;
-        transition: background-color 180ms ease-out, color 180ms ease-out;
-      }
-
-      .portfolio-preview__line--active {
-        background: rgba(170, 142, 246, 0.26);
-        color: #fff;
-      }
-    </style>
     <script src="theme-init.js"></script>
   </head>
   <body class="page-login">
     <div class="login-page">
-      <aside class="login-left">
-        <div class="login-left__bg" aria-hidden="true">
-          <svg
-            class="login-left__shapes"
-            viewBox="0 0 400 800"
-            preserveAspectRatio="xMidYMid slice"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <circle cx="320" cy="120" r="140" fill="#B39DDB" fill-opacity="0.12" />
-            <circle cx="60" cy="520" r="180" fill="#7C5CBF" fill-opacity="0.1" />
-            <rect
-              x="200"
-              y="380"
-              width="200"
-              height="200"
-              rx="24"
-              transform="rotate(12 300 480)"
-              fill="#B39DDB"
-              fill-opacity="0.08"
-            />
-            <path
-              d="M-20 680 Q120 620 200 720 T420 660"
-              stroke="#B39DDB"
-              stroke-opacity="0.15"
-              stroke-width="3"
-            />
-          </svg>
-        </div>
-        <div class="login-left__content">
-          <blockquote class="login-left__quote">Tu portafolio listo en minutos</blockquote>
-          <p class="login-left__note">Vista completa de la estructura final del portafolio.</p>
+      <aside class="login-left reveal">
+        <h2 class="login-left__quote">Tu portafolio listo en minutos</h2>
+        <div class="portfolio-preview" aria-label="Vista previa completa del portafolio">
+          <p class="portfolio-preview__title">Estructura del portafolio</p>
+          
+          <div class="portfolio-preview__group">
+            <p class="portfolio-preview__heading">Portada oficial</p>
+          </div>
 
-          <article class="portfolio-preview" aria-label="Vista previa completa del portafolio">
-            <h3 class="portfolio-preview__title">Vista previa del portafolio</h3>
+          <div class="portfolio-preview__group">
+            <p class="portfolio-preview__heading">Descripción del Curso</p>
+            <ul class="portfolio-preview__list">
+              <li class="portfolio-preview__line" data-preview-item>Plan de Contenido</li>
+              <li class="portfolio-preview__line" data-preview-item>Planificación Semestral</li>
+            </ul>
+          </div>
 
-            <div class="portfolio-preview__group">
-              <p class="portfolio-preview__heading">Portada (carpeta con archivo pdf)</p>
-            </div>
+          <div class="portfolio-preview__group">
+            <p class="portfolio-preview__heading">Presentación General</p>
+          </div>
 
-            <div class="portfolio-preview__group">
-              <p class="portfolio-preview__heading">Descripción del Curso (carpeta)</p>
-              <ul class="portfolio-preview__list">
-                <li class="portfolio-preview__line" data-preview-item>Plan de Contenido de la asignatura</li>
-                <li class="portfolio-preview__line" data-preview-item>Planificación del Programa Semestral-Estudiante</li>
-              </ul>
-            </div>
+          <div class="portfolio-preview__group">
+            <p class="portfolio-preview__heading">Actividades o asignaciones</p>
+            <ul class="portfolio-preview__list">
+              <li class="portfolio-preview__line" data-preview-item>Tareas asignadas</li>
+              <li class="portfolio-preview__line" data-preview-item>Trabajos en clase</li>
+              <li class="portfolio-preview__line" data-preview-item>Proyectos</li>
+              <li class="portfolio-preview__line" data-preview-item>Laboratorios y talleres</li>
+              <li class="portfolio-preview__line" data-preview-item>Parciales (Enunciado y Respuestas)</li>
+              <li class="portfolio-preview__line" data-preview-item>Otros (foros, resúmenes)</li>
+            </ul>
+          </div>
 
-            <div class="portfolio-preview__group">
-              <p class="portfolio-preview__heading">Presentación General del Estudiante (carpeta con archivo pdf)</p>
-            </div>
+          <div class="portfolio-preview__group">
+            <p class="portfolio-preview__heading">Material didáctico</p>
+            <ul class="portfolio-preview__list">
+              <li class="portfolio-preview__line" data-preview-item>Material suministrado</li>
+              <li class="portfolio-preview__line" data-preview-item>Bibliografía consultada</li>
+            </ul>
+          </div>
 
-            <div class="portfolio-preview__group">
-              <p class="portfolio-preview__heading">Actividades o asignaciones (carpeta)</p>
-              <ul class="portfolio-preview__list">
-                <li class="portfolio-preview__line" data-preview-item>Tareas asignadas</li>
-                <li class="portfolio-preview__line" data-preview-item>Trabajos en clase</li>
-                <li class="portfolio-preview__line" data-preview-item>Proyectos</li>
-                <li class="portfolio-preview__line" data-preview-item>Laboratorios y/o talleres</li>
-                <li class="portfolio-preview__line" data-preview-item>Parciales (1 subcarpeta por cada parcial con enunciado y hoja de respuestas corregida)</li>
-                <li class="portfolio-preview__line" data-preview-item>Otros: foros, investigaciones, ensayos, resúmenes</li>
-                <li class="portfolio-preview__line" data-preview-item>Actividades adicionales (extracurriculares, complementarias, servicios sociales)</li>
-              </ul>
-            </div>
-
-            <div class="portfolio-preview__group">
-              <p class="portfolio-preview__heading">Material didáctico de las clases (carpeta)</p>
-              <ul class="portfolio-preview__list">
-                <li class="portfolio-preview__line" data-preview-item>Material suministrado por el docente</li>
-                <li class="portfolio-preview__line" data-preview-item>Material adicional utilizado</li>
-                <li class="portfolio-preview__line" data-preview-item>Bibliografía consultada</li>
-                <li class="portfolio-preview__line" data-preview-item>Material bibliográfico creado en la UTP</li>
-              </ul>
-            </div>
-
-            <div class="portfolio-preview__group">
-              <p class="portfolio-preview__heading">Conclusión final del cierre del curso (carpeta)</p>
-            </div>
-          </article>
+          <div class="portfolio-preview__group">
+            <p class="portfolio-preview__heading">Conclusión final</p>
+          </div>
         </div>
       </aside>
 
-      <main class="login-right">
+      <main class="login-right reveal reveal-delay-1">
         <div class="login-right__inner">
           <form class="login-form" id="loginForm" data-state="default" novalidate>
-            <a href="index.html" class="wordmark login-form__brand">Folium81</a>
+            <a href="index.html" class="login-form__brand">Folium81</a>
 
             <h1 class="login-form__title">Acceder</h1>
             <p class="login-form__lead">
-              Ingresa tu correo institucional. Te enviaremos un enlace de acceso seguro.
+              Ingresa tu correo institucional. Te enviaremos un enlace de acceso seguro a tu bandeja de entrada.
             </p>
 
             <div class="login-form__block" id="loginBlockFields">
@@ -174,7 +90,7 @@
             </div>
 
             <div class="login-form__actions" id="loginActions">
-              <button type="submit" class="login-form__submit">Enviar enlace de acceso</button>
+              <button type="submit" class="btn btn--primary login-form__submit">Enviar enlace de acceso</button>
             </div>
 
             <div class="login-alert login-alert--success" id="loginSuccess" role="status" aria-live="polite" hidden>
@@ -254,4 +170,3 @@
     </script>
   </body>
 </html>
-

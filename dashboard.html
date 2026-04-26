@@ -15,7 +15,7 @@
   </head>
   <body class="page-dashboard">
     <script src="auth-guard.js"></script>
-    <header class="navbar navbar--auth">
+    <header class="navbar navbar--auth reveal">
       <div class="navbar__inner container">
         <a href="index.html" class="wordmark">Folium81</a>
         <div class="navbar__auth">
@@ -33,10 +33,10 @@
       </div>
     </header>
 
-    <main class="dashboard-main">
-      <div class="dashboard-inner">
+    <main class="dashboard-main reveal">
+      <div class="dashboard-inner container">
         <header class="dashboard-greeting">
-          <p class="dashboard-overline">Panel principal</p>
+          <span class="dashboard-overline">Panel principal</span>
           <h1 class="dashboard-title">
             Hola, <span id="greetingName">Demo</span>.
           </h1>
@@ -45,34 +45,28 @@
           </p>
         </header>
 
-        <article class="dashboard-card card">
+        <article class="dashboard-card reveal reveal-delay-1">
           <h2 class="dashboard-card__title">Generar portafolio</h2>
           <p class="dashboard-card__desc">
             Completa el formulario con los datos de tu curso, sube tus PDFs y
             descarga el ZIP listo para entregar. El proceso toma menos de 5
             minutos.
           </p>
-          <a href="generar.html" class="btn btn--primary dashboard-card__cta">Comenzar →</a>
-          <p class="dashboard-card__limit">Límite: 12 portafolios por día</p>
+          <a href="generar.html" class="btn btn--primary">Comenzar →</a>
+          
+          <aside class="dashboard-reminder" aria-label="Recordatorio">
+            <p class="dashboard-reminder__text">
+              <strong>Límite:</strong> 12 portafolios por día. <br>
+              <strong>Recuerda:</strong> los archivos generados se eliminan automáticamente después
+              de 1 hora. Descarga tu portafolio antes de cerrar la sesión.
+            </p>
+          </aside>
         </article>
-
-        <aside class="dashboard-reminder" aria-label="Recordatorio">
-          <span class="dashboard-reminder__icon" aria-hidden="true">
-            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <circle cx="12" cy="12" r="9" stroke="#4A3880" stroke-width="1.5" stroke-opacity="0.45" />
-              <path d="M12 7v5l3 2" stroke="#7C5CBF" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
-            </svg>
-          </span>
-          <p class="dashboard-reminder__text">
-            Recuerda: los archivos generados se eliminan automáticamente después
-            de 1 hora. Descarga tu portafolio antes de cerrar la sesión.
-          </p>
-        </aside>
       </div>
     </main>
 
     <footer class="dashboard-footer">
-      <p class="dashboard-footer__inner">
+      <p class="dashboard-footer__inner container">
         <a href="index.html">Folium81</a>
         <span class="dashboard-footer__sep" aria-hidden="true">·</span>
         <a href="ayuda.html">Ayuda</a>

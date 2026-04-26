@@ -15,7 +15,7 @@
   </head>
   <body class="page-profile">
     <script src="auth-guard.js"></script>
-    <header class="navbar navbar--auth">
+    <header class="navbar navbar--auth reveal">
       <div class="navbar__inner container">
         <a href="dashboard.html" class="wordmark">Folium81</a>
         <div class="navbar__auth">
@@ -31,28 +31,28 @@
       </div>
     </header>
 
-    <main class="profile-main">
-      <div class="profile-inner">
+    <main class="profile-main reveal">
+      <div class="profile-inner container">
         <h1 class="profile-page-title">Perfil</h1>
 
-        <section class="profile-card card" aria-labelledby="profile-account-heading">
+        <section class="profile-card" aria-labelledby="profile-account-heading">
           <h2 class="profile-card__overtitle" id="profile-account-heading">
             Información de cuenta
           </h2>
           <dl class="profile-kv">
             <div class="profile-kv__row">
               <dt>Correo institucional</dt>
-              <dd class="profile-kv__value profile-kv__value--muted" id="profile-email">
+              <dd class="profile-kv__value" id="profile-email">
                 estudiante@utp.ac.pa
               </dd>
             </div>
             <div class="profile-kv__row">
               <dt>Sesión activa hasta</dt>
-              <dd class="profile-kv__value profile-kv__value--muted" id="profile-session-until">
+              <dd class="profile-kv__value" id="profile-session-until">
                 —
               </dd>
             </div>
-            <div class="profile-kv__row profile-kv__row--last">
+            <div class="profile-kv__row">
               <dt>Dominio verificado</dt>
               <dd class="profile-kv__value profile-kv__domain">
                 <span class="profile-kv__check" aria-hidden="true">✓</span>
@@ -66,7 +66,7 @@
           única identidad en Folium81.
         </p>
 
-        <section class="profile-card card" aria-labelledby="profile-session-heading">
+        <section class="profile-card" aria-labelledby="profile-session-heading">
           <h2 class="profile-card__overtitle" id="profile-session-heading">Sesión</h2>
           <a href="login.html" class="btn btn--outline btn--profile-logout nav-logout"
             >Cerrar sesión</a

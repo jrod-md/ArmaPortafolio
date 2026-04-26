@@ -14,7 +14,7 @@
     <script src="theme-init.js"></script>
   </head>
   <body>
-    <header class="navbar">
+    <header class="navbar reveal">
       <div class="navbar__inner container">
         <a href="index.html" class="wordmark">Folium81</a>
         <nav class="navbar__nav" aria-label="Principal">
@@ -29,17 +29,19 @@
     </header>
 
     <main>
-      <header class="page-header">
-        <div class="page-header__inner container">
-          <h1 class="page-header__title">Nosotros</h1>
-          <p class="page-header__subtitle">
-            Por qué existe Folium81 y cómo fue construido.
-          </p>
+      <header class="hero">
+        <div class="hero__inner container">
+          <div class="hero__content reveal">
+            <h1 class="title-xl">Nosotros</h1>
+            <p class="body-lg hero__sub">
+              Por qué existe Folium81 y cómo fue construido.
+            </p>
+          </div>
         </div>
       </header>
 
-      <section class="section story" aria-labelledby="story-heading">
-        <div class="story__inner container">
+      <section class="section story reveal" aria-labelledby="story-heading">
+        <div class="story__inner container container--narrow">
           <div class="story__prose">
             <h2 id="story-heading" class="visually-hidden">Nuestra historia</h2>
             <p>
@@ -62,38 +64,38 @@
         </div>
       </section>
 
-      <section class="section principles" aria-labelledby="principles-heading">
-        <div class="container">
-          <h2 id="principles-heading" class="visually-hidden">Principios</h2>
+      <section class="section principles section--paper" aria-labelledby="principles-heading">
+        <div class="container container--narrow">
+          <h2 id="principles-heading" class="title-lg reveal">Principios</h2>
           <div class="principles__grid">
-            <article class="card">
-              <h3 class="card__title">Costo cero</h3>
-              <p>
+            <div class="features-row reveal">
+              <h3 class="features-row__title">Costo cero</h3>
+              <p class="body-lg">
                 Folium81 es y siempre será gratuito. Sin planes premium, sin
                 publicidad, sin monetización de datos.
               </p>
-            </article>
-            <article class="card">
-              <h3 class="card__title">Privacidad por diseño</h3>
-              <p>
+            </div>
+            <div class="features-row reveal">
+              <h3 class="features-row__title">Privacidad por diseño</h3>
+              <p class="body-lg">
                 Ningún archivo se almacena. La arquitectura fue diseñada con la
                 Ley 81 de Panamá como restricción, no como cumplimiento tardío.
               </p>
-            </article>
-            <article class="card">
-              <h3 class="card__title">Código abierto</h3>
-              <p>
+            </div>
+            <div class="features-row reveal">
+              <h3 class="features-row__title">Código abierto</h3>
+              <p class="body-lg">
                 Todo el código es público bajo licencia MIT. Puedes auditarlo,
                 usarlo como referencia o contribuir.
               </p>
-            </article>
+            </div>
           </div>
         </div>
       </section>
 
-      <section class="section tech" aria-labelledby="tech-heading">
+      <section class="section tech reveal" aria-labelledby="tech-heading">
         <div class="container container--narrow">
-          <h2 id="tech-heading" class="section__title section__title--left">
+          <h2 id="tech-heading" class="title-lg">
             Cómo está construido
           </h2>
           <dl class="tech__list">
@@ -129,7 +131,7 @@
         </div>
       </section>
 
-      <section class="oss-callout" aria-labelledby="oss-heading">
+      <section class="oss-callout reveal" aria-labelledby="oss-heading">
         <div class="oss-callout__inner container">
           <h2 id="oss-heading" class="oss-callout__title">Folium81 es software libre.</h2>
           <p class="oss-callout__text">
@@ -138,7 +140,7 @@
           </p>
           <a
             href="https://github.com"
-            class="btn btn--outline oss-callout__btn"
+            class="btn btn--primary"
             target="_blank"
             rel="noopener noreferrer"
             >Ver en GitHub</a
@@ -149,15 +151,13 @@
 
     <footer class="footer">
       <div class="footer__main container">
-        <div class="footer__brand">
-          <a href="index.html" class="wordmark wordmark--footer">Folium81</a>
+        <div>
+          <a href="index.html" class="wordmark footer__brand">Folium81</a>
           <p class="footer__tagline">Hecho por estudiantes de FISC, UTP</p>
         </div>
         <nav class="footer__nav" aria-label="Pie de página">
           <a href="nosotros.html">Nosotros</a>
-          <span class="footer__sep">·</span>
           <a href="faq.html">FAQ</a>
-          <span class="footer__sep">·</span>
           <a href="ayuda.html">Ayuda</a>
         </nav>
         <p class="footer__license">
