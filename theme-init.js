@@ -1,5 +1,1 @@
-try {
-  if (localStorage.getItem("folium_theme") === "dark") {
-    document.documentElement.setAttribute("data-theme", "dark");
-  }
-} catch (e) {}
+// Dark mode removed intentionally. Theme initialization is disabled.

@@ -11,6 +11,55 @@
       rel="stylesheet"
     />
     <link rel="stylesheet" href="styles.css" />
+    <style>
+      .portfolio-preview {
+        margin-top: 1rem;
+        border: 1px solid rgba(255, 255, 255, 0.25);
+        border-radius: 12px;
+        background: rgba(20, 10, 44, 0.22);
+        padding: 0.85rem;
+      }
+
+      .portfolio-preview__title {
+        margin: 0 0 0.6rem;
+        font-size: 0.78rem;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        color: rgba(255, 255, 255, 0.86);
+      }
+
+      .portfolio-preview__group {
+        margin-bottom: 0.55rem;
+      }
+
+      .portfolio-preview__heading {
+        margin: 0 0 0.28rem;
+        font-size: 0.84rem;
+        font-weight: 600;
+        color: rgba(255, 255, 255, 0.94);
+      }
+
+      .portfolio-preview__list {
+        margin: 0.45rem 0 0;
+        padding: 0 0 0 0.9rem;
+        display: grid;
+        gap: 0.2rem;
+      }
+
+      .portfolio-preview__line {
+        color: rgba(231, 224, 255, 0.88);
+        font-size: 0.8rem;
+        line-height: 1.35;
+        border-radius: 6px;
+        padding: 0.18rem 0.3rem;
+        transition: background-color 180ms ease-out, color 180ms ease-out;
+      }
+
+      .portfolio-preview__line--active {
+        background: rgba(170, 142, 246, 0.26);
+        color: #fff;
+      }
+    </style>
     <script src="theme-init.js"></script>
   </head>
   <body class="page-login">
@@ -46,24 +95,54 @@
         </div>
         <div class="login-left__content">
           <blockquote class="login-left__quote">Tu portafolio listo en minutos</blockquote>
-          <p class="login-left__note">Sube PDFs, valida estructura y descarga tu ZIP listo para entregar.</p>
+          <p class="login-left__note">Vista completa de la estructura final del portafolio.</p>
 
-          <article class="login-preview" aria-hidden="true">
-            <h3 class="login-preview__title">Vista previa del portafolio</h3>
-            <ul class="login-preview__list">
-              <li><span>Portada.pdf</span> <small>generada</small></li>
-              <li><span>01_plan_contenido.pdf</span> <small>validado</small></li>
-              <li><span>02_plan_semestral.pdf</span> <small>validado</small></li>
-              <li><span>03_tareas/</span> <small>organizado</small></li>
-              <li><span>folium81_portafolio.zip</span> <small>listo</small></li>
-            </ul>
+          <article class="portfolio-preview" aria-label="Vista previa completa del portafolio">
+            <h3 class="portfolio-preview__title">Vista previa del portafolio</h3>
+
+            <div class="portfolio-preview__group">
+              <p class="portfolio-preview__heading">Portada (carpeta con archivo pdf)</p>
+            </div>
+
+            <div class="portfolio-preview__group">
+              <p class="portfolio-preview__heading">Descripción del Curso (carpeta)</p>
+              <ul class="portfolio-preview__list">
+                <li class="portfolio-preview__line" data-preview-item>Plan de Contenido de la asignatura</li>
+                <li class="portfolio-preview__line" data-preview-item>Planificación del Programa Semestral-Estudiante</li>
+              </ul>
+            </div>
+
+            <div class="portfolio-preview__group">
+              <p class="portfolio-preview__heading">Presentación General del Estudiante (carpeta con archivo pdf)</p>
+            </div>
+
+            <div class="portfolio-preview__group">
+              <p class="portfolio-preview__heading">Actividades o asignaciones (carpeta)</p>
+              <ul class="portfolio-preview__list">
+                <li class="portfolio-preview__line" data-preview-item>Tareas asignadas</li>
+                <li class="portfolio-preview__line" data-preview-item>Trabajos en clase</li>
+                <li class="portfolio-preview__line" data-preview-item>Proyectos</li>
+                <li class="portfolio-preview__line" data-preview-item>Laboratorios y/o talleres</li>
+                <li class="portfolio-preview__line" data-preview-item>Parciales (1 subcarpeta por cada parcial con enunciado y hoja de respuestas corregida)</li>
+                <li class="portfolio-preview__line" data-preview-item>Otros: foros, investigaciones, ensayos, resúmenes</li>
+                <li class="portfolio-preview__line" data-preview-item>Actividades adicionales (extracurriculares, complementarias, servicios sociales)</li>
+              </ul>
+            </div>
+
+            <div class="portfolio-preview__group">
+              <p class="portfolio-preview__heading">Material didáctico de las clases (carpeta)</p>
+              <ul class="portfolio-preview__list">
+                <li class="portfolio-preview__line" data-preview-item>Material suministrado por el docente</li>
+                <li class="portfolio-preview__line" data-preview-item>Material adicional utilizado</li>
+                <li class="portfolio-preview__line" data-preview-item>Bibliografía consultada</li>
+                <li class="portfolio-preview__line" data-preview-item>Material bibliográfico creado en la UTP</li>
+              </ul>
+            </div>
+
+            <div class="portfolio-preview__group">
+              <p class="portfolio-preview__heading">Conclusión final del cierre del curso (carpeta)</p>
+            </div>
           </article>
-
-          <ul class="login-benefits" aria-label="Beneficios">
-            <li><span aria-hidden="true">+</span> Estructura correcta para la entrega</li>
-            <li><span aria-hidden="true">+</span> Proceso guiado paso a paso</li>
-            <li><span aria-hidden="true">+</span> Generacion en pocos minutos</li>
-          </ul>
         </div>
       </aside>
 
@@ -123,6 +202,10 @@
         var fields = document.getElementById("loginBlockFields");
         var retryWrap = document.getElementById("loginRetryWrap");
         var retryBtn = document.getElementById("loginRetry");
+        var previewItems = Array.prototype.slice.call(
+          document.querySelectorAll("[data-preview-item]")
+        );
+        var previewIndex = 0;
 
         function setState(state) {
           form.dataset.state = state;
@@ -140,6 +223,16 @@
           setState("default");
           email.focus();
         });
+
+        if (previewItems.length) {
+          window.setInterval(function () {
+            previewItems.forEach(function (item) {
+              item.classList.remove("portfolio-preview__line--active");
+            });
+            previewItems[previewIndex].classList.add("portfolio-preview__line--active");
+            previewIndex = (previewIndex + 1) % previewItems.length;
+          }, 1200);
+        }
 
         form.addEventListener("submit", function (e) {
           e.preventDefault();
