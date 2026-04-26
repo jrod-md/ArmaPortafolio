@@ -10,11 +10,10 @@
       href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Lora:ital,wght@0,500;0,600;0,700;1,500;1,600&display=swap"
       rel="stylesheet"
     />
-    <link rel="stylesheet" href="styles.css" />
+    <link rel="stylesheet" href="css/styles.css" />
     <script src="theme-init.js"></script>
   </head>
   <body class="page-descarga">
-    <script src="auth-guard.js"></script>
     <header class="navbar navbar--auth reveal">
       <div class="navbar__inner container">
         <a href="dashboard.html" class="wordmark">Folium81</a>
@@ -23,7 +22,7 @@
           <nav class="navbar__auth-links" aria-label="Cuenta">
             <a href="perfil.html">Perfil</a>
             <span class="navbar__sep" aria-hidden="true">·</span>
-            <a href="login.html" class="nav-logout">Cerrar sesion</a>
+            <a href="login.html" class="nav-logout">Cerrar sesión</a>
           </nav>
         </div>
       </div>
@@ -46,7 +45,7 @@
         </section>
 
         <section class="descarga-preview" aria-label="Vista previa">
-          <p class="descarga-timer">Este archivo se elimina en 1 hora. Descargalo ahora.</p>
+          <p class="descarga-timer">Este archivo se elimina en 1 hora. Descárgalo ahora.</p>
           <p class="descarga-filename">portafolio_Lopez_BasesDeDatos_I2026.zip</p>
           <button type="button" class="btn btn--primary descarga-btn">Descargar ZIP</button>
         </section>
@@ -57,9 +56,52 @@
         </div>
 
         <p class="descarga-note">
-          Por la Ley 81 de Panama no guardamos copias de tus archivos. Este es el unico momento para descargar el portafolio.
+          Por la Ley 81 de Panamá no guardamos copias de tus archivos. Este es el único momento para descargar el portafolio.
         </p>
       </div>
     </main>
+    <script type="module">
+      import { loadGeneratedZip, clearGeneratedZip } from "./js/zip.js";
+      import { initProtectedPage } from "./js/auth.js";
+
+      const isAuthorized = initProtectedPage();
+
+      if (isAuthorized) {
+        const button = document.querySelector(".descarga-btn");
+        const filenameNode = document.querySelector(".descarga-filename");
+        const noteNode = document.querySelector(".descarga-note");
+
+        const showMessage = (message) => {
+          if (noteNode) {
+            noteNode.textContent = message;
+          }
+        };
+
+        const saved = await loadGeneratedZip().catch(() => null);
+
+        if (saved?.filename && filenameNode) {
+          filenameNode.textContent = saved.filename;
+        }
+
+        if (!saved || !saved.blob) {
+          if (button) {
+            button.disabled = true;
+            button.setAttribute("aria-disabled", "true");
+          }
+          showMessage("No se encontró un ZIP generado. Vuelve a generar el portafolio.");
+        } else if (button) {
+          button.addEventListener("click", () => {
+            const url = URL.createObjectURL(saved.blob);
+            const link = document.createElement("a");
+            link.href = url;
+            link.download = saved.filename || "portafolio_folium81.zip";
+            document.body.appendChild(link);
+            link.click();
+            link.remove();
+            setTimeout(() => URL.revokeObjectURL(url), 3000);
+          });
+        }
+      }
+    </script>
   </body>
 </html>
