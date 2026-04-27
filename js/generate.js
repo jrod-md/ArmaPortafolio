@@ -13,12 +13,12 @@ const FONT_BOLD_PATH = "../assets/fonts/LiberationSans-Bold.ttf";
 
 const TEXT_RGB = hexToRgb("#2F3E46");
 
-const DEPARTMENT_BOUNDS = { x: 435, y: 592, width: 280 };
+const DEPARTMENT_BOUNDS = { x: 435, y: 589, width: 280 };
 const COURSE_BOUNDS = { y: 455, width: 560 };
 const FULL_NAME_BOUNDS = { x: 525, y: 196, width: 280 };
 const CEDULA_BOUNDS = { x: 500, y: 161, width: 210 };
-const FACILITATOR_BOUNDS = { x: 515, y: 100, width: 285 };
-const YEAR_BOUNDS = { x: 535, y: 46, width: 96 };
+const FACILITATOR_BOUNDS = { x: 515, y: 103, width: 285 };
+const YEAR_BOUNDS = { x: 535, y: 49, width: 96 };
 
 const DEPARTMENT_TEXT_STYLE = { initialSize: 14.5, minimumSize: 12 };
 const COURSE_TEXT_STYLE = { initialSize: 17.5, minimumSize: 14.5 };
