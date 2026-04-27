@@ -13,12 +13,19 @@ const FONT_BOLD_PATH = "../assets/fonts/LiberationSans-Bold.ttf";
 
 const TEXT_RGB = hexToRgb("#2F3E46");
 
-const DEPARTMENT_BOUNDS = { x: 435, y: 570, width: 280 };
+const DEPARTMENT_BOUNDS = { x: 435, y: 592, width: 280 };
 const COURSE_BOUNDS = { y: 455, width: 560 };
-const FULL_NAME_BOUNDS = { x: 525, y: 205, width: 280 };
-const CEDULA_BOUNDS = { x: 500, y: 170, width: 210 };
-const FACILITATOR_BOUNDS = { x: 515, y: 115, width: 285 };
-const YEAR_BOUNDS = { x: 535, y: 65, width: 96 };
+const FULL_NAME_BOUNDS = { x: 525, y: 196, width: 280 };
+const CEDULA_BOUNDS = { x: 500, y: 161, width: 210 };
+const FACILITATOR_BOUNDS = { x: 515, y: 100, width: 285 };
+const YEAR_BOUNDS = { x: 535, y: 46, width: 96 };
+
+const DEPARTMENT_TEXT_STYLE = { initialSize: 14.5, minimumSize: 12 };
+const COURSE_TEXT_STYLE = { initialSize: 17.5, minimumSize: 14.5 };
+const FULL_NAME_TEXT_STYLE = { initialSize: 19, minimumSize: 14.5 };
+const CEDULA_TEXT_STYLE = { initialSize: 18.5, minimumSize: 15 };
+const FACILITATOR_TEXT_STYLE = { initialSize: 17, minimumSize: 14.5 };
+const YEAR_TEXT_STYLE = { initialSize: 17, minimumSize: 15 };
 
 let pdfLibPromise;
 let fontkitPromise;
@@ -66,8 +73,8 @@ export async function generatePortada(data) {
     text: cleanText(student.courseName || student.course),
     font: fontBold,
     color: textColor,
-    initialSize: 17.5,
-    minimumSize: 14.5,
+    initialSize: COURSE_TEXT_STYLE.initialSize,
+    minimumSize: COURSE_TEXT_STYLE.minimumSize,
     maxWidth: COURSE_BOUNDS.width,
     y: COURSE_BOUNDS.y,
   });
@@ -76,8 +83,8 @@ export async function generatePortada(data) {
     text: cleanText(student.fullName),
     font: fontBold,
     color: textColor,
-    initialSize: 19,
-    minimumSize: 14.5,
+    initialSize: FULL_NAME_TEXT_STYLE.initialSize,
+    minimumSize: FULL_NAME_TEXT_STYLE.minimumSize,
     maxWidth: FULL_NAME_BOUNDS.width,
     x: FULL_NAME_BOUNDS.x,
     y: FULL_NAME_BOUNDS.y,
@@ -87,8 +94,8 @@ export async function generatePortada(data) {
     text: cleanText(student.cedula),
     font: fontBold,
     color: textColor,
-    initialSize: 18.5,
-    minimumSize: 15,
+    initialSize: CEDULA_TEXT_STYLE.initialSize,
+    minimumSize: CEDULA_TEXT_STYLE.minimumSize,
     maxWidth: CEDULA_BOUNDS.width,
     x: CEDULA_BOUNDS.x,
     y: CEDULA_BOUNDS.y,
@@ -98,8 +105,8 @@ export async function generatePortada(data) {
     text: cleanText(student.facilitator),
     font: fontBold,
     color: textColor,
-    initialSize: 17,
-    minimumSize: 14.5,
+    initialSize: FACILITATOR_TEXT_STYLE.initialSize,
+    minimumSize: FACILITATOR_TEXT_STYLE.minimumSize,
     maxWidth: FACILITATOR_BOUNDS.width,
     x: FACILITATOR_BOUNDS.x,
     y: FACILITATOR_BOUNDS.y,
@@ -109,8 +116,8 @@ export async function generatePortada(data) {
     text: resolveYear(student.year),
     font: fontBold,
     color: textColor,
-    initialSize: 17,
-    minimumSize: 15,
+    initialSize: YEAR_TEXT_STYLE.initialSize,
+    minimumSize: YEAR_TEXT_STYLE.minimumSize,
     maxWidth: YEAR_BOUNDS.width,
     x: YEAR_BOUNDS.x,
     y: YEAR_BOUNDS.y,
@@ -131,15 +138,22 @@ function drawDepartmentValue(page, { text, font, color }) {
     return;
   }
 
-  drawAlignedValue(page, {
-    text: safeText,
+  const fitted = fitTextToWidth(
+    font,
+    safeText,
+    DEPARTMENT_TEXT_STYLE.initialSize,
+    DEPARTMENT_TEXT_STYLE.minimumSize,
+    DEPARTMENT_BOUNDS.width
+  );
+  const textWidth = font.widthOfTextAtSize(safeText, fitted.size);
+  const x = DEPARTMENT_BOUNDS.x + (DEPARTMENT_BOUNDS.width - textWidth) / 2;
+
+  page.drawText(safeText, {
+    x,
+    y: DEPARTMENT_BOUNDS.y,
+    size: fitted.size,
     font,
     color,
-    initialSize: 13,
-    minimumSize: 11,
-    maxWidth: DEPARTMENT_BOUNDS.width,
-    x: DEPARTMENT_BOUNDS.x,
-    y: DEPARTMENT_BOUNDS.y,
   });
 }
 
