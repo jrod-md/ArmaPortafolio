@@ -1,31 +1,48 @@
-import { initProtectedPage } from "./auth.js";
+﻿import { initProtectedPage } from "./auth.js";
 import { generatePortada } from "./generate.js";
 import { buildZip, saveGeneratedZip } from "./zip.js";
 
 const TOTAL_STEPS = 5;
-const MAX_AI_REGENERATIONS = 3;
-const REQUIRED_UPLOAD_KEYS = ["planContenido"];
 const MAX_FULL_NAME_LENGTH = 80;
 const MAX_COURSE_NAME_LENGTH = 80;
 const MAX_FACILITATOR_LENGTH = 80;
 const MAX_CONCLUSION_LENGTH = 2000;
-const UPLOAD_PATHS = {
-  planContenido: "02_Descripcion_Curso/Plan_de_Contenido/",
-  planSemestral: "02_Descripcion_Curso/Planificacion_Programa_Semestral/",
-  tareas: "04_Actividades/Tareas/",
-  trabajos: "04_Actividades/Trabajos_Clase/",
-  proyectos: "04_Actividades/Proyectos/",
-  labs: "04_Actividades/Laboratorios_Talleres/",
-  parcial1e: "04_Actividades/Parciales/Parcial_1/Enunciado/",
-  parcial1r: "04_Actividades/Parciales/Parcial_1/Respuestas/",
-  parcial2e: "04_Actividades/Parciales/Parcial_2/Enunciado/",
-  parcial2r: "04_Actividades/Parciales/Parcial_2/Respuestas/",
-  material: "05_Material_Didactico/Material_Didactico/",
+const MAX_UPLOAD_SIZE_BYTES = 10 * 1024 * 1024;
+const UPLOAD_CONFIG = {
+  planContenido: {
+    label: "Plan de Contenido",
+    path: "02_Descripcion_Curso/",
+    maxFiles: 1,
+  },
+  tareas: {
+    label: "Tareas",
+    path: "04_Actividades/Tareas/",
+    maxFiles: 16,
+  },
+  parciales: {
+    label: "Parciales",
+    path: "04_Actividades/Parciales/",
+    maxFiles: 6,
+  },
+  proyectos: {
+    label: "Proyectos",
+    path: "04_Actividades/Proyectos/",
+    maxFiles: 6,
+  },
+  labs: {
+    label: "Laboratorios y talleres",
+    path: "04_Actividades/Laboratorios_Talleres/",
+    maxFiles: 20,
+  },
+  material: {
+    label: "Material didáctico",
+    path: "05_Material_Didactico/",
+    maxFiles: 16,
+  },
 };
 
 let currentStep = 1;
-let aiRegenerationsLeft = MAX_AI_REGENERATIONS;
-let conclusionSkipped = false;
+let uploadSequence = 0;
 
 const uploads = {};
 
@@ -44,7 +61,7 @@ function formatBytes(bytes) {
 }
 
 function getUploadPath(key, fileName) {
-  return `${UPLOAD_PATHS[key] || "99_Adjuntos/" }${fileName}`;
+  return `${UPLOAD_CONFIG[key]?.path || "99_Adjuntos/"}${fileName}`;
 }
 
 function getMessageNode() {
@@ -92,24 +109,23 @@ function getStudentData() {
 }
 
 function getConclusionText() {
-  const stepThreeText = clampText($("conclusionFinal")?.value, MAX_CONCLUSION_LENGTH);
-  const stepFourText = clampText($("conclusionOutput")?.value, MAX_CONCLUSION_LENGTH);
-  return stepFourText || stepThreeText || "";
+  return clampText($("conclusionFinal")?.value, MAX_CONCLUSION_LENGTH);
 }
 
-function getSelectedActivities() {
-  return Array.from(document.querySelectorAll('input[name="act"]:checked'))
-    .map((input) => input.parentElement?.textContent || input.value)
-    .map((value) => value.trim())
-    .filter(Boolean);
+function escapeHtml(value) {
+  return String(value || "")
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;");
 }
 
-function getUploadEntry(key) {
-  return uploads[key] || null;
+function getUploadEntries(key) {
+  return Array.isArray(uploads[key]) ? uploads[key] : [];
 }
 
 function getAllUploadEntries() {
-  return Object.values(uploads).filter((entry) => entry?.file);
+  return Object.values(uploads).flat().filter((entry) => entry?.file);
 }
 
 function refreshSummary() {
@@ -145,25 +161,15 @@ function refreshSummary() {
   const filesNode = $("sum-files");
   if (filesNode) {
     const parts = [];
-    const requiredCount = REQUIRED_UPLOAD_KEYS.filter((key) => getUploadEntry(key)).length;
-    parts.push(`Archivos requeridos: ${requiredCount}`);
+    const uploadedCount = getAllUploadEntries().length;
+    parts.push(`Archivos cargados: ${uploadedCount}`);
 
-    [
-      ["tareas", "Tareas"],
-      ["trabajos", "Trabajos de clase"],
-      ["proyectos", "Proyectos"],
-      ["labs", "Laboratorios y talleres"],
-      ["material", "Material didactico"],
-    ].forEach(([key, label]) => {
-      if (getUploadEntry(key)) {
-        parts.push(`${label}: 1`);
+    Object.entries(UPLOAD_CONFIG).forEach(([key, config]) => {
+      const count = getUploadEntries(key).length;
+      if (count > 0) {
+        parts.push(`${config.label}: ${count}`);
       }
     });
-
-    const parcialUno = ["parcial1e", "parcial1r"].filter((key) => getUploadEntry(key)).length;
-    const parcialDos = ["parcial2e", "parcial2r"].filter((key) => getUploadEntry(key)).length;
-    if (parcialUno) parts.push(`Parcial 1: ${parcialUno}`);
-    if (parcialDos) parts.push(`Parcial 2: ${parcialDos}`);
 
     filesNode.textContent = parts.join(" · ");
   }
@@ -171,9 +177,7 @@ function refreshSummary() {
   const conclusionNode = $("sum-conclusion");
   if (conclusionNode) {
     const conclusionText = getConclusionText();
-    if (conclusionSkipped && !conclusionText) {
-      conclusionNode.textContent = "No incluida";
-    } else if (conclusionText) {
+    if (conclusionText) {
       conclusionNode.textContent = "Incluida";
     } else {
       conclusionNode.textContent = "No incluida";
@@ -271,10 +275,6 @@ function validateStepOne() {
 }
 
 function validateStepTwo() {
-  const missing = REQUIRED_UPLOAD_KEYS.filter((key) => !getUploadEntry(key));
-  if (missing.length > 0) {
-    return "Debes subir el Plan de Contenido. La Planificacion Semestral es recomendada.";
-  }
   return null;
 }
 
@@ -284,72 +284,123 @@ function validateCurrentStep() {
   return null;
 }
 
-function extractDropFile(event) {
-  const file = event.dataTransfer?.files?.[0];
-  if (!file) return null;
-  if (file.type !== "application/pdf") {
-    showMessage("Solo se aceptan archivos PDF en este formulario.", "error");
-    return null;
-  }
-  return file;
+function isPdfFile(file) {
+  return file?.type === "application/pdf" || /\.pdf$/i.test(file?.name || "");
 }
 
-function setUploadUI(key, file) {
+function buildUploadEntry(key, file) {
+  uploadSequence += 1;
+  return {
+    id: `${key}-${uploadSequence}`,
+    key,
+    file,
+    name: file.name,
+    size: file.size,
+    zipPath: getUploadPath(key, file.name),
+  };
+}
+
+function renderUploadUI(key) {
   const root = document.querySelector(`[data-upload-key="${key}"]`);
   if (!root) return;
 
-  const title = root.querySelector(".upload-zone__title");
-  const hint = root.querySelector(".upload-zone__hint");
+  const config = UPLOAD_CONFIG[key];
   const metaLine = root.querySelector(".upload-zone__meta-line");
-  const meta = root.querySelector(".upload-zone__meta");
-  const nameNode = root.querySelector(".upload-zone__name");
-  const sizeNode = root.querySelector(".upload-zone__size");
-  const removeButton = root.querySelector(".upload-zone__remove");
-  const input = root.querySelector(".upload-zone__input");
+  const fileList = root.querySelector(".upload-zone__file-list");
+  const entries = getUploadEntries(key);
 
-  if (file) {
-    uploads[key] = {
-      key,
-      file,
-      name: file.name,
-      size: file.size,
-      zipPath: getUploadPath(key, file.name),
-    };
-
-    if (nameNode) nameNode.textContent = file.name;
-    if (sizeNode) sizeNode.textContent = formatBytes(file.size);
-    if (title) title.hidden = true;
-    if (hint) hint.hidden = true;
-    if (metaLine) metaLine.hidden = true;
-    if (meta) meta.hidden = false;
-    if (removeButton) removeButton.hidden = false;
-    root.classList.add("upload-zone--filled");
-  } else {
-    delete uploads[key];
-    if (input) input.value = "";
-    if (title) title.hidden = false;
-    if (hint) hint.hidden = false;
-    if (metaLine) metaLine.hidden = false;
-    if (meta) meta.hidden = true;
-    if (removeButton) removeButton.hidden = true;
-    root.classList.remove("upload-zone--filled");
+  if (metaLine && config) {
+    const unit = config.maxFiles === 1 ? "PDF" : "PDFs";
+    metaLine.textContent = `${entries.length}/${config.maxFiles} ${unit} · Máx. 10MB por archivo`;
   }
 
-  clearMessage();
+  if (fileList) {
+    if (entries.length === 0) {
+      fileList.hidden = true;
+      fileList.innerHTML = "";
+    } else {
+      fileList.hidden = false;
+      fileList.innerHTML = entries
+        .map(
+          (entry) =>
+            `<li><span>${escapeHtml(entry.name)}</span> <span>${formatBytes(entry.size)}</span> <button type="button" data-upload-remove="${entry.id}">Quitar</button></li>`
+        )
+        .join("");
+    }
+  }
+
+  root.classList.toggle("upload-zone--filled", entries.length > 0);
+}
+
+function addFilesToUpload(key, files) {
+  const config = UPLOAD_CONFIG[key];
+  if (!config || files.length === 0) return;
+
+  const currentEntries = getUploadEntries(key);
+  const nextEntries = [...currentEntries];
+  let feedbackMessage = "";
+
+  for (const file of files) {
+    if (!isPdfFile(file)) {
+      feedbackMessage = "Solo se aceptan archivos PDF en este formulario.";
+      continue;
+    }
+
+    if (file.size > MAX_UPLOAD_SIZE_BYTES) {
+      feedbackMessage = `Cada archivo en ${config.label} debe pesar maximo 10MB.`;
+      continue;
+    }
+
+    if (nextEntries.length >= config.maxFiles) {
+      feedbackMessage = `${config.label} permite hasta ${config.maxFiles} archivos PDF.`;
+      break;
+    }
+
+    nextEntries.push(buildUploadEntry(key, file));
+  }
+
+  if (nextEntries.length > 0) {
+    uploads[key] = nextEntries;
+  } else {
+    delete uploads[key];
+  }
+
+  renderUploadUI(key);
   refreshSummary();
+
+  if (feedbackMessage) {
+    showMessage(feedbackMessage, "error");
+  } else {
+    clearMessage();
+  }
+}
+
+function removeUploadEntry(key, entryId) {
+  const nextEntries = getUploadEntries(key).filter((entry) => entry.id !== entryId);
+  if (nextEntries.length > 0) {
+    uploads[key] = nextEntries;
+  } else {
+    delete uploads[key];
+  }
+
+  renderUploadUI(key);
+  refreshSummary();
+  clearMessage();
 }
 
 function bindUploadZone(root) {
   const key = root.getAttribute("data-upload-key");
   const input = root.querySelector(".upload-zone__input");
-  const removeButton = root.querySelector(".upload-zone__remove");
+  const addButton = root.querySelector(".upload-zone__add");
+  const fileList = root.querySelector(".upload-zone__file-list");
 
   if (!key || !input) return;
 
-  root.addEventListener("click", (event) => {
-    if (event.target === removeButton) return;
-    input.click();
-  });
+  if (addButton) {
+    addButton.addEventListener("click", () => {
+      input.click();
+    });
+  }
 
   root.addEventListener("dragover", (event) => {
     event.preventDefault();
@@ -363,33 +414,25 @@ function bindUploadZone(root) {
   root.addEventListener("drop", (event) => {
     event.preventDefault();
     root.classList.remove("upload-zone--drag");
-
-    const file = extractDropFile(event);
-    if (!file) return;
-
-    const dataTransfer = new DataTransfer();
-    dataTransfer.items.add(file);
-    input.files = dataTransfer.files;
-    setUploadUI(key, file);
+    addFilesToUpload(key, Array.from(event.dataTransfer?.files || []));
+    input.value = "";
   });
 
   input.addEventListener("change", () => {
-    const file = input.files?.[0];
-    if (!file) return;
-    if (file.type !== "application/pdf") {
-      setUploadUI(key, null);
-      showMessage("Solo se aceptan archivos PDF en este formulario.", "error");
-      return;
-    }
-    setUploadUI(key, file);
+    addFilesToUpload(key, Array.from(input.files || []));
+    input.value = "";
   });
 
-  if (removeButton) {
-    removeButton.addEventListener("click", (event) => {
-      event.stopPropagation();
-      setUploadUI(key, null);
+  if (fileList) {
+    fileList.addEventListener("click", (event) => {
+      const button = event.target.closest("[data-upload-remove]");
+      if (!button) return;
+      event.preventDefault();
+      removeUploadEntry(key, button.getAttribute("data-upload-remove"));
     });
   }
+
+  renderUploadUI(key);
 }
 
 async function requestConclusion(targetId, hintId, options = {}) {
@@ -397,9 +440,6 @@ async function requestConclusion(targetId, hintId, options = {}) {
   if (!target) return;
 
   const student = getStudentData();
-  const expectations = ($("expectativas")?.value || "").trim();
-  const activities = getSelectedActivities();
-  const parcialCount = Number($("num-parciales")?.value || 0);
   const button = options.buttonId ? $(options.buttonId) : null;
   const hint = hintId ? $(hintId) : null;
 
@@ -408,19 +448,6 @@ async function requestConclusion(targetId, hintId, options = {}) {
     showMessage(validationError, "error");
     setStep(1);
     return;
-  }
-
-  if (!expectations && options.requireExpectations) {
-    showMessage("Escribe las expectativas iniciales antes de pedir una conclusion.", "error");
-    return;
-  }
-
-  if (options.consumeRegeneration) {
-    if (aiRegenerationsLeft <= 0) {
-      showMessage("Ya no quedan regeneraciones disponibles.", "error");
-      return;
-    }
-    aiRegenerationsLeft -= 1;
   }
 
   if (button) {
@@ -443,9 +470,6 @@ async function requestConclusion(targetId, hintId, options = {}) {
         facilitator: student.facilitator,
         semester: student.semester,
         year: student.year,
-        expectations,
-        activities: activities.join(", ") || "Sin actividades marcadas",
-        numParciales: parcialCount,
       }),
     });
 
@@ -454,22 +478,10 @@ async function requestConclusion(targetId, hintId, options = {}) {
       throw new Error(data.error || "ai_unavailable");
     }
 
-    conclusionSkipped = false;
     target.value = clampText(data.conclusion, MAX_CONCLUSION_LENGTH);
 
     if (hint) {
       hint.hidden = false;
-    }
-
-    if (options.regenerationLabelId) {
-      const label = $(options.regenerationLabelId);
-      if (label) {
-        label.textContent = `${aiRegenerationsLeft}/${MAX_AI_REGENERATIONS} regeneraciones disponibles`;
-      }
-    }
-
-    if (options.consumeRegeneration && aiRegenerationsLeft <= 0 && button) {
-      button.disabled = true;
     }
 
     refreshSummary();
@@ -479,11 +491,8 @@ async function requestConclusion(targetId, hintId, options = {}) {
       "error"
     );
 
-    if (options.consumeRegeneration) {
-      aiRegenerationsLeft += 1;
-    }
   } finally {
-    if (button && (!options.consumeRegeneration || aiRegenerationsLeft > 0)) {
+    if (button) {
       button.disabled = false;
       button.textContent = button.dataset.defaultLabel || "Generar";
     }
@@ -528,63 +537,20 @@ function bindNavigation() {
 }
 
 function bindConclusionUi() {
-  const expectationInput = $("expectativas");
-  const countNode = $("expectativas-count");
-  const skipLink = $("link-omitir-paso4");
-  const stepThreeButton = $("btn-ia-conclusion-final");
-  const stepFourButton = $("btn-generar-ia");
-  const stepThreeText = $("conclusionFinal");
-  const stepFourText = $("conclusionOutput");
+  const aiButton = $("btn-generar-ia");
+  const conclusionText = $("conclusionFinal");
 
-  if (expectationInput && countNode) {
-    expectationInput.addEventListener("input", () => {
-      countNode.textContent = String(expectationInput.value.length);
-    });
-  }
-
-  if (stepThreeButton) {
-    stepThreeButton.addEventListener("click", () => {
+  if (aiButton) {
+    aiButton.addEventListener("click", () => {
       requestConclusion("conclusionFinal", "conclusion-final-ia-hint", {
-        buttonId: "btn-ia-conclusion-final",
-      });
-    });
-  }
-
-  if (stepFourButton) {
-    stepFourButton.addEventListener("click", () => {
-      requestConclusion("conclusionOutput", null, {
         buttonId: "btn-generar-ia",
-        consumeRegeneration: true,
-        regenerationLabelId: "regeneraciones-label",
-        requireExpectations: true,
       });
-
-      const wrap = $("conclusion-output-wrap");
-      if (wrap) {
-        wrap.hidden = false;
-      }
     });
   }
 
-  if (stepThreeText) {
-    stepThreeText.addEventListener("input", () => {
-      conclusionSkipped = false;
+  if (conclusionText) {
+    conclusionText.addEventListener("input", () => {
       refreshSummary();
-    });
-  }
-
-  if (stepFourText) {
-    stepFourText.addEventListener("input", () => {
-      conclusionSkipped = false;
-      refreshSummary();
-    });
-  }
-
-  if (skipLink) {
-    skipLink.addEventListener("click", (event) => {
-      event.preventDefault();
-      conclusionSkipped = true;
-      setStep(5);
     });
   }
 }
@@ -673,3 +639,6 @@ export function initApp() {
 }
 
 document.addEventListener("DOMContentLoaded", initApp);
+
+
+

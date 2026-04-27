@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="es">
   <head>
     <meta charset="UTF-8" />
@@ -47,7 +47,7 @@
                 <span class="wizard-step__num">2</span>
                 <span class="wizard-step__check">✓</span>
               </span>
-              <span class="wizard-step__label">Archivos requeridos</span>
+              <span class="wizard-step__label">Documentos del curso</span>
             </button>
           </li>
           <li>
@@ -56,7 +56,7 @@
                 <span class="wizard-step__num">3</span>
                 <span class="wizard-step__check">✓</span>
               </span>
-              <span class="wizard-step__label">Archivos opcionales</span>
+              <span class="wizard-step__label">Actividades y materiales</span>
             </button>
           </li>
           <li>
@@ -141,31 +141,17 @@
           </footer>
         </section>
 
-        <section class="wizard-panel" id="wizard-panel-2" hidden aria-labelledby="wizard-h2">
-          <h1 class="wizard-panel__title" id="wizard-h2">Archivos requeridos</h1>
-          <p class="wizard-panel__subtitle">El Plan de Contenido es obligatorio. La Planificación Semestral es recomendada.</p>
+                <section class="wizard-panel" id="wizard-panel-2" hidden aria-labelledby="wizard-h2">
+          <h1 class="wizard-panel__title" id="wizard-h2">Documentos del curso</h1>
+          <p class="wizard-panel__subtitle">Todos los archivos son opcionales. Puedes continuar sin subir nada o añadir PDFs cuando los tengas listos.</p>
           <div class="wizard-upload-stack">
             <div class="upload-zone" data-upload-key="planContenido">
-              <input type="file" class="upload-zone__input" accept="application/pdf" aria-label="Plan de Contenido, PDF" />
+              <input type="file" class="upload-zone__input" accept="application/pdf" hidden aria-label="Plan de Contenido, PDF" />
               <p class="upload-zone__title">Plan de Contenido</p>
-              <p class="upload-zone__hint">Arrastra un PDF aquí o haz clic para elegir</p>
-              <p class="upload-zone__meta-line">PDF · Máx. 10MB</p>
-              <div class="upload-zone__meta" hidden>
-                <span class="upload-zone__name"></span>
-                <span class="upload-zone__size"></span>
-                <button type="button" class="upload-zone__remove" aria-label="Quitar archivo" hidden>×</button>
-              </div>
-            </div>
-            <div class="upload-zone" data-upload-key="planSemestral">
-              <input type="file" class="upload-zone__input" accept="application/pdf" aria-label="Planificación Semestral, PDF" />
-              <p class="upload-zone__title">Planificación Semestral (recomendada)</p>
-              <p class="upload-zone__hint">Arrastra un PDF aquí o haz clic para elegir</p>
-              <p class="upload-zone__meta-line">PDF · Máx. 10MB</p>
-              <div class="upload-zone__meta" hidden>
-                <span class="upload-zone__name"></span>
-                <span class="upload-zone__size"></span>
-                <button type="button" class="upload-zone__remove" aria-label="Quitar archivo" hidden>×</button>
-              </div>
+              <p class="upload-zone__hint">Opcional</p>
+              <p class="upload-zone__meta-line">0/1 PDF · Máx. 10MB por archivo</p>
+              <button type="button" class="btn btn--outline btn--sm upload-zone__add">+ Añadir archivo</button>
+              <ul class="upload-zone__file-list" hidden></ul>
             </div>
           </div>
           <footer class="wizard-panel__footer wizard-panel__footer--split">
@@ -174,11 +160,11 @@
           </footer>
         </section>
 
-        <section class="wizard-panel" id="wizard-panel-3" hidden aria-labelledby="wizard-h3">
-          <h1 class="wizard-panel__title" id="wizard-h3">Archivos opcionales</h1>
+                <section class="wizard-panel" id="wizard-panel-3" hidden aria-labelledby="wizard-h3">
+          <h1 class="wizard-panel__title" id="wizard-h3">Actividades y materiales</h1>
           <p class="wizard-panel__subtitle">
-            Sube los materiales que tengas. Puedes omitir secciones. La presentación
-            con tu nombre completo y cédula se tomará del paso «Datos del estudiante».
+            Puedes cargar varios PDFs por categoría. Ningún archivo es obligatorio y la presentación
+            con tu nombre completo y cédula se toma del paso "Datos del estudiante".
           </p>
 
           <div class="wizard-disclosures">
@@ -188,32 +174,26 @@
               </summary>
               <div class="wizard-disclosure__body">
                 <div class="upload-zone" data-upload-key="tareas">
-                  <input type="file" class="upload-zone__input" accept="application/pdf" />
-                  <p class="upload-zone__hint">Arrastra PDF o haz clic</p>
-                  <p class="upload-zone__meta-line">PDF · Máx. 10MB</p>
-                  <div class="upload-zone__meta" hidden>
-                    <span class="upload-zone__name"></span>
-                    <span class="upload-zone__size"></span>
-                    <button type="button" class="upload-zone__remove" hidden>×</button>
-                  </div>
+                  <input type="file" class="upload-zone__input" accept="application/pdf" multiple hidden aria-label="Tareas, PDF" />
+                  <p class="upload-zone__hint">Opcional</p>
+                  <p class="upload-zone__meta-line">0/16 PDFs · Máx. 10MB por archivo</p>
+                  <button type="button" class="btn btn--outline btn--sm upload-zone__add">+ Añadir archivo</button>
+                  <ul class="upload-zone__file-list" hidden></ul>
                 </div>
               </div>
             </details>
 
             <details class="wizard-disclosure">
               <summary class="wizard-disclosure__summary">
-                Trabajos de Clase
+                Parciales
               </summary>
               <div class="wizard-disclosure__body">
-                <div class="upload-zone" data-upload-key="trabajos">
-                  <input type="file" class="upload-zone__input" accept="application/pdf" />
-                  <p class="upload-zone__hint">Arrastra PDF o haz clic</p>
-                  <p class="upload-zone__meta-line">PDF · Máx. 10MB</p>
-                  <div class="upload-zone__meta" hidden>
-                    <span class="upload-zone__name"></span>
-                    <span class="upload-zone__size"></span>
-                    <button type="button" class="upload-zone__remove" hidden>×</button>
-                  </div>
+                <div class="upload-zone" data-upload-key="parciales">
+                  <input type="file" class="upload-zone__input" accept="application/pdf" multiple hidden aria-label="Parciales, PDF" />
+                  <p class="upload-zone__hint">Opcional</p>
+                  <p class="upload-zone__meta-line">0/6 PDFs · Máx. 10MB por archivo</p>
+                  <button type="button" class="btn btn--outline btn--sm upload-zone__add">+ Añadir archivo</button>
+                  <ul class="upload-zone__file-list" hidden></ul>
                 </div>
               </div>
             </details>
@@ -224,132 +204,45 @@
               </summary>
               <div class="wizard-disclosure__body">
                 <div class="upload-zone" data-upload-key="proyectos">
-                  <input type="file" class="upload-zone__input" accept="application/pdf" />
-                  <p class="upload-zone__hint">Arrastra PDF o haz clic</p>
-                  <p class="upload-zone__meta-line">PDF · Máx. 10MB</p>
-                  <div class="upload-zone__meta" hidden>
-                    <span class="upload-zone__name"></span>
-                    <span class="upload-zone__size"></span>
-                    <button type="button" class="upload-zone__remove" hidden>×</button>
-                  </div>
+                  <input type="file" class="upload-zone__input" accept="application/pdf" multiple hidden aria-label="Proyectos, PDF" />
+                  <p class="upload-zone__hint">Opcional</p>
+                  <p class="upload-zone__meta-line">0/6 PDFs · Máx. 10MB por archivo</p>
+                  <button type="button" class="btn btn--outline btn--sm upload-zone__add">+ Añadir archivo</button>
+                  <ul class="upload-zone__file-list" hidden></ul>
                 </div>
               </div>
             </details>
 
             <details class="wizard-disclosure">
               <summary class="wizard-disclosure__summary">
-                Laboratorios y Talleres
+                Laboratorios y talleres
               </summary>
               <div class="wizard-disclosure__body">
                 <div class="upload-zone" data-upload-key="labs">
-                  <input type="file" class="upload-zone__input" accept="application/pdf" />
-                  <p class="upload-zone__hint">Arrastra PDF o haz clic</p>
-                  <p class="upload-zone__meta-line">PDF · Máx. 10MB</p>
-                  <div class="upload-zone__meta" hidden>
-                    <span class="upload-zone__name"></span>
-                    <span class="upload-zone__size"></span>
-                    <button type="button" class="upload-zone__remove" hidden>×</button>
-                  </div>
+                  <input type="file" class="upload-zone__input" accept="application/pdf" multiple hidden aria-label="Laboratorios y talleres, PDF" />
+                  <p class="upload-zone__hint">Opcional</p>
+                  <p class="upload-zone__meta-line">0/20 PDFs · Máx. 10MB por archivo</p>
+                  <button type="button" class="btn btn--outline btn--sm upload-zone__add">+ Añadir archivo</button>
+                  <ul class="upload-zone__file-list" hidden></ul>
                 </div>
               </div>
             </details>
 
             <details class="wizard-disclosure">
               <summary class="wizard-disclosure__summary">
-                Parciales
-              </summary>
-              <div class="wizard-disclosure__body">
-                <p class="wizard-parcial-label">Parcial 1 — Enunciado</p>
-                <div class="upload-zone" data-upload-key="parcial1e">
-                  <input type="file" class="upload-zone__input" accept="application/pdf" />
-                  <p class="upload-zone__hint">PDF · Máx. 10MB</p>
-                  <div class="upload-zone__meta" hidden>
-                    <span class="upload-zone__name"></span>
-                    <span class="upload-zone__size"></span>
-                    <button type="button" class="upload-zone__remove" hidden>×</button>
-                  </div>
-                </div>
-                <p class="wizard-parcial-label">Parcial 1 — Respuestas</p>
-                <div class="upload-zone" data-upload-key="parcial1r">
-                  <input type="file" class="upload-zone__input" accept="application/pdf" />
-                  <p class="upload-zone__hint">PDF · Máx. 10MB</p>
-                  <div class="upload-zone__meta" hidden>
-                    <span class="upload-zone__name"></span>
-                    <span class="upload-zone__size"></span>
-                    <button type="button" class="upload-zone__remove" hidden>×</button>
-                  </div>
-                </div>
-                <p class="wizard-parcial-label">Parcial 2 — Enunciado</p>
-                <div class="upload-zone" data-upload-key="parcial2e">
-                  <input type="file" class="upload-zone__input" accept="application/pdf" />
-                  <p class="upload-zone__hint">PDF · Máx. 10MB</p>
-                  <div class="upload-zone__meta" hidden>
-                    <span class="upload-zone__name"></span>
-                    <span class="upload-zone__size"></span>
-                    <button type="button" class="upload-zone__remove" hidden>×</button>
-                  </div>
-                </div>
-                <p class="wizard-parcial-label">Parcial 2 — Respuestas</p>
-                <div class="upload-zone" data-upload-key="parcial2r">
-                  <input type="file" class="upload-zone__input" accept="application/pdf" />
-                  <p class="upload-zone__hint">PDF · Máx. 10MB</p>
-                  <div class="upload-zone__meta" hidden>
-                    <span class="upload-zone__name"></span>
-                    <span class="upload-zone__size"></span>
-                    <button type="button" class="upload-zone__remove" hidden>×</button>
-                  </div>
-                </div>
-              </div>
-            </details>
-
-            <details class="wizard-disclosure">
-              <summary class="wizard-disclosure__summary">
-                Material Didáctico
+                Material didáctico
               </summary>
               <div class="wizard-disclosure__body">
                 <div class="upload-zone" data-upload-key="material">
-                  <input type="file" class="upload-zone__input" accept="application/pdf" />
-                  <p class="upload-zone__hint">Arrastra PDF o haz clic</p>
-                  <p class="upload-zone__meta-line">PDF · Máx. 10MB</p>
-                  <div class="upload-zone__meta" hidden>
-                    <span class="upload-zone__name"></span>
-                    <span class="upload-zone__size"></span>
-                    <button type="button" class="upload-zone__remove" hidden>×</button>
-                  </div>
+                  <input type="file" class="upload-zone__input" accept="application/pdf" multiple hidden aria-label="Material didáctico, PDF" />
+                  <p class="upload-zone__hint">Opcional</p>
+                  <p class="upload-zone__meta-line">0/16 PDFs · Máx. 10MB por archivo</p>
+                  <button type="button" class="btn btn--outline btn--sm upload-zone__add">+ Añadir archivo</button>
+                  <ul class="upload-zone__file-list" hidden></ul>
                 </div>
               </div>
             </details>
 
-            <details class="wizard-disclosure">
-              <summary class="wizard-disclosure__summary">
-                Conclusión final
-              </summary>
-              <div class="wizard-disclosure__body">
-                <p style="margin-bottom: 1.5rem; color: var(--text-muted);">
-                  Escribe tu conclusión o genera un borrador con IA a partir de los
-                  archivos que hayas subido en este formulario.
-                </p>
-                <div class="wizard-field">
-                  <div class="wizard-conclusion-head">
-                    <label class="wizard-label" for="conclusionFinal">Texto de la conclusión</label>
-                    <button type="button" class="btn btn--outline btn--sm" id="btn-ia-conclusion-final">
-                      Generar con IA
-                    </button>
-                  </div>
-                  <textarea
-                    class="wizard-textarea"
-                    id="conclusionFinal"
-                    name="conclusion_final"
-                    maxlength="2000"
-                    rows="7"
-                    placeholder="Escribe tu conclusión aquí…"
-                  ></textarea>
-                  <p class="wizard-ia-hint-step3" id="conclusion-final-ia-hint" hidden>
-                    ⚠ Texto sugerido por IA — revisa y edita antes de usar.
-                  </p>
-                </div>
-              </div>
-            </details>
           </div>
 
           <footer class="wizard-panel__footer wizard-panel__footer--split">
@@ -359,43 +252,29 @@
         </section>
 
         <section class="wizard-panel" id="wizard-panel-4" hidden aria-labelledby="wizard-h4">
-          <h1 class="wizard-panel__title" id="wizard-h4">Conclusión con IA</h1>
+          <h1 class="wizard-panel__title" id="wizard-h4">Conclusión final del curso</h1>
           <p class="wizard-panel__subtitle">
-            Este paso es completamente opcional. Puedes escribir tu conclusión manualmente o saltarlo.
+            Puedes escribir tu conclusión manualmente o generarla con IA y luego editarla.
           </p>
           <div class="wizard-form">
             <div class="wizard-field">
-              <label class="wizard-label" for="expectativas">Expectativas iniciales</label>
-              <textarea class="wizard-textarea" id="expectativas" name="expectativas" maxlength="500" rows="4" placeholder="¿Qué esperabas aprender en este curso?"></textarea>
-              <p class="wizard-char-count"><span id="expectativas-count">0</span>/500 caracteres</p>
-            </div>
-            <fieldset class="wizard-fieldset">
-              <legend class="wizard-label">Actividades realizadas</legend>
-              <div class="wizard-checkboxes">
-                <label class="wizard-check"><input type="checkbox" name="act" value="tareas" /> Tareas</label>
-                <label class="wizard-check"><input type="checkbox" name="act" value="trabajos" /> Trabajos de clase</label>
-                <label class="wizard-check"><input type="checkbox" name="act" value="proyectos" /> Proyectos</label>
-                <label class="wizard-check"><input type="checkbox" name="act" value="labs" /> Laboratorios</label>
-                <label class="wizard-check"><input type="checkbox" name="act" value="parciales" /> Parciales</label>
-                <label class="wizard-check"><input type="checkbox" name="act" value="otros" /> Otros</label>
-              </div>
-            </fieldset>
-            <div class="wizard-field">
-              <label class="wizard-label" for="num-parciales">Número de parciales</label>
-              <input class="wizard-input" type="number" id="num-parciales" name="num_parciales" min="0" max="6" value="0" />
+              <label class="wizard-label" for="conclusionFinal">Conclusión final del curso</label>
+              <textarea
+                class="wizard-textarea"
+                id="conclusionFinal"
+                name="conclusion_final"
+                maxlength="2000"
+                rows="8"
+                placeholder="Escribe tu conclusión aquí..."
+              ></textarea>
+              <p class="wizard-ia-hint-step3" id="conclusion-final-ia-hint" hidden>
+                ⚠ Texto sugerido por IA - revisa y edita antes de usar.
+              </p>
             </div>
           </div>
           <div class="wizard-step4-actions">
-            <button type="button" class="btn btn--outline" id="btn-generar-ia">Generar con IA</button>
+            <button type="button" class="btn btn--outline" id="btn-generar-ia">Generar conclusión con IA</button>
           </div>
-          <div class="wizard-ia-output" id="conclusion-output-wrap" hidden>
-            <label class="wizard-ia-warning" for="conclusionOutput">⚠ Generado por IA — Revisa y edita antes de usar</label>
-            <textarea class="wizard-textarea" id="conclusionOutput" rows="8" maxlength="2000" placeholder=""></textarea>
-            <p class="wizard-regen" id="regeneraciones-label">3/3 regeneraciones disponibles</p>
-          </div>
-          <p class="wizard-omitir-wrap">
-            <a href="#" class="wizard-omitir" id="link-omitir-paso4">Omitir este paso</a>
-          </p>
           <footer class="wizard-panel__footer wizard-panel__footer--split">
             <button type="button" class="btn btn--outline" data-wizard-prev>← Anterior</button>
             <button type="button" class="btn btn--primary" data-wizard-next>Siguiente →</button>
@@ -420,7 +299,7 @@
             </p>
             <p style="margin-bottom: 0.5rem;">
               <strong style="color: var(--text-muted); font-weight: 500;">Archivos:</strong> 
-              <span id="sum-files">Archivos requeridos: 0</span>
+              <span id="sum-files">Archivos cargados: 0</span>
             </p>
             <p style="margin-bottom: 0.5rem;">
               <strong style="color: var(--text-muted); font-weight: 500;">Conclusión:</strong> 
@@ -447,3 +326,5 @@
     <script type="module" src="js/app.js"></script>
   </body>
 </html>
+
+
