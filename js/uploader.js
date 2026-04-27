@@ -277,12 +277,12 @@ export class FileUploadSection {
       name.textContent = truncate(file.name, 40);
       name.title = file.name;
       name.style.fontSize = ".85rem";
-      name.style.color = "#1a1628";
+      name.style.color = "#1F2A24";
 
       const size = document.createElement("span");
       size.textContent = formatBytes(file.size);
       size.style.fontSize = ".75rem";
-      size.style.color = "#625c78";
+      size.style.color = "#6B756D";
 
       const removeBtn = document.createElement("button");
       removeBtn.type = "button";
