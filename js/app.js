@@ -4,7 +4,11 @@ import { buildZip, saveGeneratedZip } from "./zip.js";
 
 const TOTAL_STEPS = 5;
 const MAX_AI_REGENERATIONS = 3;
-const REQUIRED_UPLOAD_KEYS = ["planContenido", "planSemestral"];
+const REQUIRED_UPLOAD_KEYS = ["planContenido"];
+const MAX_FULL_NAME_LENGTH = 80;
+const MAX_COURSE_NAME_LENGTH = 80;
+const MAX_FACILITATOR_LENGTH = 80;
+const MAX_CONCLUSION_LENGTH = 2000;
 const UPLOAD_PATHS = {
   planContenido: "02_Descripcion_Curso/Plan_de_Contenido/",
   planSemestral: "02_Descripcion_Curso/Planificacion_Programa_Semestral/",
@@ -27,6 +31,10 @@ const uploads = {};
 
 function $(id) {
   return document.getElementById(id);
+}
+
+function clampText(value, maxLength) {
+  return String(value || "").trim().slice(0, maxLength);
 }
 
 function formatBytes(bytes) {
@@ -72,20 +80,20 @@ function clearMessage() {
 
 function getStudentData() {
   return {
-    fullName: ($("sf-nombre")?.value || "").trim(),
+    fullName: clampText($("sf-nombre")?.value, MAX_FULL_NAME_LENGTH),
     cedula: ($("sf-cedula")?.value || "").trim(),
-    courseName: ($("sf-curso")?.value || "").trim(),
+    courseName: clampText($("sf-curso")?.value, MAX_COURSE_NAME_LENGTH),
     department: ($("sf-depto")?.selectedOptions?.[0]?.text || $("sf-depto")?.value || "").trim(),
-    facilitator: ($("sf-facilitador")?.value || "").trim(),
+    facilitator: clampText($("sf-facilitador")?.value, MAX_FACILITATOR_LENGTH),
     semester: ($("sf-semestre")?.value || "").trim(),
-    year: ($("sf-anio")?.value || "").trim(),
-    faculty: "",
+    year: "2026",
+    faculty: "fisc",
   };
 }
 
 function getConclusionText() {
-  const stepThreeText = ($("conclusionFinal")?.value || "").trim();
-  const stepFourText = ($("conclusionOutput")?.value || "").trim();
+  const stepThreeText = clampText($("conclusionFinal")?.value, MAX_CONCLUSION_LENGTH);
+  const stepFourText = clampText($("conclusionOutput")?.value, MAX_CONCLUSION_LENGTH);
   return stepFourText || stepThreeText || "";
 }
 
@@ -265,7 +273,7 @@ function validateStepOne() {
 function validateStepTwo() {
   const missing = REQUIRED_UPLOAD_KEYS.filter((key) => !getUploadEntry(key));
   if (missing.length > 0) {
-    return "Debes subir el Plan de Contenido y la Planificacion Semestral.";
+    return "Debes subir el Plan de Contenido. La Planificacion Semestral es recomendada.";
   }
   return null;
 }
@@ -447,7 +455,7 @@ async function requestConclusion(targetId, hintId, options = {}) {
     }
 
     conclusionSkipped = false;
-    target.value = data.conclusion.trim();
+    target.value = clampText(data.conclusion, MAX_CONCLUSION_LENGTH);
 
     if (hint) {
       hint.hidden = false;
@@ -647,6 +655,11 @@ function bindGenerateButton() {
 export function initApp() {
   if (!initProtectedPage()) {
     return;
+  }
+
+  const yearField = $("sf-anio");
+  if (yearField) {
+    yearField.value = "2026";
   }
 
   document.querySelectorAll("[data-upload-key]").forEach(bindUploadZone);

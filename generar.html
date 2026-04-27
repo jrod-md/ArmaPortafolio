@@ -95,7 +95,7 @@
           <div class="wizard-form">
             <div class="wizard-field">
               <label class="wizard-label" for="sf-nombre">Nombre completo</label>
-              <input class="wizard-input" type="text" id="sf-nombre" name="nombre" required placeholder="Juan Carlos López Rodríguez" autocomplete="name" />
+              <input class="wizard-input" type="text" id="sf-nombre" name="nombre" required maxlength="80" placeholder="Juan Carlos López Rodríguez" autocomplete="name" />
             </div>
             <div class="wizard-field">
               <label class="wizard-label" for="sf-cedula">Cédula</label>
@@ -103,10 +103,10 @@
             </div>
             <div class="wizard-field">
               <label class="wizard-label" for="sf-curso">Nombre del curso</label>
-              <input class="wizard-input" type="text" id="sf-curso" name="curso" required placeholder="Bases de Datos I" />
+              <input class="wizard-input" type="text" id="sf-curso" name="curso" required maxlength="80" placeholder="Bases de Datos I" />
             </div>
             <div class="wizard-field">
-              <label class="wizard-label" for="sf-depto">Departamento</label>
+              <label class="wizard-label" for="sf-depto">Departamento FISC</label>
               <select class="wizard-select" id="sf-depto" name="depto" required>
                 <option value="" disabled selected>Selecciona un departamento</option>
                 <option>Departamento de Sistemas y Computación</option>
@@ -116,7 +116,7 @@
             </div>
             <div class="wizard-field">
               <label class="wizard-label" for="sf-facilitador">Facilitador(a)</label>
-              <input class="wizard-input" type="text" id="sf-facilitador" name="facilitador" required placeholder="Ing. María González" />
+              <input class="wizard-input" type="text" id="sf-facilitador" name="facilitador" required maxlength="80" placeholder="Ing. María González" />
             </div>
             <div class="wizard-field-row">
               <div class="wizard-field">
@@ -131,10 +131,7 @@
               <div class="wizard-field">
                 <label class="wizard-label" for="sf-anio">Año</label>
                 <select class="wizard-select" id="sf-anio" name="anio" required>
-                  <option value="" disabled selected>—</option>
-                  <option>2024</option>
-                  <option>2025</option>
-                  <option>2026</option>
+                  <option selected>2026</option>
                 </select>
               </div>
             </div>
@@ -146,7 +143,7 @@
 
         <section class="wizard-panel" id="wizard-panel-2" hidden aria-labelledby="wizard-h2">
           <h1 class="wizard-panel__title" id="wizard-h2">Archivos requeridos</h1>
-          <p class="wizard-panel__subtitle">Estos dos archivos son obligatorios.</p>
+          <p class="wizard-panel__subtitle">El Plan de Contenido es obligatorio. La Planificación Semestral es recomendada.</p>
           <div class="wizard-upload-stack">
             <div class="upload-zone" data-upload-key="planContenido">
               <input type="file" class="upload-zone__input" accept="application/pdf" aria-label="Plan de Contenido, PDF" />
@@ -161,7 +158,7 @@
             </div>
             <div class="upload-zone" data-upload-key="planSemestral">
               <input type="file" class="upload-zone__input" accept="application/pdf" aria-label="Planificación Semestral, PDF" />
-              <p class="upload-zone__title">Planificación Semestral</p>
+              <p class="upload-zone__title">Planificación Semestral (recomendada)</p>
               <p class="upload-zone__hint">Arrastra un PDF aquí o haz clic para elegir</p>
               <p class="upload-zone__meta-line">PDF · Máx. 10MB</p>
               <div class="upload-zone__meta" hidden>
@@ -343,6 +340,7 @@
                     class="wizard-textarea"
                     id="conclusionFinal"
                     name="conclusion_final"
+                    maxlength="2000"
                     rows="7"
                     placeholder="Escribe tu conclusión aquí…"
                   ></textarea>
@@ -392,7 +390,7 @@
           </div>
           <div class="wizard-ia-output" id="conclusion-output-wrap" hidden>
             <label class="wizard-ia-warning" for="conclusionOutput">⚠ Generado por IA — Revisa y edita antes de usar</label>
-            <textarea class="wizard-textarea" id="conclusionOutput" rows="8" placeholder=""></textarea>
+            <textarea class="wizard-textarea" id="conclusionOutput" rows="8" maxlength="2000" placeholder=""></textarea>
             <p class="wizard-regen" id="regeneraciones-label">3/3 regeneraciones disponibles</p>
           </div>
           <p class="wizard-omitir-wrap">
