@@ -11,12 +11,14 @@ const TEMPLATE_PATH = "../assets/templates/portada_base.png";
 const FONT_REGULAR_PATH = "../assets/fonts/LiberationSans-Regular.ttf";
 const FONT_BOLD_PATH = "../assets/fonts/LiberationSans-Bold.ttf";
 
-const TEXT_RGB = hexToRgb("#37474F");
+const TEXT_RGB = hexToRgb("#2F3E46");
 
-const DEPARTMENT_BOUNDS = { x: 462, y: 556, width: 286 };
-const COURSE_BOUNDS = { y: 350, width: 540 };
-const FACILITATOR_BOUNDS = { x: 530, y: 245, width: 280 };
-const YEAR_BOUNDS = { x: 600, y: 165, width: 74 };
+const DEPARTMENT_BOUNDS = { x: 435, y: 570, width: 280 };
+const COURSE_BOUNDS = { y: 455, width: 560 };
+const FULL_NAME_BOUNDS = { x: 525, y: 205, width: 280 };
+const CEDULA_BOUNDS = { x: 500, y: 170, width: 210 };
+const FACILITATOR_BOUNDS = { x: 515, y: 115, width: 285 };
+const YEAR_BOUNDS = { x: 535, y: 65, width: 96 };
 
 let pdfLibPromise;
 let fontkitPromise;
@@ -56,26 +58,48 @@ export async function generatePortada(data) {
 
   drawDepartmentValue(page, {
     text: toUpper(stripDepartmentPrefix(student.department)),
-    font: fontRegular,
+    font: fontBold,
     color: textColor,
   });
 
   drawCenteredValue(page, {
-    text: cleanText(student.course || student.courseName),
+    text: cleanText(student.courseName || student.course),
     font: fontBold,
     color: textColor,
-    initialSize: 18.5,
+    initialSize: 17.5,
     minimumSize: 14.5,
     maxWidth: COURSE_BOUNDS.width,
     y: COURSE_BOUNDS.y,
   });
 
   drawAlignedValue(page, {
+    text: cleanText(student.fullName),
+    font: fontBold,
+    color: textColor,
+    initialSize: 19,
+    minimumSize: 14.5,
+    maxWidth: FULL_NAME_BOUNDS.width,
+    x: FULL_NAME_BOUNDS.x,
+    y: FULL_NAME_BOUNDS.y,
+  });
+
+  drawAlignedValue(page, {
+    text: cleanText(student.cedula),
+    font: fontBold,
+    color: textColor,
+    initialSize: 18.5,
+    minimumSize: 15,
+    maxWidth: CEDULA_BOUNDS.width,
+    x: CEDULA_BOUNDS.x,
+    y: CEDULA_BOUNDS.y,
+  });
+
+  drawAlignedValue(page, {
     text: cleanText(student.facilitator),
-    font: fontRegular,
+    font: fontBold,
     color: textColor,
     initialSize: 17,
-    minimumSize: 13.5,
+    minimumSize: 14.5,
     maxWidth: FACILITATOR_BOUNDS.width,
     x: FACILITATOR_BOUNDS.x,
     y: FACILITATOR_BOUNDS.y,
@@ -83,10 +107,10 @@ export async function generatePortada(data) {
 
   drawAlignedValue(page, {
     text: resolveYear(student.year),
-    font: fontRegular,
+    font: fontBold,
     color: textColor,
-    initialSize: 18,
-    minimumSize: 16,
+    initialSize: 17,
+    minimumSize: 15,
     maxWidth: YEAR_BOUNDS.width,
     x: YEAR_BOUNDS.x,
     y: YEAR_BOUNDS.y,
@@ -107,16 +131,15 @@ function drawDepartmentValue(page, { text, font, color }) {
     return;
   }
 
-  const fitted = fitTextToWidth(font, safeText, 11.5, 9.5, DEPARTMENT_BOUNDS.width - 8);
-  const textWidth = font.widthOfTextAtSize(safeText, fitted.size);
-  const x = DEPARTMENT_BOUNDS.x + (DEPARTMENT_BOUNDS.width - textWidth) / 2;
-
-  page.drawText(safeText, {
-    x,
-    y: DEPARTMENT_BOUNDS.y,
-    size: fitted.size,
+  drawAlignedValue(page, {
+    text: safeText,
     font,
     color,
+    initialSize: 13,
+    minimumSize: 11,
+    maxWidth: DEPARTMENT_BOUNDS.width,
+    x: DEPARTMENT_BOUNDS.x,
+    y: DEPARTMENT_BOUNDS.y,
   });
 }
 
@@ -168,7 +191,7 @@ function fitTextToWidth(font, text, initialSize, minimumSize, maxWidth) {
 
 function resolveYear(year) {
   const normalized = cleanText(year);
-  return normalized || String(new Date().getFullYear());
+  return normalized || "2026";
 }
 
 function stripDepartmentPrefix(value) {

@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="es">
   <head>
     <meta charset="UTF-8" />
@@ -34,7 +34,7 @@
           <div class="hero__content reveal">
             <h1 class="title-xl">Nosotros</h1>
             <p class="body-lg hero__sub">
-              Por qué existe Folium81 y cómo fue construido.
+              Por qué existe Folium81 y cómo está implementado el MVP actual.
             </p>
           </div>
         </div>
@@ -45,11 +45,10 @@
           <div class="story__prose">
             <h2 id="story-heading" class="visually-hidden">Nuestra historia</h2>
             <p>
-              Cada semestre, estudiantes de FISC pasan entre 3 y 6 horas armando
-              su Portafolio Digital Estudiantil la noche antes de la entrega. El
-              proceso es repetitivo, propenso a errores y no enseña nada.
-              Folium81 existe para eliminar ese tiempo perdido y devolvérselo al
-              estudiante.
+              Cada semestre, estudiantes de FISC invierten horas en ordenar su
+              Portafolio Digital Estudiantil. Folium81 nace para simplificar ese
+              proceso, reducir errores de armado y permitir que el estudiante se
+              concentre en revisar su contenido, no en construir la estructura manualmente.
             </p>
           </div>
           <figure class="story__art story-photo" aria-hidden="true">
@@ -72,21 +71,22 @@
               <h3 class="features-row__title">Costo cero</h3>
               <p class="body-lg">
                 Folium81 es y siempre será gratuito. Sin planes premium, sin
-                publicidad, sin monetización de datos.
+                publicidad y sin monetización de datos.
               </p>
             </div>
             <div class="features-row reveal">
               <h3 class="features-row__title">Privacidad por diseño</h3>
               <p class="body-lg">
-                Ningún archivo se almacena. La arquitectura fue diseñada con la
-                Ley 81 de Panamá como restricción, no como cumplimiento tardío.
+                El MVP prioriza procesamiento temporal. Los archivos del estudiante
+                no forman parte de un historial permanente y el flujo está pensado
+                para descargar el resultado y cerrar el proceso.
               </p>
             </div>
             <div class="features-row reveal">
               <h3 class="features-row__title">Código abierto</h3>
               <p class="body-lg">
-                Todo el código es público bajo licencia MIT. Puedes auditarlo,
-                usarlo como referencia o contribuir.
+                El código está disponible para revisión y mejora. La meta es que
+                el funcionamiento sea auditable y fácil de entender.
               </p>
             </div>
           </div>
@@ -101,31 +101,31 @@
           <dl class="tech__list">
             <div class="tech__row">
               <dt>Frontend</dt>
-              <dd>React + Vite, alojado en Cloudflare Pages</dd>
+              <dd>HTML, CSS y JavaScript modular en el navegador</dd>
             </div>
             <div class="tech__row">
-              <dt>API</dt>
-              <dd>AWS Lambda (Python), sin servidores propios</dd>
+              <dt>Autenticación</dt>
+              <dd>Sesión temporal del lado del cliente, iniciada desde un flujo de verificación por correo y OTP</dd>
             </div>
             <div class="tech__row">
-              <dt>Almacenamiento</dt>
-              <dd>Cloudflare R2 — archivos eliminados en 1 hora</dd>
+              <dt>Generación del portafolio</dt>
+              <dd>Organización de carpetas, creación de portada PDF y armado del ZIP directamente en el navegador</dd>
             </div>
             <div class="tech__row">
-              <dt>Base de datos</dt>
-              <dd>AWS DynamoDB — solo tokens de sesión</dd>
+              <dt>Persistencia temporal</dt>
+              <dd>El ZIP generado se conserva temporalmente en el navegador para permitir la descarga inmediata</dd>
             </div>
             <div class="tech__row">
-              <dt>Email</dt>
-              <dd>AWS SES — solo para enlaces de acceso</dd>
+              <dt>Backend</dt>
+              <dd>Cloudflare Worker para endpoints de OTP y servicios auxiliares, como la generación de conclusión cuando está disponible</dd>
             </div>
             <div class="tech__row">
-              <dt>IA (opcional)</dt>
-              <dd>Groq API con modelo Gemma</dd>
+              <dt>Almacenamiento permanente</dt>
+              <dd>No se plantea como almacenamiento permanente de archivos del estudiante</dd>
             </div>
             <div class="tech__row">
-              <dt>Costo mensual</dt>
-              <dd>$0</dd>
+              <dt>Enfoque</dt>
+              <dd>Privacidad, procesamiento temporal y entrega rápida del portafolio</dd>
             </div>
           </dl>
         </div>

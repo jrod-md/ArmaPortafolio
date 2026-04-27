@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="es">
   <head>
     <meta charset="UTF-8" />
@@ -46,33 +46,95 @@
               </summary>
               <div class="faq-item__answer">
                 <p>
-                  Folium81 genera automáticamente la portada oficial (página 1
-                  del template de UTP), con los logos de la universidad y la
-                  facultad, la tipografía correcta y el diseño exacto requerido.
-                  Además organiza todos los archivos que subas en la estructura
-                  de carpetas oficial y los empaqueta en un ZIP listo para
-                  entregar. El nombre del archivo sigue el formato requerido
-                  por la facultad.
+                  Folium81 genera la portada oficial en PDF, organiza los archivos
+                  que subas dentro de la estructura del portafolio y empaqueta todo
+                  en un ZIP listo para revisar y entregar.
                 </p>
               </div>
             </details>
 
             <details class="faq-item">
-              <summary class="faq-item__question">
-                ¿Por qué no hay historial de portafolios?
-              </summary>
+              <summary class="faq-item__question">¿Qué archivos acepta Folium81?</summary>
               <div class="faq-item__answer">
                 <p>
-                  Por dos razones que consideramos no negociables. Primera: la
-                  Ley 81 de Panamá (Ley de Protección de Datos Personales)
-                  establece principios de minimización y limitación del
-                  almacenamiento — guardar tus archivos más tiempo del necesario
-                  sería una violación a ese principio. Segunda: desde una
-                  perspectiva de seguridad, almacenar documentos académicos
-                  personales crea un riesgo innecesario. Si el sistema fuera
-                  comprometido, no habría nada que robar porque no guardamos
-                  nada. Cada portafolio se elimina automáticamente una hora
-                  después de generarse.
+                  El MVP actual acepta únicamente archivos PDF. Cada archivo puede
+                  pesar hasta 10 MB. Las categorías disponibles son: plan de contenido
+                  (máximo 1), tareas (máximo 16), parciales (máximo 6), proyectos
+                  (máximo 6), laboratorios y talleres (máximo 20) y material didáctico
+                  (máximo 16).
+                </p>
+              </div>
+            </details>
+
+            <details class="faq-item">
+              <summary class="faq-item__question">¿Deben subirse todos los documentos?</summary>
+              <div class="faq-item__answer">
+                <p>
+                  No. Las categorías pueden dejarse vacías si no tienes archivos
+                  para esa sección. El generador sigue funcionando aunque te falten
+                  algunos documentos.
+                </p>
+              </div>
+            </details>
+
+            <details class="faq-item">
+              <summary class="faq-item__question">¿Qué pasa si me faltan algunos documentos?</summary>
+              <div class="faq-item__answer">
+                <p>
+                  Puedes generar el portafolio con lo que tengas disponible. La idea
+                  del MVP es ayudarte a organizar la entrega, no bloquearte por una
+                  carpeta vacía.
+                </p>
+              </div>
+            </details>
+
+            <details class="faq-item">
+              <summary class="faq-item__question">¿Cuánto tiempo está disponible el ZIP?</summary>
+              <div class="faq-item__answer">
+                <p>
+                  La descarga es temporal. El contenido generado se considera disponible
+                  por 1 hora; después de ese tiempo debes volver a generar el ZIP si lo
+                  necesitas otra vez.
+                </p>
+              </div>
+            </details>
+
+            <details class="faq-item">
+              <summary class="faq-item__question">¿La conclusión es obligatoria?</summary>
+              <div class="faq-item__answer">
+                <p>
+                  No. La conclusión es opcional. Si la dejas vacía, el ZIP igual se
+                  puede generar.
+                </p>
+              </div>
+            </details>
+
+            <details class="faq-item">
+              <summary class="faq-item__question">¿Puedo escribir la conclusión yo mismo?</summary>
+              <div class="faq-item__answer">
+                <p>
+                  Sí. Puedes escribirla manualmente, editarla libremente o pedir un
+                  borrador con IA si esa función está disponible.
+                </p>
+              </div>
+            </details>
+
+            <details class="faq-item">
+              <summary class="faq-item__question">¿La conclusión generada por IA viene lista para entregar?</summary>
+              <div class="faq-item__answer">
+                <p>
+                  No. La conclusión generada por IA debe revisarse y editarse antes
+                  de usarla. Se entrega como apoyo, no como texto final garantizado.
+                </p>
+              </div>
+            </details>
+
+            <details class="faq-item">
+              <summary class="faq-item__question">¿Folium81 guarda mis archivos de forma permanente?</summary>
+              <div class="faq-item__answer">
+                <p>
+                  No. El MVP está orientado a procesamiento temporal y privacidad.
+                  Los archivos no forman parte de un historial permanente de portafolios.
                 </p>
               </div>
             </details>
@@ -81,95 +143,30 @@
               <summary class="faq-item__question">¿Quién puede usar Folium81?</summary>
               <div class="faq-item__answer">
                 <p>
-                  Cualquier estudiante o docente con un correo institucional
-                  @utp.ac.pa. El sistema verifica el dominio del correo
-                  automáticamente. No aceptamos cuentas de otros dominios.
+                  Estudiantes o docentes con acceso al flujo institucional del MVP.
+                  El acceso se apoya en verificación de sesión y autenticación temporal.
                 </p>
               </div>
             </details>
 
             <details class="faq-item">
-              <summary class="faq-item__question">
-                ¿Qué es un enlace mágico y por qué no hay contraseña?
-              </summary>
+              <summary class="faq-item__question">¿Qué es el acceso temporal y por qué no hay contraseña tradicional?</summary>
               <div class="faq-item__answer">
                 <p>
-                  Un enlace mágico es un link de acceso único que te enviamos a
-                  tu correo. Al hacer clic, inicias sesión directamente, sin
-                  necesidad de recordar una contraseña. El enlace expira en 10
-                  minutos y solo puede usarse una vez. Es más seguro que una
-                  contraseña tradicional porque no hay nada que robar si alguien
-                  accede a nuestra base de datos.
+                  El acceso usa verificación temporal del lado del cliente y un flujo
+                  de OTP o validación por correo según el entorno. Esto reduce la carga
+                  de contraseñas y mantiene la sesión con vencimiento limitado.
                 </p>
               </div>
             </details>
 
             <details class="faq-item">
-              <summary class="faq-item__question">¿Qué archivos puedo subir?</summary>
-              <div class="faq-item__answer">
-                <p>
-                  Solo archivos PDF de hasta 10MB cada uno. El sistema verifica
-                  que el archivo sea un PDF real (no solo que tenga extensión
-                  .pdf). Puedes subir hasta 50 archivos por portafolio con un
-                  total máximo de 50MB.
-                </p>
-              </div>
-            </details>
-
-            <details class="faq-item">
-              <summary class="faq-item__question">
-                ¿Cuánto tiempo tengo para descargar mi portafolio?
-              </summary>
-              <div class="faq-item__answer">
-                <p>
-                  El enlace de descarga es válido por 1 hora desde que se genera
-                  el portafolio. Después de ese tiempo, el archivo se elimina de
-                  nuestros servidores. Si necesitas el portafolio de nuevo,
-                  tendrás que generarlo otra vez (es rápido — menos de 5
-                  minutos).
-                </p>
-              </div>
-            </details>
-
-            <details class="faq-item">
-              <summary class="faq-item__question">
-                ¿La conclusión generada por IA ya viene lista para entregar?
-              </summary>
-              <div class="faq-item__answer">
-                <p>
-                  No. El texto generado por IA es un punto de partida que debes
-                  revisar y editar. Está claramente marcado como 'Generado por IA'
-                  dentro de la herramienta. Antes de incluirlo en tu portafolio,
-                  léelo, corrígelo y asegúrate de que refleje tu experiencia real
-                  en el curso.
-                </p>
-              </div>
-            </details>
-
-            <details class="faq-item">
-              <summary class="faq-item__question">
-                ¿Cuántos portafolios puedo generar por día?
-              </summary>
-              <div class="faq-item__answer">
-                <p>
-                  Hasta 12 por día calendario. Este límite existe para prevenir
-                  uso abusivo, no para restringir el uso normal. Si llegas al
-                  límite, podrás generar de nuevo al día siguiente.
-                </p>
-              </div>
-            </details>
-
-            <details class="faq-item">
-              <summary class="faq-item__question">
-                ¿Folium81 está afiliado oficialmente con UTP?
-              </summary>
+              <summary class="faq-item__question">¿Folium81 está afiliado oficialmente con UTP?</summary>
               <div class="faq-item__answer">
                 <p>
                   No. Folium81 es un proyecto independiente, de código abierto,
-                  creado por un estudiante de FISC. No es un producto oficial de
-                  la Universidad Tecnológica de Panamá. Los logos institucionales
-                  se utilizan exclusivamente para generar documentos
-                  universitarios de los propios estudiantes.
+                  creado desde FISC. No es un producto oficial de la Universidad
+                  Tecnológica de Panamá.
                 </p>
               </div>
             </details>
