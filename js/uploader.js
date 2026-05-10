@@ -1,4 +1,4 @@
-const ACCEPTED_EXTENSIONS = [
+ï»¿const ACCEPTED_EXTENSIONS = [
   ".pdf",
   ".doc",
   ".docx",
@@ -37,7 +37,7 @@ export class FileUploadSection {
 
   constructor(containerEl, config) {
     if (!containerEl) {
-      throw new Error("FileUploadSection requiere un contenedor válido.");
+      throw new Error("FileUploadSection requiere un contenedor vÃ¡lido.");
     }
 
     this.containerEl = containerEl;
@@ -148,11 +148,11 @@ export class FileUploadSection {
 
     const title = document.createElement("p");
     title.className = "upload-zone__hint";
-    title.textContent = "Arrastra archivos aquí o haz clic para seleccionar";
+    title.textContent = "Arrastra archivos aquÃ­ o haz clic para seleccionar";
 
     const meta = document.createElement("p");
     meta.className = "upload-zone__meta-line";
-    meta.textContent = "PDF, Word, Excel, PowerPoint, imágenes, TXT · Máx 25 MB por archivo";
+    meta.textContent = "PDF, Word, Excel, PowerPoint, imÃ¡genes, TXT Â· MÃ¡x 25 MB por archivo";
 
     const error = document.createElement("p");
     error.className = "wizard-ia-hint-step3";
@@ -224,7 +224,7 @@ export class FileUploadSection {
 
       const projectedBytes = FileUploadSection.getTotalBytesAll() + file.size;
       if (projectedBytes > MAX_TOTAL_BYTES) {
-        errors.push(`${file.name}: se supera el límite global de 400 MB`);
+        errors.push(`${file.name}: se supera el lÃ­mite global de 400 MB`);
         continue;
       }
 
@@ -232,7 +232,7 @@ export class FileUploadSection {
     }
 
     if (errors.length > 0) {
-      this.showError(errors.join(" · "));
+      this.showError(errors.join(" Â· "));
     } else {
       this.hideError();
     }
@@ -249,7 +249,7 @@ export class FileUploadSection {
     }
 
     if (!ACCEPTED_MIME_TYPES.includes(file.type)) {
-      return "MIME inválido o no permitido";
+      return "MIME invÃ¡lido o no permitido";
     }
 
     if (file.size > MAX_FILE_BYTES) {
@@ -287,7 +287,7 @@ export class FileUploadSection {
       const removeBtn = document.createElement("button");
       removeBtn.type = "button";
       removeBtn.className = "upload-zone__remove";
-      removeBtn.textContent = "×";
+      removeBtn.textContent = "Ã—";
       removeBtn.addEventListener("click", (event) => {
         event.stopPropagation();
         this.files.splice(index, 1);
@@ -335,7 +335,7 @@ export class FileUploadSection {
 
 function truncate(value, maxChars) {
   if (value.length <= maxChars) return value;
-  return `${value.slice(0, maxChars - 1)}…`;
+  return `${value.slice(0, maxChars - 1)}â€¦`;
 }
 
 function getFileExtension(fileName) {

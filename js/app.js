@@ -1,6 +1,6 @@
-﻿import { initProtectedPage } from "./auth.js";
-import { generatePortada } from "./generate.js";
-import { buildZip, saveGeneratedZip } from "./zip.js";
+const generatePortadaFn = globalThis.FoliumGenerate?.generatePortada;
+const buildZipFn = globalThis.FoliumZip?.buildZip;
+const saveGeneratedZipFn = globalThis.FoliumZip?.saveGeneratedZip;
 
 const TOTAL_STEPS = 5;
 const MAX_FULL_NAME_LENGTH = 80;
@@ -8,6 +8,7 @@ const MAX_COURSE_NAME_LENGTH = 80;
 const MAX_FACILITATOR_LENGTH = 80;
 const MAX_CONCLUSION_LENGTH = 2000;
 const MAX_UPLOAD_SIZE_BYTES = 10 * 1024 * 1024;
+const AI_CONCLUSION_ENABLED = false;
 const UPLOAD_CONFIG = {
   planContenido: {
     label: "Plan de Contenido",
@@ -61,7 +62,27 @@ function formatBytes(bytes) {
 }
 
 function getUploadPath(key, fileName) {
-  return `${UPLOAD_CONFIG[key]?.path || "99_Adjuntos/"}${fileName}`;
+  return `${UPLOAD_CONFIG[key]?.path || "99_Adjuntos/"}${sanitizeFileName(fileName)}`;
+}
+
+function sanitizeFileName(fileName) {
+  const rawName = String(fileName || "archivo.pdf")
+    .replace(/[/\\?%*:|"<>]/g, "_")
+    .replace(/[\u0000-\u001f\u007f]/g, "")
+    .trim();
+
+  const lastDot = rawName.lastIndexOf(".");
+  const hasPdfExtension = /\.pdf$/i.test(rawName);
+  const baseName = (hasPdfExtension ? rawName.slice(0, lastDot) : rawName)
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .replace(/[^a-zA-Z0-9._ -]+/g, "_")
+    .replace(/\s+/g, "_")
+    .replace(/_+/g, "_")
+    .replace(/^[._-]+|[._-]+$/g, "")
+    .slice(0, 96);
+
+  return `${baseName || "archivo"}.pdf`;
 }
 
 function getMessageNode() {
@@ -256,7 +277,7 @@ function validateStepOne() {
     return "Completa el nombre del estudiante.";
   }
   if (!student.cedula) {
-    return "Completa la cedula del estudiante.";
+    return "Completa la cédula del estudiante.";
   }
   if (!student.courseName || student.courseName.length < 3) {
     return "Completa el nombre del curso.";
@@ -436,6 +457,10 @@ function bindUploadZone(root) {
 }
 
 async function requestConclusion(targetId, hintId, options = {}) {
+  if (!AI_CONCLUSION_ENABLED) {
+    return;
+  }
+
   const target = $(targetId);
   if (!target) return;
 
@@ -487,7 +512,7 @@ async function requestConclusion(targetId, hintId, options = {}) {
     refreshSummary();
   } catch {
     showMessage(
-      "No se pudo generar la conclusion en este momento. Intenta nuevamente.",
+      "No se pudo generar la conclusión en este momento. Intenta nuevamente.",
       "error"
     );
 
@@ -539,8 +564,19 @@ function bindNavigation() {
 function bindConclusionUi() {
   const aiButton = $("btn-generar-ia");
   const conclusionText = $("conclusionFinal");
+  const aiHint = $("conclusion-final-ia-hint");
 
-  if (aiButton) {
+  if (!AI_CONCLUSION_ENABLED) {
+    if (aiButton) {
+      aiButton.hidden = true;
+      aiButton.disabled = true;
+    }
+    if (aiHint) {
+      aiHint.hidden = true;
+    }
+  }
+
+  if (AI_CONCLUSION_ENABLED && aiButton) {
     aiButton.addEventListener("click", () => {
       requestConclusion("conclusionFinal", "conclusion-final-ia-hint", {
         buttonId: "btn-generar-ia",
@@ -575,14 +611,18 @@ async function handleGenerate() {
   clearMessage();
 
   try {
+    if (!generatePortadaFn || !buildZipFn || !saveGeneratedZipFn) {
+      throw new Error("generator_scripts_unavailable");
+    }
+
     const student = getStudentData();
     const files = getAllUploadEntries().map((entry) => ({
       file: entry.file,
       zipPath: entry.zipPath,
     }));
     const conclusionText = getConclusionText() || null;
-    const portadaResult = await generatePortada({ student });
-    const zipResult = await buildZip({
+    const portadaResult = await generatePortadaFn({ student });
+    const zipResult = await buildZipFn({
       student,
       files,
       conclusionText,
@@ -593,7 +633,7 @@ async function handleGenerate() {
       throw new Error("zip_not_created");
     }
 
-    await saveGeneratedZip(zipResult);
+    await saveGeneratedZipFn(zipResult);
     window.location.href = "descarga.html";
   } catch {
     showMessage(
@@ -618,11 +658,7 @@ function bindGenerateButton() {
   });
 }
 
-export function initApp() {
-  if (!initProtectedPage()) {
-    return;
-  }
-
+function initApp() {
   const yearField = $("sf-anio");
   if (yearField) {
     yearField.value = "2026";

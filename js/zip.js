@@ -1,10 +1,11 @@
+(() => {
 const encoder = new TextEncoder();
 const crcTable = buildCrcTable();
 const DOWNLOAD_DB_NAME = "folium81-downloads";
 const DOWNLOAD_STORE_NAME = "downloads";
 const DOWNLOAD_KEY = "latest";
 
-export async function buildZip(data) {
+async function buildZip(data) {
   const entries = [];
 
   if (data?.portadaResult?.blob && data?.portadaResult?.zipPath) {
@@ -44,7 +45,7 @@ export async function buildZip(data) {
   };
 }
 
-export async function saveGeneratedZip(payload) {
+async function saveGeneratedZip(payload) {
   if (!payload?.blob || !payload?.filename) {
     throw new Error("zip_payload_invalid");
   }
@@ -70,7 +71,7 @@ export async function saveGeneratedZip(payload) {
   });
 }
 
-export async function loadGeneratedZip() {
+async function loadGeneratedZip() {
   const db = await openDownloadDb();
 
   return new Promise((resolve, reject) => {
@@ -83,7 +84,7 @@ export async function loadGeneratedZip() {
   });
 }
 
-export async function clearGeneratedZip() {
+async function clearGeneratedZip() {
   const db = await openDownloadDb();
 
   return new Promise((resolve, reject) => {
@@ -248,3 +249,11 @@ function openDownloadDb() {
     request.onerror = () => reject(request.error);
   });
 }
+
+globalThis.FoliumZip = {
+  buildZip,
+  saveGeneratedZip,
+  loadGeneratedZip,
+  clearGeneratedZip,
+};
+})();

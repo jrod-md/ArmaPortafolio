@@ -1,3 +1,4 @@
+(() => {
 const PAGE_W = 966;
 const PAGE_H = 714;
 
@@ -7,9 +8,10 @@ const FONTKIT_URL = "https://cdn.jsdelivr.net/npm/@pdf-lib/fontkit@1.1.1/+esm";
 const OUTPUT_FILENAME = "Portada.pdf";
 const OUTPUT_ZIP_PATH = "01_Portada/Portada.pdf";
 
-const TEMPLATE_PATH = "../assets/templates/portada_base.png";
+const TEMPLATE_PATH = "../assets/templates/portada_base.PNG";
 const FONT_REGULAR_PATH = "../assets/fonts/LiberationSans-Regular.ttf";
 const FONT_BOLD_PATH = "../assets/fonts/LiberationSans-Bold.ttf";
+const SCRIPT_URL = document.currentScript?.src || window.location.href;
 
 const TEXT_RGB = hexToRgb("#2F3E46");
 
@@ -31,7 +33,7 @@ let pdfLibPromise;
 let fontkitPromise;
 const assetBytesCache = new Map();
 
-export async function generatePortada(data) {
+async function generatePortada(data) {
   const student = data?.student || data || {};
   const [{ PDFDocument, rgb }, fontkit] = await Promise.all([
     loadPdfLib(),
@@ -219,19 +221,7 @@ function toUpper(value) {
 function cleanText(value) {
   return String(value || "")
     .trim()
-    .replace(/Ã“/g, "Ó")
-    .replace(/Ã/g, "Í")
-    .replace(/Ã/g, "Á")
-    .replace(/Ã‰/g, "É")
-    .replace(/Ãš/g, "Ú")
-    .replace(/Ã‘/g, "Ñ")
-    .replace(/Ã³/g, "ó")
-    .replace(/Ã­/g, "í")
-    .replace(/Ã¡/g, "á")
-    .replace(/Ã©/g, "é")
-    .replace(/Ãº/g, "ú")
-    .replace(/Ã±/g, "ñ")
-    .replace(/ï¿½/g, "");
+    .replace(/\uFFFD/g, "");
 }
 
 function hexToRgb(hex) {
@@ -245,7 +235,7 @@ function hexToRgb(hex) {
 }
 
 async function loadAssetBytes(relativePath) {
-  const assetUrl = new URL(relativePath, import.meta.url).href;
+  const assetUrl = new URL(relativePath, SCRIPT_URL).href;
   if (!assetBytesCache.has(assetUrl)) {
     assetBytesCache.set(
       assetUrl,
@@ -280,3 +270,8 @@ async function loadFontkit() {
 
   return fontkitPromise;
 }
+
+globalThis.FoliumGenerate = {
+  generatePortada,
+};
+})();

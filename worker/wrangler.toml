@@ -2,13 +2,5 @@ name = "folium81-worker"
 main = "index.js"
 compatibility_date = "2026-04-26"
 
-[vars]
-# Set in Cloudflare dashboard/environment
-
-[[kv_namespaces]]
-binding = "FOLIUM81_KV"
-id = "REPLACE_WITH_KV_NAMESPACE_ID"
-
 # Required secrets:
-# RESEND_API_KEY
 # GEMINI_API_KEY

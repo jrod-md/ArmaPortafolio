@@ -11,20 +11,20 @@
       rel="stylesheet"
     />
     <link rel="stylesheet" href="css/styles.css" />
+    <link rel="icon" type="image/svg+xml" href="favicon.svg" />
     <script src="theme-init.js"></script>
   </head>
   <body class="page-descarga">
-    <header class="navbar navbar--auth reveal">
+    <header class="navbar reveal">
       <div class="navbar__inner container">
-        <a href="dashboard.html" class="wordmark">Folium81</a>
-        <div class="navbar__auth">
-          <span class="navbar__email" id="navEmail">demo@utp.ac.pa</span>
-          <nav class="navbar__auth-links" aria-label="Cuenta">
-            <a href="perfil.html">Perfil</a>
-            <span class="navbar__sep" aria-hidden="true">·</span>
-            <a href="login.html" class="nav-logout">Cerrar sesión</a>
-          </nav>
-        </div>
+        <a href="index.html" class="wordmark">Folium81</a>
+        <nav class="navbar__nav" aria-label="Principal">
+          <a href="nosotros.html">Nosotros</a>
+          <span class="navbar__sep" aria-hidden="true">·</span>
+          <a href="faq.html">FAQ</a>
+          <span class="navbar__sep" aria-hidden="true">·</span>
+          <a href="ayuda.html">Ayuda</a>
+        </nav>
       </div>
     </header>
 
@@ -45,63 +45,59 @@
         </section>
 
         <section class="descarga-preview" aria-label="Vista previa">
-          <p class="descarga-timer">Este archivo se elimina en 1 hora. Descárgalo ahora.</p>
           <p class="descarga-filename">portafolio_Lopez_BasesDeDatos_I2026.zip</p>
           <button type="button" class="btn btn--primary descarga-btn">Descargar ZIP</button>
         </section>
 
         <div class="descarga-actions">
           <a href="generar.html" class="btn btn--outline descarga-btn-secondary">Generar otro portafolio</a>
-          <p class="descarga-panel-link"><a href="dashboard.html">Ir al panel</a></p>
+          <p class="descarga-panel-link"><a href="index.html">Ir al inicio</a></p>
         </div>
 
-        <p class="descarga-note">
-          Por la Ley 81 de Panamá no guardamos copias de tus archivos. Este es el único momento para descargar el portafolio.
-        </p>
+        <p class="descarga-note" hidden></p>
       </div>
     </main>
-    <script type="module">
-      import { loadGeneratedZip, clearGeneratedZip } from "./js/zip.js";
-      import { initProtectedPage } from "./js/auth.js";
 
-      const isAuthorized = initProtectedPage();
+    <script src="js/zip.js?v=2"></script>
+    <script>
+      (async function () {
+      const { loadGeneratedZip } = window.FoliumZip || {};
+      const button = document.querySelector(".descarga-btn");
+      const filenameNode = document.querySelector(".descarga-filename");
+      const noteNode = document.querySelector(".descarga-note");
 
-      if (isAuthorized) {
-        const button = document.querySelector(".descarga-btn");
-        const filenameNode = document.querySelector(".descarga-filename");
-        const noteNode = document.querySelector(".descarga-note");
-
-        const showMessage = (message) => {
-          if (noteNode) {
-            noteNode.textContent = message;
-          }
-        };
-
-        const saved = await loadGeneratedZip().catch(() => null);
-
-        if (saved?.filename && filenameNode) {
-          filenameNode.textContent = saved.filename;
+      const showMessage = (message) => {
+        if (noteNode) {
+          noteNode.hidden = false;
+          noteNode.textContent = message;
         }
+      };
 
-        if (!saved || !saved.blob) {
-          if (button) {
-            button.disabled = true;
-            button.setAttribute("aria-disabled", "true");
-          }
-          showMessage("No se encontró un ZIP generado. Vuelve a generar el portafolio.");
-        } else if (button) {
-          button.addEventListener("click", () => {
-            const url = URL.createObjectURL(saved.blob);
-            const link = document.createElement("a");
-            link.href = url;
-            link.download = saved.filename || "portafolio_folium81.zip";
-            document.body.appendChild(link);
-            link.click();
-            link.remove();
-            setTimeout(() => URL.revokeObjectURL(url), 3000);
-          });
-        }
+      const saved = loadGeneratedZip ? await loadGeneratedZip().catch(() => null) : null;
+
+      if (saved?.filename && filenameNode) {
+        filenameNode.textContent = saved.filename;
       }
+
+      if (!saved || !saved.blob) {
+        if (button) {
+          button.disabled = true;
+          button.setAttribute("aria-disabled", "true");
+        }
+        showMessage("No se encontro un ZIP generado. Vuelve a generar el portafolio.");
+      } else if (button) {
+        button.addEventListener("click", () => {
+          const url = URL.createObjectURL(saved.blob);
+          const link = document.createElement("a");
+          link.href = url;
+          link.download = saved.filename || "portafolio_folium81.zip";
+          document.body.appendChild(link);
+          link.click();
+          link.remove();
+          setTimeout(() => URL.revokeObjectURL(url), 3000);
+        });
+      }
+      })();
     </script>
   </body>
 </html>

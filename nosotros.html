@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Nosotros � Folium81</title>
+    <title>Nosotros - Folium81</title>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
@@ -11,6 +11,7 @@
       rel="stylesheet"
     />
     <link rel="stylesheet" href="css/styles.css" />
+    <link rel="icon" type="image/svg+xml" href="favicon.svg" />
     <script src="theme-init.js"></script>
   </head>
   <body>
@@ -19,11 +20,11 @@
         <a href="index.html" class="wordmark">Folium81</a>
         <nav class="navbar__nav" aria-label="Principal">
           <a href="nosotros.html" aria-current="page">Nosotros</a>
-          <span class="navbar__sep" aria-hidden="true">�</span>
+          <span class="navbar__sep" aria-hidden="true">·</span>
           <a href="faq.html">FAQ</a>
-          <span class="navbar__sep" aria-hidden="true">�</span>
+          <span class="navbar__sep" aria-hidden="true">·</span>
           <a href="ayuda.html">Ayuda</a>
-          <a href="login.html" class="btn btn--outline btn--sm">Iniciar sesi�n</a>
+          <a href="generar.html" class="btn btn--outline btn--sm">Crear portafolio</a>
         </nav>
       </div>
     </header>
@@ -34,7 +35,7 @@
           <div class="hero__content reveal">
             <h1 class="title-xl">Nosotros</h1>
             <p class="body-lg hero__sub">
-              Por qu� existe Folium81 y c�mo est� implementado el MVP actual.
+              Por qué existe Folium81 y cómo está implementado el MVP actual.
             </p>
           </div>
         </div>
@@ -70,23 +71,22 @@
             <div class="features-row reveal">
               <h3 class="features-row__title">Costo cero</h3>
               <p class="body-lg">
-                Folium81 es y siempre ser� gratuito. Sin planes premium, sin
-                publicidad y sin monetizaci�n de datos.
+                Folium81 es y siempre será gratuito. Sin planes premium, sin
+                publicidad y sin monetización de datos.
               </p>
             </div>
             <div class="features-row reveal">
-              <h3 class="features-row__title">Privacidad por dise�o</h3>
+              <h3 class="features-row__title">Uso directo</h3>
               <p class="body-lg">
-                El MVP prioriza procesamiento temporal. Los archivos del estudiante
-                no forman parte de un historial permanente y el flujo est� pensado
-                para descargar el resultado y cerrar el proceso.
+                El MVP se enfoca en abrir el generador, completar los datos y
+                descargar un ZIP listo para entregar.
               </p>
             </div>
             <div class="features-row reveal">
-              <h3 class="features-row__title">C�digo abierto</h3>
+              <h3 class="features-row__title">Código abierto</h3>
               <p class="body-lg">
-                El c�digo est� disponible para revisi�n y mejora. La meta es que
-                el funcionamiento sea auditable y f�cil de entender.
+                El código está disponible para revisión y mejora. La meta es que
+                el funcionamiento sea auditable y fácil de entender.
               </p>
             </div>
           </div>
@@ -95,37 +95,35 @@
 
       <section class="section tech reveal" aria-labelledby="tech-heading">
         <div class="container container--narrow">
-          <h2 id="tech-heading" class="title-lg">
-            C�mo est� construido
-          </h2>
+          <h2 id="tech-heading" class="title-lg">Cómo está construido</h2>
           <dl class="tech__list">
             <div class="tech__row">
               <dt>Frontend</dt>
-              <dd>HTML, CSS y JavaScript modular en el navegador</dd>
+              <dd>HTML, CSS y JavaScript modular</dd>
             </div>
             <div class="tech__row">
-              <dt>Autenticaci�n</dt>
-              <dd>Sesi�n temporal del lado del cliente, iniciada desde un flujo de verificaci�n por correo y OTP</dd>
+              <dt>Acceso</dt>
+              <dd>Entrada directa al generador, sin cuenta ni correo</dd>
             </div>
             <div class="tech__row">
-              <dt>Generaci�n del portafolio</dt>
-              <dd>Organizaci�n de carpetas, creaci�n de portada PDF y armado del ZIP directamente en el navegador</dd>
+              <dt>Generación del portafolio</dt>
+              <dd>Organización de carpetas, creación de portada PDF y armado del ZIP final</dd>
             </div>
             <div class="tech__row">
-              <dt>Persistencia temporal</dt>
-              <dd>El ZIP generado se conserva temporalmente en el navegador para permitir la descarga inmediata</dd>
+              <dt>Descarga</dt>
+              <dd>Archivo ZIP listo para entregar al finalizar el asistente</dd>
             </div>
             <div class="tech__row">
               <dt>Backend</dt>
-              <dd>Cloudflare Worker para endpoints de OTP y servicios auxiliares, como la generaci�n de conclusi�n cuando est� disponible</dd>
+              <dd>Reservado para funciones auxiliares futuras</dd>
             </div>
             <div class="tech__row">
-              <dt>Almacenamiento permanente</dt>
-              <dd>No se plantea como almacenamiento permanente de archivos del estudiante</dd>
+              <dt>Estado actual</dt>
+              <dd>Aplicación estática enfocada en generar el paquete de entrega</dd>
             </div>
             <div class="tech__row">
               <dt>Enfoque</dt>
-              <dd>Privacidad, procesamiento temporal y entrega r�pida del portafolio</dd>
+              <dd>Formato correcto, rapidez y entrega simple del portafolio</dd>
             </div>
           </dl>
         </div>
@@ -136,7 +134,7 @@
           <h2 id="oss-heading" class="oss-callout__title">Folium81 es software libre.</h2>
           <p class="oss-callout__text">
             Si eres estudiante o docente de UTP y quieres contribuir, reportar un
-            error o proponer mejoras, el repositorio est� abierto.
+            error o proponer mejoras, el repositorio está abierto.
           </p>
           <a
             href="https://github.com"
@@ -155,17 +153,15 @@
           <a href="index.html" class="wordmark footer__brand">Folium81</a>
           <p class="footer__tagline">Hecho por estudiantes de FISC, UTP</p>
         </div>
-        <nav class="footer__nav" aria-label="Pie de p�gina">
+        <nav class="footer__nav" aria-label="Pie de página">
           <a href="nosotros.html">Nosotros</a>
           <a href="faq.html">FAQ</a>
           <a href="ayuda.html">Ayuda</a>
         </nav>
-        <p class="footer__license">
-          MIT License � C�digo abierto en GitHub
-        </p>
+        <p class="footer__license">MIT License · Código abierto en GitHub</p>
       </div>
       <p class="footer__disclaimer container">
-        No afiliado oficialmente con la Universidad Tecnol�gica de Panam�.
+        No afiliado oficialmente con la Universidad Tecnológica de Panamá.
       </p>
     </footer>
   </body>
