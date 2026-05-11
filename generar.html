@@ -25,7 +25,7 @@
       href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Lora:ital,wght@0,500;0,600;0,700;1,500;1,600&display=swap"
       rel="stylesheet"
     />
-    <link rel="stylesheet" href="css/styles.css?v=3" />
+    <link rel="stylesheet" href="css/styles.css?v=5" />
     <link rel="icon" type="image/svg+xml" href="favicon.svg" />
     <script src="theme-init.js"></script>
   </head>
@@ -158,9 +158,9 @@
           </footer>
         </section>
 
-                <section class="wizard-panel" id="wizard-panel-2" hidden aria-labelledby="wizard-h2">
+        <section class="wizard-panel" id="wizard-panel-2" hidden aria-labelledby="wizard-h2">
           <h1 class="wizard-panel__title" id="wizard-h2">Documentos del curso</h1>
-          <p class="wizard-panel__subtitle">Todos los archivos son opcionales. Puedes continuar sin subir nada o añadir PDFs cuando los tengas listos.</p>
+          <p class="wizard-panel__subtitle">Cada archivo entra en la carpeta correcta. Puedes continuar sin subir nada o añadir PDFs cuando los tengas listos.</p>
           <div class="wizard-upload-stack">
             <div class="upload-zone" data-upload-key="planContenido">
               <input type="file" class="upload-zone__input" accept="application/pdf" hidden aria-label="Plan de Contenido, PDF" />
@@ -180,8 +180,8 @@
                 <section class="wizard-panel" id="wizard-panel-3" hidden aria-labelledby="wizard-h3">
           <h1 class="wizard-panel__title" id="wizard-h3">Actividades y materiales</h1>
           <p class="wizard-panel__subtitle">
-            Puedes cargar varios PDFs por categoría. Ningún archivo es obligatorio y la presentación
-            con tu nombre completo y cédula se toma del paso "Datos del estudiante".
+            Puedes cargar varios PDFs por categoría. Las evidencias quedan archivadas por sección,
+            con nombres de carpetas consistentes para la entrega.
           </p>
 
           <div class="wizard-disclosures">
@@ -300,6 +300,7 @@
 
         <section class="wizard-panel" id="wizard-panel-5" hidden aria-labelledby="wizard-h5">
           <h1 class="wizard-panel__title" id="wizard-h5">Revisar y generar</h1>
+          <p class="wizard-panel__subtitle">Revisa la estructura final antes de descargar. Portada, evidencias y conclusión quedan empaquetadas en un solo ZIP.</p>
           <div class="wizard-summary">
             <h2 class="wizard-summary__heading">Resumen</h2>
             <dl class="wizard-summary__grid">
@@ -324,7 +325,7 @@
             </p>
           </div>
           <div class="wizard-warn-box" role="status">
-            Revisa los datos del resumen antes de generar el ZIP final.
+            Sin nombres de carpetas incorrectos. Cuando todo esté listo, genera el paquete final.
           </div>
           <div id="wizard-step5-idle">
             <button type="button" class="btn btn--primary wizard-btn-generate" id="btn-generar-portafolio">Generar portafolio</button>
@@ -338,13 +339,75 @@
           </footer>
         </section>
       </div>
+
+      <aside class="portfolio-preview" aria-label="Vista del paquete del portafolio">
+        <div class="portfolio-preview__panel">
+          <div class="portfolio-preview__eyebrow">Archivo vivo</div>
+          <h2 class="portfolio-preview__title">Tu portafolio se va armando aquí</h2>
+          <p class="portfolio-preview__copy" id="preview-copy">Cada archivo entra en la carpeta correcta.</p>
+
+          <div class="accordion-folder" id="portfolio-live-preview" data-active-section="portada" data-compiling="false">
+            <div class="folder-surface" aria-hidden="true"></div>
+            <div class="folder-back" aria-hidden="true">
+              <span>Portafolio FISC</span>
+            </div>
+
+            <div class="folder-divider folder-divider--portada" data-preview-divider="portada" aria-hidden="true">
+              <span class="folder-divider__tab">01 Portada</span>
+              <span class="folder-divider__count" data-preview-count="portada">1</span>
+            </div>
+            <div class="folder-divider folder-divider--asignaciones" data-preview-divider="asignaciones" aria-hidden="true">
+              <span class="folder-divider__tab">02 Asig.</span>
+              <span class="folder-divider__count" data-preview-count="asignaciones">0</span>
+            </div>
+            <div class="folder-divider folder-divider--parciales" data-preview-divider="parciales" aria-hidden="true">
+              <span class="folder-divider__tab">03 Parc.</span>
+              <span class="folder-divider__count" data-preview-count="parciales">0</span>
+            </div>
+            <div class="folder-divider folder-divider--laboratorios" data-preview-divider="laboratorios" aria-hidden="true">
+              <span class="folder-divider__tab">04 Labs</span>
+              <span class="folder-divider__count" data-preview-count="laboratorios">0</span>
+            </div>
+            <div class="folder-divider folder-divider--proyectos" data-preview-divider="proyectos" aria-hidden="true">
+              <span class="folder-divider__tab">05 Proy.</span>
+              <span class="folder-divider__count" data-preview-count="proyectos">0</span>
+            </div>
+            <div class="folder-divider folder-divider--conclusion" data-preview-divider="conclusion" aria-hidden="true">
+              <span class="folder-divider__tab">06 Concl.</span>
+              <span class="folder-divider__count" data-preview-count="conclusion">0</span>
+            </div>
+
+            <div class="folder-paper-stack" id="preview-paper-stack" aria-hidden="true"></div>
+
+            <div class="folder-front" aria-hidden="true">
+              <span class="folder-front__label">Estructura lista</span>
+            </div>
+
+            <div class="folder-zip-card" id="preview-zip-card" aria-hidden="true">
+              <span class="folder-zip-card__icon" aria-hidden="true"></span>
+              <strong>Portafolio_FISC.zip</strong>
+              <span>Listo para entregar</span>
+              <span class="folder-zip-card__cta">Descargar ZIP</span>
+            </div>
+          </div>
+
+          <div class="portfolio-preview__status">
+            <span id="preview-active-label">01_Portada</span>
+            <span id="preview-count">Portada preparada</span>
+          </div>
+
+          <ul class="preview-file-list" id="preview-file-list" aria-label="Estructura visual del paquete">
+            <li><span>01_Portada</span><strong>1 archivo</strong></li>
+          </ul>
+        </div>
+      </aside>
     </div>
 
     <script src="vendor/pdf-lib/pdf-lib.min.js?v=1"></script>
     <script src="vendor/fontkit/fontkit.umd.min.js?v=1"></script>
     <script src="js/zip.js?v=3"></script>
     <script src="js/generate.js?v=3"></script>
-    <script src="js/app.js?v=3"></script>
+    <script src="js/app.js?v=5"></script>
   </body>
 </html>
 

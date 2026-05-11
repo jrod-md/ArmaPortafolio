@@ -25,7 +25,7 @@
       href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Lora:ital,wght@0,500;0,600;0,700;1,500;1,600&display=swap"
       rel="stylesheet"
     />
-    <link rel="stylesheet" href="css/styles.css?v=3" />
+    <link rel="stylesheet" href="css/styles.css?v=5" />
     <link rel="icon" type="image/svg+xml" href="favicon.svg" />
     <script src="theme-init.js"></script>
   </head>
@@ -48,8 +48,10 @@
       <section class="hero" id="iniciar">
         <div class="hero__inner container">
           <div class="hero__content">
-            <span class="hero__overline reveal reveal-delay-1">Universidad Tecnológica de Panamá</span>
-            <h1 class="hero__title title-xl reveal reveal-delay-2">Tu portafolio listo en minutos</h1>
+            <span class="hero__overline reveal reveal-delay-1">FISC · UTP · Panamá</span>
+            <h1 class="hero__title title-xl reveal reveal-delay-2">
+              Tu portafolio,<br /><span>sin el caos.</span>
+            </h1>
             <p class="hero__sub body-lg reveal reveal-delay-3">
               Genera la portada oficial, organiza tus archivos y descarga el ZIP
               en el formato exacto que pide tu facultad. Sin errores, sin
@@ -60,14 +62,35 @@
               <p class="hero__note">Gratis y directo</p>
             </div>
           </div>
-          <figure class="hero__visual reveal reveal-delay-2 hero-collage" aria-hidden="true">
-            <img
-              class="hero-collage__img hero-collage__img--a"
-              src="https://images.unsplash.com/photo-1456513080510-7bf3a84b82f8?auto=format&fit=crop&w=900&q=80"
-              alt=""
-              loading="lazy"
-            />
-            <figcaption class="hero-collage__chip">Estructura UTP validada</figcaption>
+          <figure class="hero__visual reveal reveal-delay-2 hero-output" aria-hidden="true">
+            <div class="hero-output__surface">
+              <div class="hero-output__folder">
+                <span class="hero-output__tab">01_Portada</span>
+                <span class="hero-output__tab">02_Asignaciones</span>
+                <span class="hero-output__tab">03_Parciales</span>
+                <span class="hero-output__tab">04_Labs</span>
+              </div>
+              <div class="hero-output__cover">
+                <span class="hero-output__seal"></span>
+                <span class="hero-output__rule"></span>
+                <span class="hero-output__line hero-output__line--wide"></span>
+                <span class="hero-output__line"></span>
+                <span class="hero-output__line hero-output__line--short"></span>
+              </div>
+              <div class="hero-output__tree">
+                <strong>Estructura</strong>
+                <span>Portafolio_FISC/</span>
+                <span>├─ 01_Portada.pdf</span>
+                <span>├─ 02_Asignaciones/</span>
+                <span>└─ Portafolio_FISC.zip</span>
+              </div>
+              <div class="hero-output__zip">
+                <span class="hero-output__zip-icon"></span>
+                <strong>Portafolio_FISC.zip</strong>
+                <span>Listo para entrega</span>
+              </div>
+            </div>
+            <figcaption class="hero-collage__chip">Lo que recibes al final</figcaption>
           </figure>
         </div>
       </section>

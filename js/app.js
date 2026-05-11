@@ -44,8 +44,65 @@ const UPLOAD_CONFIG = {
 
 let currentStep = 1;
 let uploadSequence = 0;
+let previewActiveSection = "portada";
+let previewIsCompiling = false;
 
 const uploads = {};
+
+const PREVIEW_SECTIONS = [
+  {
+    id: "portada",
+    label: "01_Portada",
+    empty: "Portada preparada",
+    copy: "La portada oficial queda preparada desde los datos del estudiante.",
+  },
+  {
+    id: "asignaciones",
+    label: "02_Asignaciones",
+    empty: "Sin evidencias todavía",
+    copy: "Cada archivo entra en la carpeta correcta.",
+  },
+  {
+    id: "parciales",
+    label: "03_Parciales",
+    empty: "Sin parciales todavía",
+    copy: "Los parciales se agrupan sin mezclar el resto de evidencias.",
+  },
+  {
+    id: "laboratorios",
+    label: "04_Laboratorios",
+    empty: "Sin laboratorios todavía",
+    copy: "Los laboratorios y talleres quedan archivados como una sección propia.",
+  },
+  {
+    id: "proyectos",
+    label: "05_Proyectos",
+    empty: "Sin proyectos todavía",
+    copy: "Los proyectos se guardan aparte para revisar la estructura final.",
+  },
+  {
+    id: "conclusion",
+    label: "06_Conclusión",
+    empty: "Conclusión opcional",
+    copy: "La conclusión se añade solo si decides incluirla.",
+  },
+];
+
+const PREVIEW_UPLOAD_SECTIONS = {
+  planContenido: "asignaciones",
+  tareas: "asignaciones",
+  material: "asignaciones",
+  parciales: "parciales",
+  labs: "laboratorios",
+  proyectos: "proyectos",
+};
+
+const PREVIEW_STEP_SECTIONS = {
+  1: "portada",
+  2: "asignaciones",
+  3: "asignaciones",
+  4: "conclusion",
+};
 
 function $(id) {
   return document.getElementById(id);
@@ -149,6 +206,204 @@ function getAllUploadEntries() {
   return Object.values(uploads).flat().filter((entry) => entry?.file);
 }
 
+function getPreviewSectionConfig(sectionId) {
+  return PREVIEW_SECTIONS.find((section) => section.id === sectionId) || PREVIEW_SECTIONS[0];
+}
+
+function getPreviewSectionForUploadKey(key) {
+  return PREVIEW_UPLOAD_SECTIONS[key] || "asignaciones";
+}
+
+function getPreviewData() {
+  const sections = PREVIEW_SECTIONS.map((section) => ({
+    ...section,
+    entries: [],
+  }));
+  const sectionMap = Object.fromEntries(sections.map((section) => [section.id, section]));
+
+  sectionMap.portada.entries.push({
+    id: "preview-portada-generated",
+    name: "Portada_Oficial.pdf",
+    sectionId: "portada",
+    sectionLabel: "01_Portada",
+  });
+
+  Object.entries(uploads).forEach(([key, entries]) => {
+    const sectionId = getPreviewSectionForUploadKey(key);
+    const section = sectionMap[sectionId];
+    if (!section) return;
+
+    entries.forEach((entry) => {
+      section.entries.push({
+        id: entry.id,
+        name: sanitizeFileName(entry.name),
+        sectionId,
+        sectionLabel: section.label,
+      });
+    });
+  });
+
+  if (getConclusionText()) {
+    sectionMap.conclusion.entries.push({
+      id: "preview-conclusion-final",
+      name: "conclusion_final.txt",
+      sectionId: "conclusion",
+      sectionLabel: "06_Conclusión",
+    });
+  }
+
+  return sections;
+}
+
+function getMostRelevantPreviewSection(sections = getPreviewData()) {
+  const activeSection = sections.find((section) => section.id === previewActiveSection);
+  if (activeSection?.entries.length) {
+    return activeSection.id;
+  }
+
+  for (let index = sections.length - 1; index >= 0; index -= 1) {
+    if (sections[index].entries.length > 0) {
+      return sections[index].id;
+    }
+  }
+
+  return "portada";
+}
+
+function countFilesLabel(count) {
+  return count === 1 ? "1 archivo" : `${count} archivos`;
+}
+
+function syncPreviewSectionToStep() {
+  if (currentStep === 5) {
+    previewActiveSection = getMostRelevantPreviewSection();
+    return;
+  }
+
+  previewActiveSection = PREVIEW_STEP_SECTIONS[currentStep] || previewActiveSection || "portada";
+}
+
+function renderPortfolioPreview(options = {}) {
+  const root = $("portfolio-live-preview");
+  if (!root) return;
+
+  const sections = getPreviewData();
+  const incomingIds = new Set(options.incomingEntryIds || []);
+  const requestedSection = options.activeSection || options.incomingSection;
+  if (requestedSection) {
+    previewActiveSection = requestedSection;
+  }
+  previewActiveSection = getPreviewSectionConfig(previewActiveSection).id;
+
+  root.dataset.activeSection = previewActiveSection;
+  root.dataset.compiling = previewIsCompiling ? "true" : "false";
+
+  sections.forEach((section) => {
+    const countNode = document.querySelector(`[data-preview-count="${section.id}"]`);
+    if (countNode) {
+      countNode.textContent = String(section.entries.length);
+    }
+  });
+
+  const allEntries = sections.flatMap((section) => section.entries);
+  const coverEntry = allEntries.find((entry) => entry.id === "preview-portada-generated");
+  const restEntries = allEntries.filter((entry) => entry.id !== "preview-portada-generated");
+  const visibleEntries = [coverEntry, ...restEntries.slice(-7)].filter(Boolean);
+  const paperStack = $("preview-paper-stack");
+
+  if (paperStack) {
+    const liftBySection = {
+      portada: 18,
+      asignaciones: 24,
+      parciales: 19,
+      laboratorios: 15,
+      proyectos: 10,
+      conclusion: 6,
+    };
+    const shifts = [-26, -14, -3, 10, 20, -18, 4, 16];
+    const rotations = [-2.1, -0.9, 1.1, -0.3, 1.6, -1.4, 0.5, 1.2];
+
+    paperStack.innerHTML = "";
+    visibleEntries.forEach((entry, index) => {
+      const paper = document.createElement("div");
+      paper.className = "folder-paper";
+      if (incomingIds.has(entry.id)) {
+        paper.classList.add("folder-paper--incoming");
+      }
+      paper.style.setProperty("--paper-shift", `${shifts[index % shifts.length]}px`);
+      paper.style.setProperty(
+        "--paper-lift",
+        `${(liftBySection[entry.sectionId] || 16) + index * 3}px`
+      );
+      paper.style.setProperty("--paper-rot", `${rotations[index % rotations.length]}deg`);
+      paper.style.setProperty("--paper-z", String(11 + index));
+
+      const name = document.createElement("span");
+      name.className = "folder-paper__name";
+      name.textContent = entry.name;
+
+      const sectionName = document.createElement("span");
+      sectionName.className = "folder-paper__section";
+      sectionName.textContent = entry.sectionLabel;
+
+      paper.append(name, sectionName);
+      paperStack.appendChild(paper);
+    });
+  }
+
+  const activeConfig = getPreviewSectionConfig(previewActiveSection);
+  const activeSection = sections.find((section) => section.id === activeConfig.id);
+  const activeCount = activeSection?.entries.length || 0;
+  const activeLabel = $("preview-active-label");
+  const countLabel = $("preview-count");
+  const copy = $("preview-copy");
+  const fileList = $("preview-file-list");
+  const zipCard = $("preview-zip-card");
+
+  if (activeLabel) {
+    activeLabel.textContent = activeConfig.label;
+  }
+  if (countLabel) {
+    countLabel.textContent = activeCount ? countFilesLabel(activeCount) : activeConfig.empty;
+  }
+  if (copy) {
+    if (previewIsCompiling) {
+      copy.textContent = "La carpeta se compacta y el ZIP queda listo para entrega.";
+    } else if (currentStep === 5) {
+      copy.textContent = "Revisa la estructura final antes de descargar.";
+    } else {
+      copy.textContent = activeConfig.copy;
+    }
+  }
+  if (zipCard) {
+    zipCard.setAttribute("aria-hidden", previewIsCompiling ? "false" : "true");
+  }
+  if (fileList) {
+    fileList.innerHTML = "";
+    sections.forEach((section) => {
+      const item = document.createElement("li");
+      const label = document.createElement("span");
+      const count = document.createElement("strong");
+
+      label.textContent = section.label;
+      count.textContent = section.entries.length ? countFilesLabel(section.entries.length) : "Pendiente";
+      item.append(label, count);
+      fileList.appendChild(item);
+    });
+  }
+}
+
+function setPortfolioPreviewCompiling(isCompiling) {
+  previewIsCompiling = Boolean(isCompiling);
+  renderPortfolioPreview();
+}
+
+function waitForPreviewTransition() {
+  const reducedMotion = window.matchMedia?.("(prefers-reduced-motion: reduce)")?.matches;
+  const delay = reducedMotion ? 80 : 520;
+  return new Promise((resolve) => window.setTimeout(resolve, delay));
+}
+
 function refreshSummary() {
   const student = getStudentData();
   const departmentNode = $("sf-depto");
@@ -204,6 +459,8 @@ function refreshSummary() {
       conclusionNode.textContent = "No incluida";
     }
   }
+
+  renderPortfolioPreview();
 }
 
 function updateProgress() {
@@ -262,9 +519,12 @@ function setStep(step) {
   updateSidebar();
   updateProgress();
   clearMessage();
+  syncPreviewSectionToStep();
 
   if (step === 5) {
     refreshSummary();
+  } else {
+    renderPortfolioPreview();
   }
 
   window.scrollTo({ top: 0, behavior: "smooth" });
@@ -359,6 +619,7 @@ function addFilesToUpload(key, files) {
 
   const currentEntries = getUploadEntries(key);
   const nextEntries = [...currentEntries];
+  const addedEntries = [];
   let feedbackMessage = "";
 
   for (const file of files) {
@@ -377,7 +638,9 @@ function addFilesToUpload(key, files) {
       break;
     }
 
-    nextEntries.push(buildUploadEntry(key, file));
+    const entry = buildUploadEntry(key, file);
+    nextEntries.push(entry);
+    addedEntries.push(entry);
   }
 
   if (nextEntries.length > 0) {
@@ -388,6 +651,16 @@ function addFilesToUpload(key, files) {
 
   renderUploadUI(key);
   refreshSummary();
+
+  if (addedEntries.length > 0) {
+    const incomingSection = getPreviewSectionForUploadKey(key);
+    previewActiveSection = incomingSection;
+    renderPortfolioPreview({
+      activeSection: incomingSection,
+      incomingSection,
+      incomingEntryIds: addedEntries.map((entry) => entry.id),
+    });
+  }
 
   if (feedbackMessage) {
     showMessage(feedbackMessage, "error");
@@ -509,6 +782,7 @@ async function requestConclusion(targetId, hintId, options = {}) {
       hint.hidden = false;
     }
 
+    previewActiveSection = "conclusion";
     refreshSummary();
   } catch {
     showMessage(
@@ -586,6 +860,7 @@ function bindConclusionUi() {
 
   if (conclusionText) {
     conclusionText.addEventListener("input", () => {
+      previewActiveSection = "conclusion";
       refreshSummary();
     });
   }
@@ -609,6 +884,7 @@ async function handleGenerate() {
   if (idle) idle.hidden = true;
   if (loading) loading.hidden = false;
   clearMessage();
+  setPortfolioPreviewCompiling(true);
 
   try {
     if (!generatePortadaFn || !buildZipFn || !saveGeneratedZipFn) {
@@ -634,8 +910,10 @@ async function handleGenerate() {
     }
 
     await saveGeneratedZipFn(zipResult);
+    await waitForPreviewTransition();
     window.location.href = "descarga.html";
   } catch {
+    setPortfolioPreviewCompiling(false);
     showMessage(
       "No se pudo generar el portafolio. Revisa tus datos y vuelve a intentar.",
       "error"
