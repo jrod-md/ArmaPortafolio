@@ -1,6 +1,6 @@
-const generatePortadaFn = globalThis.FoliumGenerate?.generatePortada;
-const buildZipFn = globalThis.FoliumZip?.buildZip;
-const saveGeneratedZipFn = globalThis.FoliumZip?.saveGeneratedZip;
+const generatePortadaFn = globalThis.PortafolioFiscGenerate?.generatePortada;
+const buildZipFn = globalThis.PortafolioFiscZip?.buildZip;
+const saveGeneratedZipFn = globalThis.PortafolioFiscZip?.saveGeneratedZip;
 
 const TOTAL_STEPS = 5;
 const MAX_FULL_NAME_LENGTH = 80;

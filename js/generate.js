@@ -2,9 +2,6 @@
 const PAGE_W = 966;
 const PAGE_H = 714;
 
-const PDF_LIB_URL = "https://cdn.jsdelivr.net/npm/pdf-lib@1.17.1/+esm";
-const FONTKIT_URL = "https://cdn.jsdelivr.net/npm/@pdf-lib/fontkit@1.1.1/+esm";
-
 const OUTPUT_FILENAME = "Portada.pdf";
 const OUTPUT_ZIP_PATH = "01_Portada/Portada.pdf";
 
@@ -253,9 +250,11 @@ async function loadAssetBytes(relativePath) {
 
 async function loadPdfLib() {
   if (!pdfLibPromise) {
-    pdfLibPromise = globalThis.PDFLib?.PDFDocument
-      ? Promise.resolve(globalThis.PDFLib)
-      : import(PDF_LIB_URL);
+    if (!globalThis.PDFLib?.PDFDocument) {
+      throw new Error("pdf_lib_unavailable");
+    }
+
+    pdfLibPromise = Promise.resolve(globalThis.PDFLib);
   }
 
   return pdfLibPromise;
@@ -263,15 +262,17 @@ async function loadPdfLib() {
 
 async function loadFontkit() {
   if (!fontkitPromise) {
-    fontkitPromise = globalThis.fontkit
-      ? Promise.resolve(globalThis.fontkit.default || globalThis.fontkit)
-      : import(FONTKIT_URL).then((mod) => mod.default || mod);
+    if (!globalThis.fontkit) {
+      throw new Error("fontkit_unavailable");
+    }
+
+    fontkitPromise = Promise.resolve(globalThis.fontkit.default || globalThis.fontkit);
   }
 
   return fontkitPromise;
 }
 
-globalThis.FoliumGenerate = {
+globalThis.PortafolioFiscGenerate = {
   generatePortada,
 };
 })();

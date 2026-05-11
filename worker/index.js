@@ -1,5 +1,5 @@
 const ALLOWED_ORIGINS = new Set([
-  "https://folium81.pages.dev",
+  "https://portafolio-fisc.pages.dev",
   "http://localhost:8788",
   "http://127.0.0.1:8788",
   "http://localhost:3000",
@@ -7,7 +7,7 @@ const ALLOWED_ORIGINS = new Set([
 ]);
 
 function corsHeaders(origin) {
-  const allowOrigin = ALLOWED_ORIGINS.has(origin) ? origin : "https://folium81.pages.dev";
+  const allowOrigin = ALLOWED_ORIGINS.has(origin) ? origin : "https://portafolio-fisc.pages.dev";
   return {
     "Access-Control-Allow-Origin": allowOrigin,
     "Access-Control-Allow-Methods": "POST, OPTIONS",

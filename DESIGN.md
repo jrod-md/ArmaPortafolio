@@ -1,5 +1,5 @@
 ---
-name: Folium81
+name: Portafolio FISC
 description: Portfolio ZIP generation for UTP students under real academic deadlines.
 colors:
   primary: "#6A45C6"
@@ -43,13 +43,13 @@ components:
     padding: "24px"
 ---
 
-# Design System: Folium81
+# Design System: Portafolio FISC
 
 ## 1. Overview
 
 **Creative North Star: "Midnight Study Studio"**
 
-Folium81 balances two visual jobs: public pages should feel artistic and memorable, while app pages should feel immediate and reliable. The emotional tone is calm confidence for students who are tired, focused, and trying to finish correctly.
+Portafolio FISC balances two visual jobs: public pages should feel academic and memorable, while app pages should feel immediate and reliable. The emotional tone is calm confidence for students who are tired, focused, and trying to finish correctly.
 
 This system rejects barebones utility aesthetics and generic AI landing patterns. Design should feel crafted, but never slow.
 

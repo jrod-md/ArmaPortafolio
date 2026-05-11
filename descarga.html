@@ -1,23 +1,28 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="es">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Descargar portafolio - Folium81</title>
+    <title>Descargar portafolio - Portafolio FISC</title>
+    <meta name="robots" content="noindex, nofollow" />
+    <meta
+      name="description"
+      content="Página temporal para descargar el ZIP generado del portafolio."
+    />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
       href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Lora:ital,wght@0,500;0,600;0,700;1,500;1,600&display=swap"
       rel="stylesheet"
     />
-    <link rel="stylesheet" href="css/styles.css" />
+    <link rel="stylesheet" href="css/styles.css?v=3" />
     <link rel="icon" type="image/svg+xml" href="favicon.svg" />
     <script src="theme-init.js"></script>
   </head>
   <body class="page-descarga">
     <header class="navbar reveal">
       <div class="navbar__inner container">
-        <a href="index.html" class="wordmark">Folium81</a>
+        <a href="index.html" class="wordmark">Portafolio FISC</a>
         <nav class="navbar__nav" aria-label="Principal">
           <a href="nosotros.html">Nosotros</a>
           <span class="navbar__sep" aria-hidden="true">·</span>
@@ -58,46 +63,7 @@
       </div>
     </main>
 
-    <script src="js/zip.js?v=2"></script>
-    <script>
-      (async function () {
-      const { loadGeneratedZip } = window.FoliumZip || {};
-      const button = document.querySelector(".descarga-btn");
-      const filenameNode = document.querySelector(".descarga-filename");
-      const noteNode = document.querySelector(".descarga-note");
-
-      const showMessage = (message) => {
-        if (noteNode) {
-          noteNode.hidden = false;
-          noteNode.textContent = message;
-        }
-      };
-
-      const saved = loadGeneratedZip ? await loadGeneratedZip().catch(() => null) : null;
-
-      if (saved?.filename && filenameNode) {
-        filenameNode.textContent = saved.filename;
-      }
-
-      if (!saved || !saved.blob) {
-        if (button) {
-          button.disabled = true;
-          button.setAttribute("aria-disabled", "true");
-        }
-        showMessage("No se encontro un ZIP generado. Vuelve a generar el portafolio.");
-      } else if (button) {
-        button.addEventListener("click", () => {
-          const url = URL.createObjectURL(saved.blob);
-          const link = document.createElement("a");
-          link.href = url;
-          link.download = saved.filename || "portafolio_folium81.zip";
-          document.body.appendChild(link);
-          link.click();
-          link.remove();
-          setTimeout(() => URL.revokeObjectURL(url), 3000);
-        });
-      }
-      })();
-    </script>
+    <script src="js/zip.js?v=3"></script>
+    <script src="js/download.js?v=2"></script>
   </body>
 </html>

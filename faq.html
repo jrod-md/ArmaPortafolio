@@ -1,23 +1,38 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="es">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Preguntas frecuentes - Folium81</title>
+    <title>Preguntas frecuentes - Portafolio FISC</title>
+    <meta
+      name="description"
+      content="Preguntas frecuentes sobre archivos PDF, estructura ZIP, portada y uso del generador de portafolios."
+    />
+    <link rel="canonical" href="https://portafolio-fisc.pages.dev/faq.html" />
+    <meta property="og:title" content="Preguntas frecuentes - Portafolio FISC" />
+    <meta
+      property="og:description"
+      content="Respuestas rápidas sobre el generador de portafolios para FISC."
+    />
+    <meta property="og:url" content="https://portafolio-fisc.pages.dev/faq.html" />
+    <meta property="og:type" content="website" />
+    <meta property="og:locale" content="es_PA" />
+    <meta property="og:site_name" content="Portafolio FISC" />
+    <meta name="twitter:card" content="summary" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
       href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Lora:ital,wght@0,500;0,600;0,700;1,500;1,600&display=swap"
       rel="stylesheet"
     />
-    <link rel="stylesheet" href="css/styles.css" />
+    <link rel="stylesheet" href="css/styles.css?v=3" />
     <link rel="icon" type="image/svg+xml" href="favicon.svg" />
     <script src="theme-init.js"></script>
   </head>
   <body>
     <header class="navbar reveal">
       <div class="navbar__inner container">
-        <a href="index.html" class="wordmark">Folium81</a>
+        <a href="index.html" class="wordmark">Portafolio FISC</a>
         <nav class="navbar__nav" aria-label="Principal">
           <a href="nosotros.html">Nosotros</a>
           <span class="navbar__sep" aria-hidden="true">·</span>
@@ -42,10 +57,10 @@
         <div class="container container--narrow">
           <div class="faq-accordion">
             <details class="faq-item">
-              <summary class="faq-item__question">¿Qué genera exactamente Folium81?</summary>
+              <summary class="faq-item__question">¿Qué genera exactamente Portafolio FISC?</summary>
               <div class="faq-item__answer">
                 <p>
-                  Folium81 genera la portada oficial en PDF, organiza los archivos
+                  Portafolio FISC genera la portada oficial en PDF, organiza los archivos
                   que selecciones dentro de la estructura del portafolio y empaqueta
                   todo en un ZIP listo para revisar y entregar.
                 </p>
@@ -53,7 +68,7 @@
             </details>
 
             <details class="faq-item">
-              <summary class="faq-item__question">¿Qué archivos acepta Folium81?</summary>
+              <summary class="faq-item__question">¿Qué archivos acepta Portafolio FISC?</summary>
               <div class="faq-item__answer">
                 <p>
                   El MVP actual acepta únicamente archivos PDF. Cada archivo puede
@@ -124,7 +139,7 @@
             </details>
 
             <details class="faq-item">
-              <summary class="faq-item__question">¿Quién puede usar Folium81?</summary>
+              <summary class="faq-item__question">¿Quién puede usar Portafolio FISC?</summary>
               <div class="faq-item__answer">
                 <p>
                   Cualquier persona que necesite preparar el formato de portafolio
@@ -144,10 +159,10 @@
             </details>
 
             <details class="faq-item">
-              <summary class="faq-item__question">¿Folium81 está afiliado oficialmente con UTP?</summary>
+              <summary class="faq-item__question">¿Portafolio FISC está afiliado oficialmente con UTP?</summary>
               <div class="faq-item__answer">
                 <p>
-                  No. Folium81 es un proyecto independiente, de código abierto,
+                  No. Portafolio FISC es un proyecto independiente, de código abierto,
                   creado desde FISC. No es un producto oficial de la Universidad
                   Tecnológica de Panamá.
                 </p>
@@ -170,7 +185,7 @@
     <footer class="footer">
       <div class="footer__main container">
         <div>
-          <a href="index.html" class="wordmark footer__brand">Folium81</a>
+          <a href="index.html" class="wordmark footer__brand">Portafolio FISC</a>
           <p class="footer__tagline">Hecho por estudiantes de FISC, UTP</p>
         </div>
         <nav class="footer__nav" aria-label="Pie de página">
@@ -185,18 +200,6 @@
       </p>
     </footer>
 
-    <script>
-      (function () {
-        var items = document.querySelectorAll(".faq-item");
-        items.forEach(function (item) {
-          item.addEventListener("toggle", function () {
-            if (!item.open) return;
-            items.forEach(function (other) {
-              if (other !== item) other.open = false;
-            });
-          });
-        });
-      })();
-    </script>
+    <script src="js/faq.js?v=1"></script>
   </body>
 </html>

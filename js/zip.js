@@ -1,7 +1,7 @@
 (() => {
 const encoder = new TextEncoder();
 const crcTable = buildCrcTable();
-const DOWNLOAD_DB_NAME = "folium81-downloads";
+const DOWNLOAD_DB_NAME = "portafolio-fisc-downloads";
 const DOWNLOAD_STORE_NAME = "downloads";
 const DOWNLOAD_KEY = "latest";
 
@@ -40,7 +40,7 @@ async function buildZip(data) {
   const safeName = slugify(data?.student?.fullName || "portafolio");
 
   return {
-    filename: `folium81_${safeName}.zip`,
+    filename: `portafolio_fisc_${safeName}.zip`,
     blob: new Blob([zipBytes], { type: "application/zip" }),
   };
 }
@@ -250,7 +250,7 @@ function openDownloadDb() {
   });
 }
 
-globalThis.FoliumZip = {
+globalThis.PortafolioFiscZip = {
   buildZip,
   saveGeneratedZip,
   loadGeneratedZip,

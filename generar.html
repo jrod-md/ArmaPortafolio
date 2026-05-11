@@ -3,21 +3,36 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Generar portafolio — Folium81</title>
+    <title>Generar portafolio - Portafolio FISC</title>
+    <meta
+      name="description"
+      content="Completa los datos del curso, añade PDFs opcionales y genera el ZIP del Portafolio Digital Estudiantil."
+    />
+    <link rel="canonical" href="https://portafolio-fisc.pages.dev/generar.html" />
+    <meta property="og:title" content="Generar portafolio - Portafolio FISC" />
+    <meta
+      property="og:description"
+      content="Formulario para generar la portada y estructura ZIP del portafolio estudiantil."
+    />
+    <meta property="og:url" content="https://portafolio-fisc.pages.dev/generar.html" />
+    <meta property="og:type" content="website" />
+    <meta property="og:locale" content="es_PA" />
+    <meta property="og:site_name" content="Portafolio FISC" />
+    <meta name="twitter:card" content="summary" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
       href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Lora:ital,wght@0,500;0,600;0,700;1,500;1,600&display=swap"
       rel="stylesheet"
     />
-    <link rel="stylesheet" href="css/styles.css" />
+    <link rel="stylesheet" href="css/styles.css?v=3" />
     <link rel="icon" type="image/svg+xml" href="favicon.svg" />
     <script src="theme-init.js"></script>
   </head>
   <body class="page-wizard">
     <header class="navbar reveal">
       <div class="navbar__inner container">
-        <a href="index.html" class="wordmark">Folium81</a>
+        <a href="index.html" class="wordmark">Portafolio FISC</a>
         <nav class="navbar__nav" aria-label="Principal">
           <a href="nosotros.html">Nosotros</a>
           <span class="navbar__sep" aria-hidden="true">·</span>
@@ -325,9 +340,11 @@
       </div>
     </div>
 
-    <script src="js/zip.js?v=2"></script>
-    <script src="js/generate.js?v=2"></script>
-    <script src="js/app.js?v=2"></script>
+    <script src="vendor/pdf-lib/pdf-lib.min.js?v=1"></script>
+    <script src="vendor/fontkit/fontkit.umd.min.js?v=1"></script>
+    <script src="js/zip.js?v=3"></script>
+    <script src="js/generate.js?v=3"></script>
+    <script src="js/app.js?v=3"></script>
   </body>
 </html>
 

@@ -1,4 +1,4 @@
-name = "folium81-worker"
+name = "portafolio-fisc-worker"
 main = "index.js"
 compatibility_date = "2026-04-26"
 
