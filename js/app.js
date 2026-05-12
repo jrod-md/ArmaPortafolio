@@ -46,6 +46,7 @@ let currentStep = 1;
 let uploadSequence = 0;
 let previewActiveSection = "portada";
 let previewIsCompiling = false;
+let appInitialized = false;
 
 const uploads = {};
 
@@ -940,6 +941,9 @@ function bindDossierPreviewInputs() {
 }
 
 function initApp() {
+  if (appInitialized) return;
+  appInitialized = true;
+
   const yearField = $("sf-anio");
   if (yearField) {
     yearField.value = "2026";
@@ -954,9 +958,14 @@ function initApp() {
   updateSidebar();
   updateProgress();
   showPanel(1);
+  document.body.dataset.appReady = "true";
 }
 
-document.addEventListener("DOMContentLoaded", initApp);
+if (document.readyState === "loading") {
+  document.addEventListener("DOMContentLoaded", initApp, { once: true });
+} else {
+  initApp();
+}
 
 
 
