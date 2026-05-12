@@ -25,12 +25,12 @@
       href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Lora:ital,wght@0,500;0,600;0,700;1,500;1,600&display=swap"
       rel="stylesheet"
     />
-    <link rel="stylesheet" href="css/styles.css?v=6" />
+    <link rel="stylesheet" href="css/styles.css?v=7" />
     <link rel="icon" type="image/svg+xml" href="favicon.svg" />
     <script src="theme-init.js"></script>
   </head>
   <body>
-    <header class="navbar reveal">
+    <header class="navbar landing-nav reveal">
       <div class="navbar__inner container">
         <a href="index.html" class="wordmark">Portafolio FISC</a>
         <nav class="navbar__nav" aria-label="Principal">
@@ -39,38 +39,41 @@
           <a href="faq.html">FAQ</a>
           <span class="navbar__sep" aria-hidden="true">·</span>
           <a href="ayuda.html">Ayuda</a>
-          <a href="generar.html" class="btn btn--outline btn--sm">Crear portafolio</a>
+          <a href="generar.html" class="btn btn--primary btn--sm">Crear portafolio</a>
         </nav>
       </div>
     </header>
 
     <main>
-      <section class="hero" id="iniciar">
+      <!-- Hero Section -->
+      <section class="hero hero--landing" id="inicio">
         <div class="hero__inner container">
           <div class="hero__content">
-            <span class="hero__overline reveal reveal-delay-1">FISC · UTP · Panamá</span>
+            <span class="mono-label reveal reveal-delay-1">FISC · UTP · PANAMÁ</span>
             <h1 class="hero__title title-xl reveal reveal-delay-2">
-              Tu portafolio,<br /><span>sin el caos.</span>
+              Tu portafolio,<br /><em>sin el caos.</em>
             </h1>
             <p class="hero__sub body-lg reveal reveal-delay-3">
-              Genera la portada oficial, organiza tus archivos y descarga el ZIP
-              en el formato exacto que pide tu facultad. Sin errores, sin
-              estrés.
+              Genera la portada oficial, ordena tus evidencias por sección y descarga el ZIP final en el formato que pide la facultad. Sin cuenta, sin vuelta larga, sin carpetas mal nombradas.
             </p>
-            <div class="reveal reveal-delay-3">
+            <div class="hero__cta-group reveal reveal-delay-3">
               <a href="generar.html" class="btn btn--primary hero__cta">Crear mi portafolio</a>
-              <p class="hero__note">Gratis y directo</p>
+              <a href="#como-funciona" class="btn btn--outline">Ver qué genera</a>
             </div>
+            <p class="hero__note reveal reveal-delay-3">Gratis y directo, pensado para estudiantes de FISC.</p>
           </div>
-          <figure class="hero__visual reveal reveal-delay-2" aria-hidden="true">
-            <div class="vertical-dossier vertical-dossier--hero">
-              <div class="vertical-dossier__spine"></div>
-              <div class="vertical-dossier__body">
-                <div class="vertical-dossier__cover">
-                  <div class="vertical-dossier__header">
-                    <div class="vertical-dossier__mock-logo"></div>
-                    <div class="vertical-dossier__title">Portafolio Estudiantil</div>
-                    <div class="vertical-dossier__subtitle">Documentación Académica Oficial</div>
+
+          <div class="hero__visual--landing reveal reveal-delay-2" aria-hidden="true">
+            <div class="artifact-stack">
+              <div class="artifact-dossier">
+                <div class="artifact-dossier__spine">
+                  <span>PORTAFOLIO FISC</span>
+                </div>
+                <div class="artifact-dossier__content">
+                  <div class="artifact-dossier__seal"></div>
+                  <div class="vertical-dossier__header" style="border-bottom: 2px solid var(--primary); padding-bottom: 1rem; margin-bottom: 1.5rem;">
+                    <div class="vertical-dossier__title" style="font-size: 1.25rem;">Portafolio Digital</div>
+                    <div class="vertical-dossier__subtitle">Documentación Académica</div>
                   </div>
                   
                   <div class="vertical-dossier__metadata">
@@ -83,135 +86,148 @@
                       <span class="vertical-dossier__meta-value">Estandarizado UTP</span>
                     </div>
                     <div class="vertical-dossier__meta-row">
-                      <span class="vertical-dossier__meta-label">Estado</span>
-                      <span class="vertical-dossier__meta-value">Listo para entrega</span>
+                      <span class="vertical-dossier__meta-label">Entrega</span>
+                      <span class="vertical-dossier__meta-value">Semestre I – 2026</span>
                     </div>
                   </div>
 
-                  <div class="vertical-dossier__ready-stamp" style="opacity: 1; transform: rotate(-15deg) scale(1);">OFICIAL</div>
-                </div>
-
-                <div class="vertical-dossier__tabs">
-                  <div class="vertical-dossier__tab vertical-dossier__tab--active">
-                    <span class="vertical-dossier__tab-id">01</span>
-                    <span class="vertical-dossier__tab-name">Portada</span>
-                    <span class="vertical-dossier__tab-count">1</span>
-                  </div>
-                  <div class="vertical-dossier__tab">
-                    <span class="vertical-dossier__tab-id">02</span>
-                    <span class="vertical-dossier__tab-name">Asignaciones</span>
-                    <span class="vertical-dossier__tab-count">8</span>
-                  </div>
-                  <div class="vertical-dossier__tab">
-                    <span class="vertical-dossier__tab-id">04</span>
-                    <span class="vertical-dossier__tab-name">Laboratorios</span>
-                    <span class="vertical-dossier__tab-count">12</span>
+                  <div class="artifact-dossier__stamp">LISTO</div>
+                  
+                  <div class="vertical-dossier__tabs" style="display: flex; gap: 0.5rem; margin-top: 2rem; border-top: 1px solid var(--border-subtle); padding-top: 1rem;">
+                    <div class="vertical-dossier__tab" style="font-size: 0.65rem; color: var(--text-hint); font-family: var(--font-mono);">01 Portada</div>
+                    <div class="vertical-dossier__tab" style="font-size: 0.65rem; color: var(--text-hint); font-family: var(--font-mono);">02 Asignaciones</div>
+                    <div class="vertical-dossier__tab" style="font-size: 0.65rem; color: var(--text-hint); font-family: var(--font-mono);">03 Laboratorios</div>
                   </div>
                 </div>
               </div>
-
-              <div class="vertical-dossier__zip-badge vertical-dossier__zip-badge--visible">
-                <div class="vertical-dossier__zip-icon"></div>
-                <div class="vertical-dossier__zip-text">
-                  <strong>portafolio_fisc.zip</strong>
-                  <span>Paquete comprimido</span>
+              
+              <div class="artifact-zip">
+                <div class="artifact-zip__icon">
+                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color: var(--primary); opacity: 0.6;"><path d="M21 8V5a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v3"></path><path d="m21 16 0 3a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-3"></path><path d="M4 12H20"></path><path d="M10 16v-8"></path><path d="M14 16v-8"></path></svg>
                 </div>
+                <strong class="artifact-zip__name">portafolio_fisc.zip</strong>
+                <span class="artifact-zip__label">Paquete comprimido</span>
               </div>
             </div>
-            <figcaption class="hero-collage__chip">Resultado final profesional</figcaption>
-          </figure>
-        </div>
-      </section>
-
-      <section class="problem-bar" aria-labelledby="problem-bar-heading">
-        <h2 id="problem-bar-heading" class="visually-hidden">
-          Comparación de tiempo
-        </h2>
-        <div class="problem-bar__inner container">
-          <div class="problem-bar__stat reveal reveal-delay-1">
-            <p class="problem-bar__value">3–6 horas</p>
-            <p class="problem-bar__label">lo que tarda hacerlo manualmente</p>
-          </div>
-          <div class="problem-bar__stat reveal reveal-delay-2">
-            <p class="problem-bar__value">La noche antes</p>
-            <p class="problem-bar__label">cuando casi siempre se hace</p>
-          </div>
-          <div class="problem-bar__stat reveal reveal-delay-3">
-            <p class="problem-bar__value">5 minutos</p>
-            <p class="problem-bar__label">lo que tarda con el generador</p>
           </div>
         </div>
       </section>
 
-      <section class="section how section--paper" id="nosotros">
+      <!-- Contrast Bar -->
+      <section class="contrast-bar" aria-labelledby="contrast-heading">
+        <h2 id="contrast-heading" class="visually-hidden">Comparación de eficiencia</h2>
+        <div class="contrast-bar__inner container">
+          <div class="contrast-bar__grid">
+            <div class="contrast-item reveal reveal-delay-1">
+              <span class="contrast-item__time">3–6 horas</span>
+              <span class="contrast-item__label">Manualmente</span>
+              <p class="contrast-item__desc">lo que suele tardar organizar todo y nombrar carpetas.</p>
+            </div>
+            <div class="contrast-item reveal reveal-delay-2">
+              <span class="contrast-item__time">La noche antes</span>
+              <span class="contrast-item__label">El Momento Crítico</span>
+              <p class="contrast-item__desc">cuando casi siempre aparece el caos y los errores.</p>
+            </div>
+            <div class="contrast-item reveal reveal-delay-3">
+              <span class="contrast-item__time" style="color: var(--primary); text-shadow: 0 0 20px rgba(18, 61, 37, 0.1);">5 minutos</span>
+              <span class="contrast-item__label">Con el Generador</span>
+              <p class="contrast-item__desc">lo que debería tardar con una herramienta dedicada.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- How it Works -->
+      <section class="section how section--paper" id="como-funciona">
         <div class="container container--narrow">
-          <h2 class="section__title title-lg">Cómo funciona</h2>
+          <h2 class="section__title title-lg reveal">Cómo funciona</h2>
           <ol class="editorial-list">
             <li class="editorial-item reveal">
-              <span class="editorial-item__num" aria-hidden="true">I</span>
-              <h3 class="editorial-item__title">Abre el generador</h3>
-              <p class="editorial-item__desc">
-                Entra directo al formulario y prepara la estructura de tu
-                portafolio sin crear una cuenta.
-              </p>
+              <span class="editorial-item__num">I</span>
+              <div class="editorial-item__body">
+                <h3 class="editorial-item__title">Abre el generador</h3>
+                <p class="editorial-item__desc">Entra directo al formulario y prepara la estructura de tu portafolio sin crear una cuenta ni configurar nada.</p>
+              </div>
             </li>
             <li class="editorial-item reveal">
-              <span class="editorial-item__num" aria-hidden="true">II</span>
-              <h3 class="editorial-item__title">Llena el formulario</h3>
-              <p class="editorial-item__desc">
-                Datos del curso, facilitador, semestre. Sube tus PDFs en cada sección de manera estructurada.
-              </p>
+              <span class="editorial-item__num">II</span>
+              <div class="editorial-item__body">
+                <h3 class="editorial-item__title">Llena el formulario</h3>
+                <p class="editorial-item__desc">Datos del curso, facilitador y semestre. La app se encarga de que todo cumpla el estándar oficial.</p>
+              </div>
             </li>
             <li class="editorial-item reveal">
-              <span class="editorial-item__num" aria-hidden="true">III</span>
-              <h3 class="editorial-item__title">Descarga tu portafolio</h3>
-              <p class="editorial-item__desc">
-                ZIP listo con portada oficial, carpetas correctas y todo en
-                orden. Sin riesgo a equivocaciones de formato.
-              </p>
+              <span class="editorial-item__num">III</span>
+              <div class="editorial-item__body">
+                <h3 class="editorial-item__title">Sube tus evidencias</h3>
+                <p class="editorial-item__desc">Arrastra tus PDFs a cada sección. No importa el nombre original, el generador los ubica donde deben ir.</p>
+              </div>
+            </li>
+            <li class="editorial-item reveal">
+              <span class="editorial-item__num">IV</span>
+              <div class="editorial-item__body">
+                <h3 class="editorial-item__title">Descarga el ZIP</h3>
+                <p class="editorial-item__desc">Recibe un archivo comprimido listo para subir, con la portada generada y las carpetas nombradas a la perfección.</p>
+              </div>
             </li>
           </ol>
         </div>
       </section>
 
-      <section class="section features" id="faq">
-        <div class="container container--narrow">
-          <h2 class="section__title title-lg reveal">¿Qué genera Portafolio FISC?</h2>
+      <!-- What it generates -->
+      <section class="features-dark" id="que-genera">
+        <div class="container">
+          <h2 class="section__title title-lg reveal">Un paquete que se siente listo para entregar.</h2>
+          <p class="features-dark__lead reveal">La promesa no es decorar archivos. La promesa es convertir un semestre desordenado en un expediente claro, predecible y fácil de subir.</p>
           
-          <div class="features-row reveal">
-            <h3 class="features-row__title">Portada oficial</h3>
-            <p class="body-lg">
-              Generada automáticamente con los logos de UTP y FISC,
-              tipografía y diseño exactos al documento original.
-            </p>
-          </div>
-          
-          <div class="features-row reveal">
-            <h3 class="features-row__title">Estructura de carpetas</h3>
-            <p class="body-lg">
-              Las 6 secciones requeridas, nombradas exactamente como pide la
-              facultad, organizadas jerárquicamente en tu archivo final.
-            </p>
-          </div>
-          
-          <div class="features-row reveal">
-            <h3 class="features-row__title">Conclusión opcional</h3>
-            <p class="body-lg">
-              Puedes escribir un cierre manual para incluirlo en la sección
-              final o dejarlo vacío si todavía no lo necesitas.
-            </p>
-          </div>
-          
-          <div class="features-row reveal">
-            <h3 class="features-row__title">ZIP para entregar</h3>
-            <p class="body-lg">
-              Un solo archivo, nombre correcto, descargable al instante y listo
-              para ser subido a la plataforma virtual de la universidad.
-            </p>
+          <div class="features-dark__grid">
+            <div class="feature-item reveal reveal-delay-1">
+              <span class="feature-item__title">01 Documento</span>
+              <strong class="feature-item__name">Portada oficial</strong>
+              <p class="feature-item__desc">Generada con los logos, tipografía y formato exacto que pide la facultad.</p>
+            </div>
+            <div class="feature-item reveal reveal-delay-2">
+              <span class="feature-item__title">02 Estructura</span>
+              <strong class="feature-item__name">Carpetas correctas</strong>
+              <p class="feature-item__desc">Las 6 secciones requeridas, nombradas y ordenadas jerárquicamente.</p>
+            </div>
+            <div class="feature-item reveal reveal-delay-3">
+              <span class="feature-item__title">03 Archivo</span>
+              <strong class="feature-item__name">PDFs ubicados</strong>
+              <p class="feature-item__desc">Tus evidencias se mueven automáticamente a su carpeta correspondiente.</p>
+            </div>
+            <div class="feature-item reveal reveal-delay-4">
+              <span class="feature-item__title">04 Salida</span>
+              <strong class="feature-item__name">ZIP final</strong>
+              <p class="feature-item__desc">Un solo archivo con el nombre estándar, listo para la plataforma virtual.</p>
+            </div>
           </div>
         </div>
       </section>
 
+      <!-- Trust / Purpose -->
+      <section class="section" id="proposito">
+        <div class="container container--narrow">
+          <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 4rem;">
+            <div class="reveal">
+              <h3 class="title-md" style="margin-bottom: 1.5rem;">Hecho para el flujo real de estudiantes.</h3>
+              <p class="body-lg">Portafolio FISC nació en los laboratorios de la facultad, entendiendo que el final del semestre ya es suficientemente pesado como para pelear con carpetas ZIP y nombres de archivos.</p>
+            </div>
+            <div class="reveal">
+              <h3 class="title-md" style="margin-bottom: 1.5rem;">Directo, simple y sin cuenta.</h3>
+              <p class="body-lg">No es una red social, no es un sistema académico gigante. Es una herramienta concreta, privada y rápida para un solo propósito: entregar un portafolio impecable.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Final CTA -->
+      <section class="cta-banner reveal">
+        <div class="container">
+          <h2 class="cta-banner__title title-lg">Convierte tus PDFs sueltos en un portafolio ordenado.</h2>
+          <a href="generar.html" class="btn btn--primary btn--lg" style="padding: 1.25rem 2.5rem; font-size: 1.1rem;">Crear portafolio ahora</a>
+        </div>
+      </section>
     </main>
 
     <footer class="footer">
@@ -226,11 +242,11 @@
           <a href="ayuda.html">Ayuda</a>
         </nav>
         <p class="footer__license">
-          MIT License · Código abierto en GitHub
+          MIT License · Proyecto de código abierto
         </p>
       </div>
       <p class="footer__disclaimer container">
-        No afiliado oficialmente con la Universidad Tecnológica de Panamá.
+        No afiliado oficialmente con la Universidad Tecnológica de Panamá. Proyecto estudiantil de apoyo académico.
       </p>
     </footer>
   </body>
