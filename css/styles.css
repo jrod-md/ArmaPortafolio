@@ -305,8 +305,11 @@ h1, h2, h3, h4 { font-family: var(--font-display); font-weight: 500; color: var(
 .upload-zone__title { font-family: var(--font-display); font-size: 1.25rem; margin-bottom: 0.5rem; color: var(--primary); font-weight: 600; }
 .upload-zone__hint { font-size: 0.9rem; color: var(--text-muted); margin: 0; }
 .upload-zone__meta-line { font-size: 0.7rem; margin-top: 1rem; text-transform: uppercase; letter-spacing: 0.1em; color: var(--text-hint); font-weight: 700; }
+.upload-zone__format-line { max-width: 42rem; margin: 0.45rem auto 0; color: var(--text-muted); font-size: 0.8rem; line-height: 1.5; }
+.upload-zone__actions { display: flex; flex-wrap: wrap; justify-content: center; gap: 0.65rem; margin-top: 1rem; }
 .upload-zone__file-list { list-style: none; padding: 0; margin: 1.5rem 0 0; width: 100%; border-top: 1px solid var(--border-subtle); }
-.upload-zone__file-list li { display: flex; align-items: center; justify-content: space-between; padding: 0.75rem 0; border-bottom: 1px solid var(--border-subtle); font-size: 0.85rem; }
+.upload-zone__file-list li { display: grid; grid-template-columns: minmax(0, 1fr) auto auto; gap: 0.75rem; align-items: center; padding: 0.75rem 0; border-bottom: 1px solid var(--border-subtle); font-size: 0.85rem; text-align: left; }
+.upload-zone__file-list li span:first-child { min-width: 0; overflow-wrap: anywhere; }
 .upload-zone__file-list li button { background: none; border: none; color: #a34f4f; font-weight: 600; cursor: pointer; font-size: 0.75rem; text-transform: uppercase; }
 
 .wizard-disclosure { border: 1px solid var(--border); background: var(--surface); border-radius: 12px; transition: all 0.25s var(--ease); overflow: hidden; margin-bottom: 1rem; }

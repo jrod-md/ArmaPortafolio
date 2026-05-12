@@ -6,7 +6,7 @@
     <title>Generar portafolio - Portafolio FISC</title>
     <meta
       name="description"
-      content="Completa los datos del curso, añade PDFs opcionales y genera el ZIP del Portafolio Digital Estudiantil."
+      content="Completa los datos del curso, añade evidencias opcionales y genera el ZIP del Portafolio Digital Estudiantil."
     />
     <link rel="canonical" href="https://portafolio-fisc.pages.dev/generar.html" />
     <meta property="og:title" content="Generar portafolio - Portafolio FISC" />
@@ -160,13 +160,13 @@
 
         <section class="wizard-panel" id="wizard-panel-2" hidden aria-labelledby="wizard-h2">
           <h1 class="wizard-panel__title" id="wizard-h2">Documentos del curso</h1>
-          <p class="wizard-panel__subtitle">Cada archivo entra en la carpeta correcta. Puedes continuar sin subir nada o añadir PDFs cuando los tengas listos.</p>
+          <p class="wizard-panel__subtitle">Cada evidencia entra en la carpeta correcta. Los archivos se empaquetan tal como los subes; si tu profesor exige PDF, conviértelos antes de entregar.</p>
           <div class="wizard-upload-stack">
             <div class="upload-zone" data-upload-key="planContenido">
-              <input type="file" class="upload-zone__input" accept="application/pdf" hidden aria-label="Plan de Contenido, PDF" />
+              <input type="file" class="upload-zone__input" accept=".pdf,.doc,.docx" hidden aria-label="Plan de Contenido, evidencia" />
               <p class="upload-zone__title">Plan de Contenido</p>
               <p class="upload-zone__hint">Opcional</p>
-              <p class="upload-zone__meta-line">0/1 PDF · Máx. 10MB por archivo</p>
+              <p class="upload-zone__meta-line">0/1 archivo · Máx. 10MB por archivo</p>
               <button type="button" class="btn btn--outline btn--sm upload-zone__add">+ Añadir archivo</button>
               <ul class="upload-zone__file-list" hidden></ul>
             </div>
@@ -180,8 +180,8 @@
                 <section class="wizard-panel" id="wizard-panel-3" hidden aria-labelledby="wizard-h3">
           <h1 class="wizard-panel__title" id="wizard-h3">Actividades y materiales</h1>
           <p class="wizard-panel__subtitle">
-            Puedes cargar varios PDFs por categoría. Las evidencias quedan archivadas por sección,
-            con nombres de carpetas consistentes para la entrega.
+            Puedes cargar archivos sueltos o carpetas. Portafolio FISC no convierte tus evidencias:
+            las ordena en la carpeta correcta y conserva su formato original.
           </p>
 
           <div class="wizard-disclosures">
@@ -191,9 +191,9 @@
               </summary>
               <div class="wizard-disclosure__body">
                 <div class="upload-zone" data-upload-key="tareas">
-                  <input type="file" class="upload-zone__input" accept="application/pdf" multiple hidden aria-label="Tareas, PDF" />
+                  <input type="file" class="upload-zone__input" accept=".pdf,.doc,.docx,.xls,.xlsx,.csv,.ppt,.pptx,.txt,.rtf,.odt,.ods,.odp,.java,.py,.js,.ts,.html,.css,.sql,.json,.xml,.md,.c,.cpp,.cs,.php,.ipynb,.zip,.rar,.7z,.png,.jpg,.jpeg,.gif,.webp" multiple hidden aria-label="Tareas, evidencias" />
                   <p class="upload-zone__hint">Opcional</p>
-                  <p class="upload-zone__meta-line">0/16 PDFs · Máx. 10MB por archivo</p>
+                  <p class="upload-zone__meta-line">0/32 archivos · Máx. 10MB por archivo</p>
                   <button type="button" class="btn btn--outline btn--sm upload-zone__add">+ Añadir archivo</button>
                   <ul class="upload-zone__file-list" hidden></ul>
                 </div>
@@ -206,9 +206,9 @@
               </summary>
               <div class="wizard-disclosure__body">
                 <div class="upload-zone" data-upload-key="parciales">
-                  <input type="file" class="upload-zone__input" accept="application/pdf" multiple hidden aria-label="Parciales, PDF" />
+                  <input type="file" class="upload-zone__input" accept=".pdf,.doc,.docx,.txt,.rtf,.odt,.md,.png,.jpg,.jpeg,.gif,.webp" multiple hidden aria-label="Parciales, evidencias" />
                   <p class="upload-zone__hint">Opcional</p>
-                  <p class="upload-zone__meta-line">0/6 PDFs · Máx. 10MB por archivo</p>
+                  <p class="upload-zone__meta-line">0/12 archivos · Máx. 10MB por archivo</p>
                   <button type="button" class="btn btn--outline btn--sm upload-zone__add">+ Añadir archivo</button>
                   <ul class="upload-zone__file-list" hidden></ul>
                 </div>
@@ -221,9 +221,9 @@
               </summary>
               <div class="wizard-disclosure__body">
                 <div class="upload-zone" data-upload-key="proyectos">
-                  <input type="file" class="upload-zone__input" accept="application/pdf" multiple hidden aria-label="Proyectos, PDF" />
+                  <input type="file" class="upload-zone__input" accept=".pdf,.doc,.docx,.xls,.xlsx,.csv,.ppt,.pptx,.txt,.rtf,.odt,.ods,.odp,.java,.py,.js,.ts,.html,.css,.sql,.json,.xml,.md,.c,.cpp,.cs,.php,.ipynb,.zip,.rar,.7z,.png,.jpg,.jpeg,.gif,.webp" multiple hidden aria-label="Proyectos, evidencias" />
                   <p class="upload-zone__hint">Opcional</p>
-                  <p class="upload-zone__meta-line">0/6 PDFs · Máx. 10MB por archivo</p>
+                  <p class="upload-zone__meta-line">0/120 archivos · Máx. 10MB por archivo</p>
                   <button type="button" class="btn btn--outline btn--sm upload-zone__add">+ Añadir archivo</button>
                   <ul class="upload-zone__file-list" hidden></ul>
                 </div>
@@ -236,9 +236,9 @@
               </summary>
               <div class="wizard-disclosure__body">
                 <div class="upload-zone" data-upload-key="labs">
-                  <input type="file" class="upload-zone__input" accept="application/pdf" multiple hidden aria-label="Laboratorios y talleres, PDF" />
+                  <input type="file" class="upload-zone__input" accept=".pdf,.doc,.docx,.txt,.rtf,.odt,.md,.xls,.xlsx,.csv,.ods,.java,.py,.js,.ts,.html,.css,.sql,.json,.xml,.c,.cpp,.cs,.php,.ipynb,.zip,.rar,.7z,.png,.jpg,.jpeg,.gif,.webp" multiple hidden aria-label="Laboratorios y talleres, evidencias" />
                   <p class="upload-zone__hint">Opcional</p>
-                  <p class="upload-zone__meta-line">0/20 PDFs · Máx. 10MB por archivo</p>
+                  <p class="upload-zone__meta-line">0/120 archivos · Máx. 10MB por archivo</p>
                   <button type="button" class="btn btn--outline btn--sm upload-zone__add">+ Añadir archivo</button>
                   <ul class="upload-zone__file-list" hidden></ul>
                 </div>
@@ -251,9 +251,9 @@
               </summary>
               <div class="wizard-disclosure__body">
                 <div class="upload-zone" data-upload-key="material">
-                  <input type="file" class="upload-zone__input" accept="application/pdf" multiple hidden aria-label="Material didáctico, PDF" />
+                  <input type="file" class="upload-zone__input" accept=".pdf,.doc,.docx,.txt,.rtf,.odt,.md,.xls,.xlsx,.csv,.ods,.ppt,.pptx,.odp,.zip,.rar,.7z,.png,.jpg,.jpeg,.gif,.webp" multiple hidden aria-label="Material didáctico, evidencias" />
                   <p class="upload-zone__hint">Opcional</p>
-                  <p class="upload-zone__meta-line">0/16 PDFs · Máx. 10MB por archivo</p>
+                  <p class="upload-zone__meta-line">0/64 archivos · Máx. 10MB por archivo</p>
                   <button type="button" class="btn btn--outline btn--sm upload-zone__add">+ Añadir archivo</button>
                   <ul class="upload-zone__file-list" hidden></ul>
                 </div>
@@ -300,7 +300,7 @@
 
         <section class="wizard-panel" id="wizard-panel-5" hidden aria-labelledby="wizard-h5">
           <h1 class="wizard-panel__title" id="wizard-h5">Revisar y generar</h1>
-          <p class="wizard-panel__subtitle">Revisa la estructura final antes de descargar. Portada, evidencias y conclusión quedan empaquetadas en un solo ZIP.</p>
+          <p class="wizard-panel__subtitle">Revisa la estructura final antes de descargar. La portada PDF y tus evidencias quedan empaquetadas en un solo ZIP.</p>
           <div class="wizard-summary">
             <h2 class="wizard-summary__heading">Resumen del paquete</h2>
             <dl class="wizard-summary__grid">
@@ -324,7 +324,7 @@
             </div>
           </div>
           <div class="wizard-warn-box" role="status">
-            Sin nombres de carpetas incorrectos. Cuando todo esté listo, genera el paquete final.
+            Sin nombres de carpetas incorrectos. Tus evidencias no se convierten; se empaquetan en su formato original.
           </div>
           <div id="wizard-step5-idle">
             <button type="button" class="btn btn--primary wizard-btn-generate" id="btn-generar-portafolio">Generar portafolio</button>

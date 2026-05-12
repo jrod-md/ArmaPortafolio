@@ -8,37 +8,139 @@ const MAX_COURSE_NAME_LENGTH = 80;
 const MAX_FACILITATOR_LENGTH = 80;
 const MAX_CONCLUSION_LENGTH = 2000;
 const MAX_UPLOAD_SIZE_BYTES = 10 * 1024 * 1024;
+const MAX_TOTAL_UPLOAD_SIZE_BYTES = 160 * 1024 * 1024;
 const AI_CONCLUSION_ENABLED = false;
+const FILE_TYPE_GROUPS = {
+  documents: ["pdf", "doc", "docx", "txt", "rtf", "odt", "md"],
+  spreadsheets: ["xls", "xlsx", "csv", "ods"],
+  presentations: ["ppt", "pptx", "odp"],
+  sourceCode: ["java", "py", "js", "ts", "html", "css", "sql", "json", "xml", "c", "cpp", "cs", "php", "ipynb"],
+  archives: ["zip", "rar", "7z"],
+  images: ["png", "jpg", "jpeg", "gif", "webp"],
+};
+const uniqueExtensions = (...groups) => Array.from(new Set(groups.flat()));
+const EVIDENCE_EXTENSIONS = uniqueExtensions(
+  FILE_TYPE_GROUPS.documents,
+  FILE_TYPE_GROUPS.spreadsheets,
+  FILE_TYPE_GROUPS.presentations,
+  FILE_TYPE_GROUPS.sourceCode,
+  FILE_TYPE_GROUPS.archives,
+  FILE_TYPE_GROUPS.images
+);
+const EVIDENCE_EXTENSION_SET = new Set(EVIDENCE_EXTENSIONS);
+const BLOCKED_EXTENSIONS = [
+  "ade",
+  "adp",
+  "app",
+  "asp",
+  "bas",
+  "bat",
+  "cer",
+  "chm",
+  "cmd",
+  "com",
+  "cpl",
+  "dll",
+  "dmg",
+  "exe",
+  "gadget",
+  "hta",
+  "inf",
+  "ins",
+  "isp",
+  "jar",
+  "jsm",
+  "jse",
+  "lnk",
+  "mde",
+  "msc",
+  "msi",
+  "msp",
+  "mst",
+  "pif",
+  "pkg",
+  "ps1",
+  "reg",
+  "scr",
+  "sh",
+  "sys",
+  "vb",
+  "vbe",
+  "vbs",
+  "ws",
+  "wsc",
+  "wsf",
+  "wsh",
+];
+const BLOCKED_EXTENSION_SET = new Set(BLOCKED_EXTENSIONS);
+const EVIDENCE_FORMATS_LABEL = "PDF, Word, Excel, PowerPoint, texto, código fuente, imágenes o ZIP";
 const UPLOAD_CONFIG = {
   planContenido: {
     label: "Plan de Contenido",
     path: "02_Descripcion_Curso/",
     maxFiles: 1,
+    allowFolders: false,
+    allowedExtensions: ["pdf", "doc", "docx"],
+    formatsLabel: "PDF o Word",
   },
   tareas: {
     label: "Tareas",
     path: "04_Actividades/Tareas/",
-    maxFiles: 16,
+    maxFiles: 32,
+    allowFolders: true,
+    allowedExtensions: EVIDENCE_EXTENSIONS,
+    formatsLabel: "documentos, hojas de cálculo, presentaciones, código, imágenes o ZIP",
   },
   parciales: {
     label: "Parciales",
     path: "04_Actividades/Parciales/",
-    maxFiles: 6,
+    maxFiles: 12,
+    allowFolders: true,
+    allowedExtensions: uniqueExtensions(FILE_TYPE_GROUPS.documents, FILE_TYPE_GROUPS.images),
+    formatsLabel: "PDF, Word, texto o imágenes",
   },
   proyectos: {
     label: "Proyectos",
     path: "04_Actividades/Proyectos/",
-    maxFiles: 6,
+    maxFiles: 120,
+    allowFolders: true,
+    allowedExtensions: uniqueExtensions(
+      FILE_TYPE_GROUPS.documents,
+      FILE_TYPE_GROUPS.spreadsheets,
+      FILE_TYPE_GROUPS.presentations,
+      FILE_TYPE_GROUPS.sourceCode,
+      FILE_TYPE_GROUPS.images,
+      FILE_TYPE_GROUPS.archives
+    ),
+    formatsLabel: "documentos, código fuente, imágenes, hojas de cálculo, presentaciones o ZIP",
   },
   labs: {
     label: "Laboratorios y talleres",
     path: "04_Actividades/Laboratorios_Talleres/",
-    maxFiles: 20,
+    maxFiles: 120,
+    allowFolders: true,
+    allowedExtensions: uniqueExtensions(
+      FILE_TYPE_GROUPS.documents,
+      FILE_TYPE_GROUPS.spreadsheets,
+      FILE_TYPE_GROUPS.sourceCode,
+      FILE_TYPE_GROUPS.images,
+      FILE_TYPE_GROUPS.archives
+    ),
+    formatsLabel: "documentos, hojas de cálculo, código fuente, imágenes o ZIP",
   },
   material: {
     label: "Material didáctico",
     path: "05_Material_Didactico/",
-    maxFiles: 16,
+    maxFiles: 64,
+    allowFolders: true,
+    allowedExtensions: uniqueExtensions(
+      FILE_TYPE_GROUPS.documents,
+      FILE_TYPE_GROUPS.spreadsheets,
+      FILE_TYPE_GROUPS.presentations,
+      FILE_TYPE_GROUPS.images,
+      FILE_TYPE_GROUPS.archives
+    ),
+    formatsLabel: "documentos, hojas de cálculo, presentaciones, imágenes o ZIP",
   },
 };
 
@@ -120,7 +222,14 @@ function formatBytes(bytes) {
 }
 
 function getUploadPath(key, fileName) {
-  return `${UPLOAD_CONFIG[key]?.path || "99_Adjuntos/"}${sanitizeFileName(fileName)}`;
+  return `${UPLOAD_CONFIG[key]?.path || "99_Adjuntos/"}${sanitizeRelativePath(fileName)}`;
+}
+
+function getFileExtension(fileName) {
+  const match = String(fileName || "")
+    .trim()
+    .match(/\.([^.\\/]+)$/);
+  return match ? match[1].toLowerCase() : "";
 }
 
 function sanitizeFileName(fileName) {
@@ -129,9 +238,11 @@ function sanitizeFileName(fileName) {
     .replace(/[\u0000-\u001f\u007f]/g, "")
     .trim();
 
-  const lastDot = rawName.lastIndexOf(".");
-  const hasPdfExtension = /\.pdf$/i.test(rawName);
-  const baseName = (hasPdfExtension ? rawName.slice(0, lastDot) : rawName)
+  const extension = getFileExtension(rawName).replace(/[^a-z0-9]/g, "").slice(0, 12);
+  const hasExtension = Boolean(extension);
+  const baseEnd = hasExtension ? rawName.length - extension.length - 1 : rawName.length;
+  const baseName = rawName
+    .slice(0, Math.max(baseEnd, 0))
     .normalize("NFD")
     .replace(/[\u0300-\u036f]/g, "")
     .replace(/[^a-zA-Z0-9._ -]+/g, "_")
@@ -140,7 +251,47 @@ function sanitizeFileName(fileName) {
     .replace(/^[._-]+|[._-]+$/g, "")
     .slice(0, 96);
 
-  return `${baseName || "archivo"}.pdf`;
+  return `${baseName || "archivo"}${extension ? `.${extension}` : ""}`;
+}
+
+function sanitizeRelativePath(path) {
+  const parts = String(path || "")
+    .replace(/\\/g, "/")
+    .split("/")
+    .map((part) => part.trim())
+    .filter((part) => part && part !== "." && part !== "..")
+    .slice(0, 12)
+    .map(sanitizeFileName)
+    .filter(Boolean);
+
+  return parts.length > 0 ? parts.join("/") : "archivo";
+}
+
+function getFileUploadPath(file) {
+  return file?.webkitRelativePath || file?.name || "archivo";
+}
+
+function getTotalUploadSize(entries = getAllUploadEntries()) {
+  return entries.reduce((total, entry) => total + (entry.size || 0), 0);
+}
+
+function makeUniqueZipPath(zipPath, entries) {
+  const usedPaths = new Set(entries.map((entry) => entry.zipPath));
+  if (!usedPaths.has(zipPath)) return zipPath;
+
+  const slashIndex = zipPath.lastIndexOf("/");
+  const directory = slashIndex >= 0 ? zipPath.slice(0, slashIndex + 1) : "";
+  const fileName = slashIndex >= 0 ? zipPath.slice(slashIndex + 1) : zipPath;
+  const dotIndex = fileName.lastIndexOf(".");
+  const base = dotIndex > 0 ? fileName.slice(0, dotIndex) : fileName;
+  const extension = dotIndex > 0 ? fileName.slice(dotIndex) : "";
+
+  for (let index = 2; index < 1000; index += 1) {
+    const candidate = `${directory}${base}_${index}${extension}`;
+    if (!usedPaths.has(candidate)) return candidate;
+  }
+
+  return `${directory}${base}_${Date.now()}${extension}`;
 }
 
 function getMessageNode() {
@@ -538,19 +689,45 @@ function validateCurrentStep() {
   return null;
 }
 
-function isPdfFile(file) {
-  return file?.type === "application/pdf" || /\.pdf$/i.test(file?.name || "");
+function getAcceptAttributeForConfig(config) {
+  return (config?.allowedExtensions || EVIDENCE_EXTENSIONS)
+    .map((extension) => `.${extension}`)
+    .join(",");
 }
 
-function buildUploadEntry(key, file) {
+function getEvidenceFileError(file, key) {
+  const extension = getFileExtension(file?.name);
+  const config = UPLOAD_CONFIG[key];
+  const allowedExtensions = new Set(config?.allowedExtensions || EVIDENCE_EXTENSIONS);
+
+  if (!extension) {
+    return "Ese archivo no tiene extensión. Renómbralo con su formato antes de subirlo.";
+  }
+
+  if (BLOCKED_EXTENSION_SET.has(extension)) {
+    return `.${extension} está bloqueado por seguridad. Sube el código fuente, documento o un ZIP del proyecto.`;
+  }
+
+  if (!EVIDENCE_EXTENSION_SET.has(extension) || !allowedExtensions.has(extension)) {
+    if (config?.formatsLabel) {
+      return `Ese archivo no corresponde a ${config.label}. En esta sección usa: ${config.formatsLabel}.`;
+    }
+    return `Tipo de archivo no permitido. Sube evidencias en formatos comunes: ${EVIDENCE_FORMATS_LABEL}.`;
+  }
+
+  return "";
+}
+
+function buildUploadEntry(key, file, existingEntries) {
   uploadSequence += 1;
+  const zipPath = makeUniqueZipPath(getUploadPath(key, getFileUploadPath(file)), existingEntries);
   return {
     id: `${key}-${uploadSequence}`,
     key,
     file,
-    name: file.name,
+    name: file.webkitRelativePath || file.name,
     size: file.size,
-    zipPath: getUploadPath(key, file.name),
+    zipPath,
   };
 }
 
@@ -561,11 +738,21 @@ function renderUploadUI(key) {
   const config = UPLOAD_CONFIG[key];
   const metaLine = root.querySelector(".upload-zone__meta-line");
   const fileList = root.querySelector(".upload-zone__file-list");
+  let formatLine = root.querySelector(".upload-zone__format-line");
   const entries = getUploadEntries(key);
 
   if (metaLine && config) {
-    const unit = config.maxFiles === 1 ? "PDF" : "PDFs";
+    const unit = config.maxFiles === 1 ? "archivo" : "archivos";
     metaLine.textContent = `${entries.length}/${config.maxFiles} ${unit} · Máx. 10MB por archivo`;
+  }
+
+  if (config?.formatsLabel && metaLine) {
+    if (!formatLine) {
+      formatLine = document.createElement("p");
+      formatLine.className = "upload-zone__format-line";
+      metaLine.insertAdjacentElement("afterend", formatLine);
+    }
+    formatLine.textContent = `Formatos: ${config.formatsLabel}.`;
   }
 
   if (fileList) {
@@ -593,27 +780,35 @@ function addFilesToUpload(key, files) {
   const currentEntries = getUploadEntries(key);
   const nextEntries = [...currentEntries];
   const addedEntries = [];
+  let nextTotalSize = getTotalUploadSize();
   let feedbackMessage = "";
 
   for (const file of files) {
-    if (!isPdfFile(file)) {
-      feedbackMessage = "Solo se aceptan archivos PDF en este formulario.";
+    const fileError = getEvidenceFileError(file, key);
+    if (fileError) {
+      feedbackMessage = fileError;
       continue;
     }
 
     if (file.size > MAX_UPLOAD_SIZE_BYTES) {
-      feedbackMessage = `Cada archivo en ${config.label} debe pesar maximo 10MB.`;
+      feedbackMessage = `Cada archivo en ${config.label} debe pesar máximo 10MB.`;
+      continue;
+    }
+
+    if (nextTotalSize + file.size > MAX_TOTAL_UPLOAD_SIZE_BYTES) {
+      feedbackMessage = `El paquete completo no debe superar ${formatBytes(MAX_TOTAL_UPLOAD_SIZE_BYTES)}.`;
       continue;
     }
 
     if (nextEntries.length >= config.maxFiles) {
-      feedbackMessage = `${config.label} permite hasta ${config.maxFiles} archivos PDF.`;
+      feedbackMessage = `${config.label} permite hasta ${config.maxFiles} archivos.`;
       break;
     }
 
-    const entry = buildUploadEntry(key, file);
+    const entry = buildUploadEntry(key, file, nextEntries);
     nextEntries.push(entry);
     addedEntries.push(entry);
+    nextTotalSize += file.size;
   }
 
   if (nextEntries.length > 0) {
@@ -663,9 +858,53 @@ function bindUploadZone(root) {
 
   if (!key || !input) return;
 
+  const config = UPLOAD_CONFIG[key];
+  input.accept = getAcceptAttributeForConfig(config);
+  let folderInput = null;
+  let folderButton = null;
+
+  if (config?.allowFolders && "webkitdirectory" in document.createElement("input")) {
+    folderInput = document.createElement("input");
+    folderInput.type = "file";
+    folderInput.hidden = true;
+    folderInput.multiple = true;
+    folderInput.setAttribute("webkitdirectory", "");
+    folderInput.setAttribute("directory", "");
+    folderInput.accept = getAcceptAttributeForConfig(config);
+    folderInput.className = "upload-zone__directory-input";
+    folderInput.setAttribute("aria-label", `${config.label}, carpeta de evidencias`);
+
+    folderButton = document.createElement("button");
+    folderButton.type = "button";
+    folderButton.className = "btn btn--outline btn--sm upload-zone__add-folder";
+    folderButton.textContent = "+ Añadir carpeta";
+
+    const actions = document.createElement("div");
+    actions.className = "upload-zone__actions";
+    if (addButton) {
+      addButton.insertAdjacentElement("beforebegin", actions);
+      actions.append(addButton, folderButton);
+    } else {
+      root.append(actions);
+      actions.append(folderButton);
+    }
+    root.append(folderInput);
+  }
+
   if (addButton) {
     addButton.addEventListener("click", () => {
       input.click();
+    });
+  }
+
+  if (folderButton && folderInput) {
+    folderButton.addEventListener("click", () => {
+      folderInput.click();
+    });
+
+    folderInput.addEventListener("change", () => {
+      addFilesToUpload(key, Array.from(folderInput.files || []));
+      folderInput.value = "";
     });
   }
 

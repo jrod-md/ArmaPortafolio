@@ -67,7 +67,8 @@ Checklist minimo:
 - Abrir inicio.
 - Ir a `generar.html`.
 - Completar los pasos del asistente.
-- Subir PDFs con nombres normales y nombres raros.
+- Subir evidencias con nombres normales y nombres raros.
+- Probar que las evidencias se conservan en su formato original dentro del ZIP.
 - Generar ZIP.
 - Revisar estructura del ZIP y `Portada.pdf`.
 - Confirmar que `descarga.html` permite descargar.
