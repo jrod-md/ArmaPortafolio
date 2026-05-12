@@ -99,6 +99,33 @@ h1, h2, h3, h4 { font-family: var(--font-display); font-weight: 500; color: var(
 .navbar__nav a.btn--primary { color: var(--bg-paper); } /* Fix: Button text color in nav */
 .navbar__sep { color: var(--border-strong); }
 @media (max-width: 720px) { .navbar__inner { align-items: center; } .navbar__sep { display: none; } }
+@media (max-width: 720px) {
+  .navbar__inner {
+    min-height: auto;
+    padding-block: 0.85rem;
+    gap: 0.85rem;
+    flex-wrap: wrap;
+  }
+
+  .wordmark {
+    font-size: 1.32rem;
+  }
+
+  .navbar__nav {
+    width: 100%;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    gap: 0.6rem 1rem;
+  }
+
+  .navbar__nav a {
+    font-size: 0.84rem;
+  }
+
+  .navbar__nav a.btn--primary {
+    margin-top: 0.25rem;
+  }
+}
 
 /* Buttons */
 .btn { display: inline-flex; align-items: center; justify-content: center; font-family: var(--font-ui); font-weight: 600; font-size: 0.95rem; padding: 0.75rem 1.5rem; border: 1px solid var(--border-strong); background: var(--surface); color: var(--text); text-decoration: none; cursor: pointer; transition: all 0.25s var(--ease); border-radius: 6px; }
@@ -452,6 +479,7 @@ h1, h2, h3, h4 { font-family: var(--font-display); font-weight: 500; color: var(
 .wizard-main { padding: clamp(2rem, 5vw, 5rem); background: var(--bg); max-width: 860px; margin: 0 auto; width: 100%; }
 .wizard-progress { margin-bottom: 4rem; }
 .wizard-progress__top { display: flex; justify-content: space-between; font-size: 0.7rem; color: var(--text-hint); font-weight: 700; margin-bottom: 0.75rem; text-transform: uppercase; letter-spacing: 0.1em; }
+.wizard-progress__meta { white-space: nowrap; text-align: right; }
 .wizard-progress__track { height: 6px; background: var(--border); width: 100%; border-radius: 99px; overflow: hidden; }
 .wizard-progress__bar { width: 20%; height: 100%; background: var(--primary); transition: width 0.5s var(--ease); display: block; }
 .wizard-progress__track[data-step="1"] .wizard-progress__bar { width: 20%; }
@@ -459,6 +487,30 @@ h1, h2, h3, h4 { font-family: var(--font-display); font-weight: 500; color: var(
 .wizard-progress__track[data-step="3"] .wizard-progress__bar { width: 60%; }
 .wizard-progress__track[data-step="4"] .wizard-progress__bar { width: 80%; }
 .wizard-progress__track[data-step="5"] .wizard-progress__bar { width: 100%; }
+@media (max-width: 520px) {
+  .wizard-sidebar,
+  .wizard-main,
+  .portfolio-preview {
+    padding-inline: 1.5rem;
+  }
+
+  .wizard-progress {
+    margin-bottom: 3rem;
+  }
+
+  .wizard-progress__top {
+    display: grid;
+    gap: 0.2rem;
+    justify-content: start;
+    font-size: 0.66rem;
+    letter-spacing: 0.08em;
+  }
+
+  .wizard-progress__meta {
+    text-align: left;
+    white-space: normal;
+  }
+}
 
 .wizard-panel__title { font-family: var(--font-display); font-size: clamp(2rem, 4vw, 2.75rem); margin-bottom: 1rem; color: var(--primary); }
 .wizard-panel__subtitle { color: var(--text-muted); margin-bottom: 3.5rem; font-size: 1.15rem; max-width: 60ch; }

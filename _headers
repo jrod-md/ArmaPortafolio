@@ -11,19 +11,37 @@
 /index.html
   Cache-Control: no-cache
 
+/generar
+  Cache-Control: no-cache
+
 /generar.html
+  Cache-Control: no-cache
+
+/descarga
   Cache-Control: no-cache
 
 /descarga.html
   Cache-Control: no-cache
 
+/faq
+  Cache-Control: no-cache
+
 /faq.html
+  Cache-Control: no-cache
+
+/ayuda
   Cache-Control: no-cache
 
 /ayuda.html
   Cache-Control: no-cache
 
+/nosotros
+  Cache-Control: no-cache
+
 /nosotros.html
+  Cache-Control: no-cache
+
+/404
   Cache-Control: no-cache
 
 /404.html
