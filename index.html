@@ -25,7 +25,7 @@
       href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Lora:ital,wght@0,500;0,600;0,700;1,500;1,600&display=swap"
       rel="stylesheet"
     />
-    <link rel="stylesheet" href="css/styles.css?v=5" />
+    <link rel="stylesheet" href="css/styles.css?v=6" />
     <link rel="icon" type="image/svg+xml" href="favicon.svg" />
     <script src="theme-init.js"></script>
   </head>
@@ -62,35 +62,63 @@
               <p class="hero__note">Gratis y directo</p>
             </div>
           </div>
-          <figure class="hero__visual reveal reveal-delay-2 hero-output" aria-hidden="true">
-            <div class="hero-output__surface">
-              <div class="hero-output__folder">
-                <span class="hero-output__tab">01_Portada</span>
-                <span class="hero-output__tab">02_Asignaciones</span>
-                <span class="hero-output__tab">03_Parciales</span>
-                <span class="hero-output__tab">04_Labs</span>
+          <figure class="hero__visual reveal reveal-delay-2" aria-hidden="true">
+            <div class="vertical-dossier vertical-dossier--hero">
+              <div class="vertical-dossier__spine"></div>
+              <div class="vertical-dossier__body">
+                <div class="vertical-dossier__cover">
+                  <div class="vertical-dossier__header">
+                    <div class="vertical-dossier__mock-logo"></div>
+                    <div class="vertical-dossier__title">Portafolio Estudiantil</div>
+                    <div class="vertical-dossier__subtitle">Documentación Académica Oficial</div>
+                  </div>
+                  
+                  <div class="vertical-dossier__metadata">
+                    <div class="vertical-dossier__meta-row">
+                      <span class="vertical-dossier__meta-label">Facultad</span>
+                      <span class="vertical-dossier__meta-value">Sistemas Computacionales</span>
+                    </div>
+                    <div class="vertical-dossier__meta-row">
+                      <span class="vertical-dossier__meta-label">Formato</span>
+                      <span class="vertical-dossier__meta-value">Estandarizado UTP</span>
+                    </div>
+                    <div class="vertical-dossier__meta-row">
+                      <span class="vertical-dossier__meta-label">Estado</span>
+                      <span class="vertical-dossier__meta-value">Listo para entrega</span>
+                    </div>
+                  </div>
+
+                  <div class="vertical-dossier__ready-stamp" style="opacity: 1; transform: rotate(-15deg) scale(1);">OFICIAL</div>
+                </div>
+
+                <div class="vertical-dossier__tabs">
+                  <div class="vertical-dossier__tab vertical-dossier__tab--active">
+                    <span class="vertical-dossier__tab-id">01</span>
+                    <span class="vertical-dossier__tab-name">Portada</span>
+                    <span class="vertical-dossier__tab-count">1</span>
+                  </div>
+                  <div class="vertical-dossier__tab">
+                    <span class="vertical-dossier__tab-id">02</span>
+                    <span class="vertical-dossier__tab-name">Asignaciones</span>
+                    <span class="vertical-dossier__tab-count">8</span>
+                  </div>
+                  <div class="vertical-dossier__tab">
+                    <span class="vertical-dossier__tab-id">04</span>
+                    <span class="vertical-dossier__tab-name">Laboratorios</span>
+                    <span class="vertical-dossier__tab-count">12</span>
+                  </div>
+                </div>
               </div>
-              <div class="hero-output__cover">
-                <span class="hero-output__seal"></span>
-                <span class="hero-output__rule"></span>
-                <span class="hero-output__line hero-output__line--wide"></span>
-                <span class="hero-output__line"></span>
-                <span class="hero-output__line hero-output__line--short"></span>
-              </div>
-              <div class="hero-output__tree">
-                <strong>Estructura</strong>
-                <span>Portafolio_FISC/</span>
-                <span>├─ 01_Portada.pdf</span>
-                <span>├─ 02_Asignaciones/</span>
-                <span>└─ Portafolio_FISC.zip</span>
-              </div>
-              <div class="hero-output__zip">
-                <span class="hero-output__zip-icon"></span>
-                <strong>Portafolio_FISC.zip</strong>
-                <span>Listo para entrega</span>
+
+              <div class="vertical-dossier__zip-badge vertical-dossier__zip-badge--visible">
+                <div class="vertical-dossier__zip-icon"></div>
+                <div class="vertical-dossier__zip-text">
+                  <strong>portafolio_fisc.zip</strong>
+                  <span>Paquete comprimido</span>
+                </div>
               </div>
             </div>
-            <figcaption class="hero-collage__chip">Lo que recibes al final</figcaption>
+            <figcaption class="hero-collage__chip">Resultado final profesional</figcaption>
           </figure>
         </div>
       </section>

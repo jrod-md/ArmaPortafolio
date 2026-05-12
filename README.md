@@ -121,8 +121,10 @@ Eso protege los previews, no la URL canonica.
 
 ## Pendientes
 
-- Pulir UI movil del asistente.
-- Hacer limpieza de copy en paginas secundarias.
-- Completar pulido visual de la nueva marca Portafolio FISC.
+- Revisar IA de conclusión solo cuando el producto base esté estable.
 - Agregar Cloudflare Web Analytics desde el dashboard.
-- Revisar IA de conclusion solo cuando el producto base este estable.
+
+## Créditos y Contribución
+
+Creado para la comunidad estudiantil de FISC - UTP.
+MIT License.

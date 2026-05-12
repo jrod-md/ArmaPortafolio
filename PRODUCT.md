@@ -5,25 +5,26 @@
 product
 
 ## Users
-Students at UTP, especially those finishing portfolio work late at night under deadline pressure, using mostly laptop screens and occasionally mobile.
+Estudiantes de la UTP/FISC que necesitan preparar su Portafolio Digital Estudiantil bajo estándares oficiales. Usuarios que valoran la rapidez, la precisión académica y una interfaz que inspire confianza institucional.
 
 ## Product Purpose
-Generate and submit a portfolio ZIP fast with zero format mistakes while keeping a comforting home design for late-night students without using dark theme.
+Generar y organizar el ZIP del portafolio estudiantil en segundos, garantizando la estructura correcta (portada, carpetas, evidencias) mientras se ofrece una experiencia visual cálida y profesional que reduce el estrés de la entrega.
 
 ## Brand Personality
-Academic, trustable, artistic.
-The voice should feel precise, calm, and caring.
+Institucional, confiable, académica.
+La voz es precisa, clara y facilitadora. El diseño evoca la seriedad de una oficina de archivos universitarios o una papelería de alta gama.
 
 ## Anti-references
-Avoid barebones pages with no soul or creativity, especially patterns similar to https://www2.pnwx.com/.
-Avoid slow-feeling interfaces and visual noise that distracts from completion.
+Evitar interfaces genéricas de "SaaS moderno", colores neón, glassmorphism o ilustraciones infantiles.
+Evitar el desorden visual y la ambigüedad en los pasos de generación.
 
 ## Design Principles
-1. One-click confidence: every screen should reinforce correctness and readiness.
-2. Calm pressure handling: support late-night stress with clear flow and warm visual tone.
-3. Restrained identity: white-forward surfaces with disciplined purple expression.
-4. Fast certainty: visible progress, state feedback, and no ambiguous transitions.
-5. Hybrid register: marketing pages tell the story, app pages optimize task completion.
+1. **Confianza Institucional**: Cada pantalla debe reforzar que el resultado cumple con los requisitos de la FISC.
+2. **Metáfora del Dossier**: El uso de capas de papel y pestañas laterales ayuda al usuario a visualizar su progreso físico/digital.
+3. **Calma Académica**: Uso de tonos neutros cálidos para reducir la fatiga visual y el estrés del estudiante.
+4. **Certeza de Estado**: Progreso visible, checkmarks de completado y previsualización en tiempo real del paquete final.
+5. **Enfoque en la Tarea**: El asistente es el protagonista; la interfaz secundaria (sidebar de previsualización) apoya sin distraer.
 
 ## Accessibility & Inclusion
-Target WCAG 2.1 AA contrast, keyboard-friendly interactions, visible focus states, and reduced-motion respect where possible.
+Cumplimiento con contraste WCAG 2.1 AA (especialmente en textos Charcoal sobre Antique Paper), navegación fluida por teclado y respeto absoluto por `prefers-reduced-motion`.
+

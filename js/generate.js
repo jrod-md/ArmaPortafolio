@@ -10,7 +10,7 @@ const FONT_REGULAR_PATH = "../assets/fonts/LiberationSans-Regular.ttf";
 const FONT_BOLD_PATH = "../assets/fonts/LiberationSans-Bold.ttf";
 const SCRIPT_URL = document.currentScript?.src || window.location.href;
 
-const TEXT_RGB = hexToRgb("#2F3E46");
+const TEXT_RGB = hexToRgb("#1C1A17");
 
 const DEPARTMENT_BOUNDS = { x: 435, y: 589, width: 280 };
 const COURSE_BOUNDS = { y: 455, width: 560 };

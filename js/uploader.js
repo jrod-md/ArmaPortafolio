@@ -72,7 +72,7 @@ export class FileUploadSection {
     const track = document.createElement("div");
     track.style.width = "100%";
     track.style.height = "8px";
-    track.style.background = "#ece6fa";
+    track.style.background = "#e4dac8";
     track.style.borderRadius = "999px";
     track.style.overflow = "hidden";
 
@@ -80,7 +80,7 @@ export class FileUploadSection {
     bar.style.height = "100%";
     bar.style.width = "0%";
     bar.style.borderRadius = "999px";
-    bar.style.background = "linear-gradient(90deg, #7f58df, #5f36c5)";
+    bar.style.background = "linear-gradient(90deg, #123d25, #1c5234)";
     bar.style.transition = "width 220ms ease-out";
 
     track.appendChild(bar);
@@ -114,7 +114,7 @@ export class FileUploadSection {
       FileUploadSection.globalBytesBar.style.background = "linear-gradient(90deg, #d94a4a, #b02f2f)";
       FileUploadSection.globalBytesText.style.color = "#8f2323";
     } else {
-      FileUploadSection.globalBytesBar.style.background = "linear-gradient(90deg, #7f58df, #5f36c5)";
+      FileUploadSection.globalBytesBar.style.background = "linear-gradient(90deg, #123d25, #1c5234)";
       FileUploadSection.globalBytesText.style.color = "";
     }
   }
@@ -268,7 +268,7 @@ export class FileUploadSection {
       row.style.gridTemplateColumns = "1fr auto auto";
       row.style.gap = ".55rem";
       row.style.alignItems = "center";
-      row.style.border = "1px solid #e9e2fa";
+      row.style.border = "1px solid #ded5c4";
       row.style.borderRadius = "10px";
       row.style.padding = ".45rem .55rem";
       row.style.background = "#fff";
@@ -277,12 +277,12 @@ export class FileUploadSection {
       name.textContent = truncate(file.name, 40);
       name.title = file.name;
       name.style.fontSize = ".85rem";
-      name.style.color = "#1F2A24";
+      name.style.color = "#1c1a17";
 
       const size = document.createElement("span");
       size.textContent = formatBytes(file.size);
       size.style.fontSize = ".75rem";
-      size.style.color = "#6B756D";
+      size.style.color = "#5c5549";
 
       const removeBtn = document.createElement("button");
       removeBtn.type = "button";

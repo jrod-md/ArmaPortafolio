@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="es">
   <head>
     <meta charset="UTF-8" />
@@ -25,7 +25,7 @@
       href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Lora:ital,wght@0,500;0,600;0,700;1,500;1,600&display=swap"
       rel="stylesheet"
     />
-    <link rel="stylesheet" href="css/styles.css?v=5" />
+    <link rel="stylesheet" href="css/styles.css?v=6" />
     <link rel="icon" type="image/svg+xml" href="favicon.svg" />
     <script src="theme-init.js"></script>
   </head>
@@ -302,27 +302,26 @@
           <h1 class="wizard-panel__title" id="wizard-h5">Revisar y generar</h1>
           <p class="wizard-panel__subtitle">Revisa la estructura final antes de descargar. Portada, evidencias y conclusión quedan empaquetadas en un solo ZIP.</p>
           <div class="wizard-summary">
-            <h2 class="wizard-summary__heading">Resumen</h2>
+            <h2 class="wizard-summary__heading">Resumen del paquete</h2>
             <dl class="wizard-summary__grid">
-              <dt>Nombre completo</dt><dd id="sumNombre">—</dd>
+              <dt>Estudiante</dt><dd id="sumNombre">—</dd>
               <dt>Cédula</dt><dd id="sumCedula">—</dd>
               <dt>Curso</dt><dd id="sumCurso">—</dd>
               <dt>Departamento</dt><dd id="sumDepto">—</dd>
               <dt>Facilitador(a)</dt><dd id="sumFacil">—</dd>
-              <dt>Semestre y año</dt><dd id="sumSem">—</dd>
+              <dt>Ciclo Académico</dt><dd id="sumSem">—</dd>
             </dl>
-            <p style="margin-bottom: 0.5rem;">
-              <strong style="color: var(--text-muted); font-weight: 500;">Presentación:</strong>
-              <span id="sum-presentacion">No indicada</span>
-            </p>
-            <p style="margin-bottom: 0.5rem;">
-              <strong style="color: var(--text-muted); font-weight: 500;">Archivos:</strong> 
-              <span id="sum-files">Archivos cargados: 0</span>
-            </p>
-            <p style="margin-bottom: 0.5rem;">
-              <strong style="color: var(--text-muted); font-weight: 500;">Conclusión:</strong> 
-              <span id="sum-conclusion">No incluida</span>
-            </p>
+            
+            <div class="wizard-summary__footer">
+              <div class="wizard-summary__meta">
+                <span class="wizard-label">Documentos</span>
+                <p id="sum-files">Archivos cargados: 0</p>
+              </div>
+              <div class="wizard-summary__meta">
+                <span class="wizard-label">Conclusión</span>
+                <p id="sum-conclusion">No incluida</p>
+              </div>
+            </div>
           </div>
           <div class="wizard-warn-box" role="status">
             Sin nombres de carpetas incorrectos. Cuando todo esté listo, genera el paquete final.
@@ -342,73 +341,107 @@
 
       <aside class="portfolio-preview" aria-label="Vista del paquete del portafolio">
         <div class="portfolio-preview__panel">
-          <div class="portfolio-preview__eyebrow">Archivo vivo</div>
-          <h2 class="portfolio-preview__title">Tu portafolio se va armando aquí</h2>
-          <p class="portfolio-preview__copy" id="preview-copy">Cada archivo entra en la carpeta correcta.</p>
+          <div class="portfolio-preview__eyebrow">Vista en tiempo real</div>
+          <h2 class="portfolio-preview__title">Paquete oficial</h2>
+          
+          <div class="vertical-dossier" id="portfolio-live-preview">
+            <div class="vertical-dossier__spine"></div>
+            <div class="vertical-dossier__body">
+              <div class="vertical-dossier__cover">
+                <div class="vertical-dossier__header">
+                  <div class="vertical-dossier__mock-logo"></div>
+                  <div class="vertical-dossier__title" id="preview-dossier-title">Portafolio Digital</div>
+                  <div class="vertical-dossier__subtitle" id="preview-dossier-subtitle">FISC · UTP</div>
+                </div>
+                
+                <div class="vertical-dossier__metadata">
+                  <div class="vertical-dossier__meta-row">
+                    <span class="vertical-dossier__meta-label">Estudiante</span>
+                    <span class="vertical-dossier__meta-value" id="preview-meta-nombre">—</span>
+                  </div>
+                  <div class="vertical-dossier__meta-row">
+                    <span class="vertical-dossier__meta-label">Cédula</span>
+                    <span class="vertical-dossier__meta-value" id="preview-meta-cedula">—</span>
+                  </div>
+                  <div class="vertical-dossier__meta-row">
+                    <span class="vertical-dossier__meta-label">Curso</span>
+                    <span class="vertical-dossier__meta-value" id="preview-meta-curso">—</span>
+                  </div>
+                  <div class="vertical-dossier__meta-row">
+                    <span class="vertical-dossier__meta-label">Facilitador</span>
+                    <span class="vertical-dossier__meta-value" id="preview-meta-facilitador">—</span>
+                  </div>
+                  <div class="vertical-dossier__meta-row">
+                    <span class="vertical-dossier__meta-label">Departamento</span>
+                    <span class="vertical-dossier__meta-value" id="preview-meta-departamento">—</span>
+                  </div>
+                  <div class="vertical-dossier__meta-row">
+                    <span class="vertical-dossier__meta-label">Semestre</span>
+                    <span class="vertical-dossier__meta-value" id="preview-meta-semestre">—</span>
+                  </div>
+                  <div class="vertical-dossier__meta-row">
+                    <span class="vertical-dossier__meta-label">Año</span>
+                    <span class="vertical-dossier__meta-value" id="preview-meta-anio">—</span>
+                  </div>
+                </div>
 
-          <div class="accordion-folder" id="portfolio-live-preview" data-active-section="portada" data-compiling="false">
-            <div class="folder-surface" aria-hidden="true"></div>
-            <div class="folder-back" aria-hidden="true">
-              <span>Portafolio FISC</span>
+                <div class="vertical-dossier__ready-stamp" id="preview-ready-stamp">LISTO</div>
+              </div>
+
+              <div class="vertical-dossier__tabs">
+                <div class="vertical-dossier__tab" data-preview-tab="portada">
+                  <span class="vertical-dossier__tab-id">01</span>
+                  <span class="vertical-dossier__tab-name">Portada</span>
+                  <span class="vertical-dossier__tab-count" data-preview-count="portada">1</span>
+                </div>
+                <div class="vertical-dossier__tab" data-preview-tab="asignaciones">
+                  <span class="vertical-dossier__tab-id">02</span>
+                  <span class="vertical-dossier__tab-name">Asignaciones</span>
+                  <span class="vertical-dossier__tab-count" data-preview-count="asignaciones">0</span>
+                </div>
+                <div class="vertical-dossier__tab" data-preview-tab="parciales">
+                  <span class="vertical-dossier__tab-id">03</span>
+                  <span class="vertical-dossier__tab-name">Parciales</span>
+                  <span class="vertical-dossier__tab-count" data-preview-count="parciales">0</span>
+                </div>
+                <div class="vertical-dossier__tab" data-preview-tab="laboratorios">
+                  <span class="vertical-dossier__tab-id">04</span>
+                  <span class="vertical-dossier__tab-name">Laboratorios</span>
+                  <span class="vertical-dossier__tab-count" data-preview-count="laboratorios">0</span>
+                </div>
+                <div class="vertical-dossier__tab" data-preview-tab="proyectos">
+                  <span class="vertical-dossier__tab-id">05</span>
+                  <span class="vertical-dossier__tab-name">Proyectos</span>
+                  <span class="vertical-dossier__tab-count" data-preview-count="proyectos">0</span>
+                </div>
+                <div class="vertical-dossier__tab" data-preview-tab="conclusion">
+                  <span class="vertical-dossier__tab-id">06</span>
+                  <span class="vertical-dossier__tab-name">Conclusión</span>
+                  <span class="vertical-dossier__tab-count" data-preview-count="conclusion">0</span>
+                </div>
+              </div>
             </div>
 
-            <div class="folder-divider folder-divider--portada" data-preview-divider="portada" aria-hidden="true">
-              <span class="folder-divider__tab">01 Portada</span>
-              <span class="folder-divider__count" data-preview-count="portada">1</span>
-            </div>
-            <div class="folder-divider folder-divider--asignaciones" data-preview-divider="asignaciones" aria-hidden="true">
-              <span class="folder-divider__tab">02 Asig.</span>
-              <span class="folder-divider__count" data-preview-count="asignaciones">0</span>
-            </div>
-            <div class="folder-divider folder-divider--parciales" data-preview-divider="parciales" aria-hidden="true">
-              <span class="folder-divider__tab">03 Parc.</span>
-              <span class="folder-divider__count" data-preview-count="parciales">0</span>
-            </div>
-            <div class="folder-divider folder-divider--laboratorios" data-preview-divider="laboratorios" aria-hidden="true">
-              <span class="folder-divider__tab">04 Labs</span>
-              <span class="folder-divider__count" data-preview-count="laboratorios">0</span>
-            </div>
-            <div class="folder-divider folder-divider--proyectos" data-preview-divider="proyectos" aria-hidden="true">
-              <span class="folder-divider__tab">05 Proy.</span>
-              <span class="folder-divider__count" data-preview-count="proyectos">0</span>
-            </div>
-            <div class="folder-divider folder-divider--conclusion" data-preview-divider="conclusion" aria-hidden="true">
-              <span class="folder-divider__tab">06 Concl.</span>
-              <span class="folder-divider__count" data-preview-count="conclusion">0</span>
-            </div>
-
-            <div class="folder-paper-stack" id="preview-paper-stack" aria-hidden="true"></div>
-
-            <div class="folder-front" aria-hidden="true">
-              <span class="folder-front__label">Estructura lista</span>
-            </div>
-
-            <div class="folder-zip-card" id="preview-zip-card" aria-hidden="true">
-              <span class="folder-zip-card__icon" aria-hidden="true"></span>
-              <strong>Portafolio_FISC.zip</strong>
-              <span>Listo para entregar</span>
-              <span class="folder-zip-card__cta">Descargar ZIP</span>
+            <div class="vertical-dossier__zip-badge" id="preview-zip-badge">
+              <div class="vertical-dossier__zip-icon"></div>
+              <div class="vertical-dossier__zip-text">
+                <strong>ZIP Generado</strong>
+                <span>Listo para descargar</span>
+              </div>
             </div>
           </div>
 
-          <div class="portfolio-preview__status">
-            <span id="preview-active-label">01_Portada</span>
-            <span id="preview-count">Portada preparada</span>
-          </div>
-
-          <ul class="preview-file-list" id="preview-file-list" aria-label="Estructura visual del paquete">
-            <li><span>01_Portada</span><strong>1 archivo</strong></li>
-          </ul>
+          <p class="portfolio-preview__copy" id="preview-copy" style="text-align: center; margin-top: 1.5rem;">
+            Cada archivo se organiza automáticamente en la sección correspondiente.
+          </p>
         </div>
       </aside>
     </div>
 
     <script src="vendor/pdf-lib/pdf-lib.min.js?v=1"></script>
     <script src="vendor/fontkit/fontkit.umd.min.js?v=1"></script>
-    <script src="js/zip.js?v=3"></script>
-    <script src="js/generate.js?v=3"></script>
-    <script src="js/app.js?v=5"></script>
+    <script src="js/zip.js?v=6"></script>
+    <script src="js/generate.js?v=6"></script>
+    <script src="js/app.js?v=6"></script>
   </body>
 </html>
-
-

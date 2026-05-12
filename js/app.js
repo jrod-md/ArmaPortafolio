@@ -174,14 +174,19 @@ function clearMessage() {
 }
 
 function getStudentData() {
+  const departmentField = $("sf-depto");
+  const department = departmentField?.value
+    ? (departmentField.selectedOptions?.[0]?.text || departmentField.value || "").trim()
+    : "";
+
   return {
     fullName: clampText($("sf-nombre")?.value, MAX_FULL_NAME_LENGTH),
     cedula: ($("sf-cedula")?.value || "").trim(),
     courseName: clampText($("sf-curso")?.value, MAX_COURSE_NAME_LENGTH),
-    department: ($("sf-depto")?.selectedOptions?.[0]?.text || $("sf-depto")?.value || "").trim(),
+    department,
     facilitator: clampText($("sf-facilitador")?.value, MAX_FACILITATOR_LENGTH),
     semester: ($("sf-semestre")?.value || "").trim(),
-    year: "2026",
+    year: ($("sf-anio")?.value || "").trim(),
     faculty: "fisc",
   };
 }
@@ -274,6 +279,16 @@ function countFilesLabel(count) {
   return count === 1 ? "1 archivo" : `${count} archivos`;
 }
 
+function previewText(value) {
+  const text = String(value || "").trim();
+  return text || "—";
+}
+
+function setPreviewText(id, value) {
+  const node = $(id);
+  if (node) node.textContent = previewText(value);
+}
+
 function syncPreviewSectionToStep() {
   if (currentStep === 5) {
     previewActiveSection = getMostRelevantPreviewSection();
@@ -283,114 +298,79 @@ function syncPreviewSectionToStep() {
   previewActiveSection = PREVIEW_STEP_SECTIONS[currentStep] || previewActiveSection || "portada";
 }
 
-function renderPortfolioPreview(options = {}) {
+function updateDossierPreview(options = {}) {
   const root = $("portfolio-live-preview");
   if (!root) return;
 
   const sections = getPreviewData();
-  const incomingIds = new Set(options.incomingEntryIds || []);
+  const student = getStudentData();
+  const isFinalStep = currentStep === 5;
   const requestedSection = options.activeSection || options.incomingSection;
-  if (requestedSection) {
+
+  if (sections.some((section) => section.id === requestedSection)) {
     previewActiveSection = requestedSection;
   }
-  previewActiveSection = getPreviewSectionConfig(previewActiveSection).id;
 
-  root.dataset.activeSection = previewActiveSection;
-  root.dataset.compiling = previewIsCompiling ? "true" : "false";
+  const activeSection = previewActiveSection || getMostRelevantPreviewSection(sections);
+  const activeConfig = getPreviewSectionConfig(activeSection);
+  const subtitleParts = ["FISC", "UTP", student.year].filter(Boolean);
+
+  root.dataset.activeSection = activeSection;
+
+  setPreviewText("preview-dossier-title", student.courseName || "Portafolio Digital");
+  setPreviewText("preview-dossier-subtitle", subtitleParts.join(" · "));
+  setPreviewText("preview-meta-nombre", student.fullName);
+  setPreviewText("preview-meta-cedula", student.cedula);
+  setPreviewText("preview-meta-curso", student.courseName);
+  setPreviewText("preview-meta-facilitador", student.facilitator);
+  setPreviewText("preview-meta-departamento", student.department);
+  setPreviewText("preview-meta-semestre", student.semester);
+  setPreviewText("preview-meta-anio", student.year);
 
   sections.forEach((section) => {
+    const count = section.entries.length;
     const countNode = document.querySelector(`[data-preview-count="${section.id}"]`);
     if (countNode) {
-      countNode.textContent = String(section.entries.length);
+      countNode.textContent = String(count);
+      countNode.setAttribute("aria-label", countFilesLabel(count));
+    }
+
+    const tabEl = document.querySelector(`[data-preview-tab="${section.id}"]`);
+    if (tabEl) {
+      const isActive = section.id === activeSection;
+      const isCompleted = count > 0;
+      tabEl.classList.toggle("vertical-dossier__tab--active", isActive);
+      tabEl.classList.toggle("vertical-dossier__tab--completed", isCompleted);
+      tabEl.setAttribute("aria-current", isActive ? "step" : "false");
+      tabEl.setAttribute("aria-label", `${section.label}: ${countFilesLabel(count)}`);
     }
   });
 
-  const allEntries = sections.flatMap((section) => section.entries);
-  const coverEntry = allEntries.find((entry) => entry.id === "preview-portada-generated");
-  const restEntries = allEntries.filter((entry) => entry.id !== "preview-portada-generated");
-  const visibleEntries = [coverEntry, ...restEntries.slice(-7)].filter(Boolean);
-  const paperStack = $("preview-paper-stack");
-
-  if (paperStack) {
-    const liftBySection = {
-      portada: 18,
-      asignaciones: 24,
-      parciales: 19,
-      laboratorios: 15,
-      proyectos: 10,
-      conclusion: 6,
-    };
-    const shifts = [-26, -14, -3, 10, 20, -18, 4, 16];
-    const rotations = [-2.1, -0.9, 1.1, -0.3, 1.6, -1.4, 0.5, 1.2];
-
-    paperStack.innerHTML = "";
-    visibleEntries.forEach((entry, index) => {
-      const paper = document.createElement("div");
-      paper.className = "folder-paper";
-      if (incomingIds.has(entry.id)) {
-        paper.classList.add("folder-paper--incoming");
-      }
-      paper.style.setProperty("--paper-shift", `${shifts[index % shifts.length]}px`);
-      paper.style.setProperty(
-        "--paper-lift",
-        `${(liftBySection[entry.sectionId] || 16) + index * 3}px`
-      );
-      paper.style.setProperty("--paper-rot", `${rotations[index % rotations.length]}deg`);
-      paper.style.setProperty("--paper-z", String(11 + index));
-
-      const name = document.createElement("span");
-      name.className = "folder-paper__name";
-      name.textContent = entry.name;
-
-      const sectionName = document.createElement("span");
-      sectionName.className = "folder-paper__section";
-      sectionName.textContent = entry.sectionLabel;
-
-      paper.append(name, sectionName);
-      paperStack.appendChild(paper);
-    });
+  const stamp = $("preview-ready-stamp");
+  if (stamp) {
+    stamp.style.opacity = isFinalStep ? "1" : "0";
+    stamp.style.transform = isFinalStep ? "rotate(-15deg) scale(1)" : "rotate(-15deg) scale(1.4)";
   }
 
-  const activeConfig = getPreviewSectionConfig(previewActiveSection);
-  const activeSection = sections.find((section) => section.id === activeConfig.id);
-  const activeCount = activeSection?.entries.length || 0;
-  const activeLabel = $("preview-active-label");
-  const countLabel = $("preview-count");
+  const zipBadge = $("preview-zip-badge");
+  if (zipBadge) {
+    zipBadge.classList.toggle("vertical-dossier__zip-badge--visible", previewIsCompiling || isFinalStep);
+  }
+
   const copy = $("preview-copy");
-  const fileList = $("preview-file-list");
-  const zipCard = $("preview-zip-card");
-
-  if (activeLabel) {
-    activeLabel.textContent = activeConfig.label;
-  }
-  if (countLabel) {
-    countLabel.textContent = activeCount ? countFilesLabel(activeCount) : activeConfig.empty;
-  }
   if (copy) {
     if (previewIsCompiling) {
-      copy.textContent = "La carpeta se compacta y el ZIP queda listo para entrega.";
-    } else if (currentStep === 5) {
-      copy.textContent = "Revisa la estructura final antes de descargar.";
+      copy.textContent = "Comprimiendo paquete final...";
+    } else if (isFinalStep) {
+      copy.textContent = "Estructura verificada y lista para descargar.";
     } else {
-      copy.textContent = activeConfig.copy;
+      copy.textContent = activeConfig?.copy || "Cada archivo se organiza automáticamente en la sección correspondiente.";
     }
   }
-  if (zipCard) {
-    zipCard.setAttribute("aria-hidden", previewIsCompiling ? "false" : "true");
-  }
-  if (fileList) {
-    fileList.innerHTML = "";
-    sections.forEach((section) => {
-      const item = document.createElement("li");
-      const label = document.createElement("span");
-      const count = document.createElement("strong");
+}
 
-      label.textContent = section.label;
-      count.textContent = section.entries.length ? countFilesLabel(section.entries.length) : "Pendiente";
-      item.append(label, count);
-      fileList.appendChild(item);
-    });
-  }
+function renderPortfolioPreview(options = {}) {
+  updateDossierPreview(options);
 }
 
 function setPortfolioPreviewCompiling(isCompiling) {
@@ -406,17 +386,12 @@ function waitForPreviewTransition() {
 
 function refreshSummary() {
   const student = getStudentData();
-  const departmentNode = $("sf-depto");
-  const departmentText =
-    departmentNode?.selectedOptions?.[0]?.text ||
-    departmentNode?.value ||
-    "-";
 
   const summary = {
     sumNombre: student.fullName || "-",
     sumCedula: student.cedula || "-",
     sumCurso: student.courseName || "-",
-    sumDepto: departmentText || "-",
+    sumDepto: student.department || "-",
     sumFacil: student.facilitator || "-",
     sumSem: `${student.semester || "-"} · ${student.year || "-"}`,
   };
@@ -427,12 +402,6 @@ function refreshSummary() {
       node.textContent = value;
     }
   });
-
-  const presentationNode = $("sum-presentacion");
-  if (presentationNode) {
-    const parts = [student.fullName, student.cedula].filter(Boolean);
-    presentationNode.textContent = parts.length ? parts.join(" · ") : "No indicada";
-  }
 
   const filesNode = $("sum-files");
   if (filesNode) {
@@ -936,6 +905,23 @@ function bindGenerateButton() {
   });
 }
 
+function bindDossierPreviewInputs() {
+  [
+    "sf-nombre",
+    "sf-cedula",
+    "sf-curso",
+    "sf-facilitador",
+    "sf-semestre",
+    "sf-anio",
+    "sf-depto",
+  ].forEach((id) => {
+    const field = $(id);
+    if (!field) return;
+    field.addEventListener("input", () => updateDossierPreview());
+    field.addEventListener("change", () => updateDossierPreview());
+  });
+}
+
 function initApp() {
   const yearField = $("sf-anio");
   if (yearField) {
@@ -946,6 +932,7 @@ function initApp() {
   bindNavigation();
   bindConclusionUi();
   bindGenerateButton();
+  bindDossierPreviewInputs();
   refreshSummary();
   updateSidebar();
   updateProgress();

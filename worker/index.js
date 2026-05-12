@@ -41,10 +41,7 @@ async function handleConclusion(request, env, origin) {
     "department",
     "facilitator",
     "semester",
-    "year",
-    "expectations",
-    "activities",
-    "numParciales",
+    "year"
   ];
 
   const hasMissingField = requiredFields.some((field) => {
@@ -57,20 +54,23 @@ async function handleConclusion(request, env, origin) {
   }
 
   const prompt = `
-Eres un asistente académico.
-Redacta una conclusión final de cierre de curso en español formal para un portafolio universitario.
+Eres un asistente académico experto de la Universidad Tecnológica de Panamá (UTP).
+Redacta una conclusión final formal y profesional para un Portafolio Digital Estudiantil.
 
-Datos:
+Contexto del Dossier:
+- Institución: Facultad de Ingeniería de Sistemas Computacionales (FISC)
 - Curso: ${body.courseName}
 - Departamento: ${body.department}
-- Facilitador: ${body.facilitator}
-- Semestre: ${body.semester}
-- Año: ${body.year}
-- Expectativas iniciales: ${body.expectations}
-- Actividades realizadas: ${body.activities}
-- Número de parciales: ${body.numParciales}
+- Facilitador(a): ${body.facilitator}
+- Período: Semestre ${body.semester}, Año ${body.year}
 
-Entrega una conclusión clara, humana y lista para revisar por el estudiante.
+Instrucciones:
+1. El tono debe ser académico, reflexivo y de alta calidad institucional.
+2. Evita frases genéricas; enfócate en la importancia de la organización de evidencias y el aprendizaje continuo.
+3. La conclusión debe estar lista para ser incluida en un paquete de entrega oficial.
+4. Idioma: Español formal (Panamá).
+
+Entrega el texto de la conclusión directamente, sin preámbulos.
 `;
 
   try {
