@@ -1414,7 +1414,7 @@ h1, h2, h3, h4 { font-family: var(--font-display); font-weight: 500; color: var(
   grid-template-columns: 1fr;
   gap: 0;
 }
-@media (min-width: 960px) { .sticky-process__inner { grid-template-columns: 1fr 1fr; } }
+@media (min-width: 1120px) { .sticky-process__inner { grid-template-columns: 1fr 1fr; } }
 
 .sticky-process__visual {
   height: 100vh;
@@ -1425,12 +1425,12 @@ h1, h2, h3, h4 { font-family: var(--font-display); font-weight: 500; color: var(
   top: 0;
   order: 1;
 }
-@media (min-width: 960px) { .sticky-process__visual { order: 2; } }
+@media (min-width: 1120px) { .sticky-process__visual { order: 2; } }
 
 .sticky-process__steps {
   order: 2;
 }
-@media (min-width: 960px) { .sticky-process__steps { order: 1; } }
+@media (min-width: 1120px) { .sticky-process__steps { order: 1; } }
 
 .step-panel {
   min-height: 80vh;
@@ -1642,6 +1642,156 @@ h1, h2, h3, h4 { font-family: var(--font-display); font-weight: 500; color: var(
 .artifact-zip__svg {
   color: var(--primary);
   opacity: 0.6;
+}
+
+@media (max-width: 1119px) {
+  .sticky-process {
+    overflow: hidden;
+  }
+
+  .sticky-process__inner {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+  }
+
+  .sticky-process__steps {
+    order: 1;
+  }
+
+  .sticky-process__visual {
+    order: 2;
+    position: relative;
+    top: auto;
+    height: auto;
+    min-height: 0;
+    padding: 1.5rem 0 4rem;
+    overflow: hidden;
+  }
+
+  .step-panel {
+    min-height: auto;
+    justify-content: flex-start;
+    padding-block: 3.25rem;
+    padding-inline: clamp(1rem, 6vw, 1.5rem);
+    border-bottom: 1px solid var(--border);
+  }
+
+  .step-panel__num {
+    margin-bottom: 0.85rem;
+    font-size: 0.68rem;
+  }
+
+  .step-panel__title {
+    max-width: 9ch;
+    margin-bottom: 1.2rem;
+    font-size: clamp(2.45rem, 13vw, 3.25rem);
+    line-height: 0.95;
+    letter-spacing: -0.025em;
+  }
+
+  .step-panel__desc {
+    max-width: 31ch;
+    font-size: 1.02rem;
+    line-height: 1.6;
+  }
+
+  .artifact-papers {
+    width: min(100%, 300px);
+    height: 390px;
+    margin-inline: auto;
+    perspective: 1200px;
+  }
+
+  .paper-sheet {
+    width: 230px;
+    height: 325px;
+    padding: 1.55rem;
+  }
+
+  [data-step="datos"] .paper-sheet--1 {
+    transform: translate3d(-26px, -20px, -80px) rotate3d(1, 1, 0, -8deg);
+  }
+
+  [data-step="datos"] .paper-sheet--2 {
+    transform: translate3d(34px, 18px, -70px) rotate3d(0, 1, 1, 7deg);
+  }
+
+  [data-step="datos"] .paper-sheet--3 {
+    transform: translate3d(-8px, 12px, 0) rotate3d(0, 0, 1, -3deg);
+  }
+
+  [data-step="evidencias"] .paper-sheet--1 {
+    transform: translate3d(-14px, -10px, -45px) rotate3d(0, 0, 1, -2deg);
+  }
+
+  [data-step="evidencias"] .paper-sheet--2 {
+    transform: translate3d(9px, 7px, -25px) rotate3d(0, 0, 1, 1deg);
+  }
+
+  [data-step="revision"] .paper-sheet {
+    transform: translate3d(0, 0, 0) rotate3d(0, 0, 0, 0) scale(1);
+  }
+
+  [data-step="revision"] .paper-sheet--1 {
+    transform: translate3d(0, 6px, 0) scale(0.98);
+  }
+
+  [data-step="revision"] .paper-sheet--2 {
+    transform: translate3d(0, 3px, 0) scale(0.99);
+  }
+
+  [data-step="zip"] .paper-sheet {
+    transform: translate3d(0, 42px, -180px) scale(0.42);
+  }
+
+  .paper-sheet__line {
+    margin-bottom: 0.85rem;
+  }
+
+  .paper-sheet__line--header {
+    margin-bottom: 1.35rem;
+  }
+
+  .artifact-dossier__spine {
+    width: 1.28rem;
+  }
+
+  .artifact-dossier__spine-label {
+    top: 0.85rem;
+    font-size: 0.34rem;
+  }
+
+  .artifact-dossier__content {
+    padding: 1.55rem 1.15rem 1.55rem 2.15rem;
+  }
+
+  .artifact-dossier__seal {
+    top: 1.25rem;
+    right: 1.15rem;
+    width: 2rem;
+    height: 2rem;
+  }
+
+  .artifact-dossier__header {
+    margin-bottom: 1rem;
+    padding-bottom: 0.6rem;
+  }
+
+  .artifact-dossier__title {
+    max-width: 9ch;
+    font-size: 0.88rem;
+  }
+
+  .artifact-dossier__subtitle {
+    font-size: 0.46rem;
+  }
+
+  .artifact-dossier__stamp {
+    right: 1.1rem;
+    bottom: 1.55rem;
+    font-size: 0.72rem;
+  }
 }
 
 .simplicity-grid {
