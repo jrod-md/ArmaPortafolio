@@ -25,7 +25,7 @@
       href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Lora:ital,wght@0,500;0,600;0,700;1,500;1,600&display=swap"
       rel="stylesheet"
     />
-    <link rel="stylesheet" href="css/styles.css?v=7" />
+    <link rel="stylesheet" href="css/styles.css?v=8" />
     <link rel="icon" type="image/svg+xml" href="favicon.svg" />
     <script src="theme-init.js"></script>
   </head>
@@ -46,21 +46,20 @@
 
     <main>
       <!-- Hero Section -->
-      <section class="hero hero--landing" id="inicio">
+      <section class="section-vh hero--landing" id="inicio">
         <div class="hero__inner container">
           <div class="hero__content">
             <span class="mono-label reveal reveal-delay-1">FISC · UTP · PANAMÁ</span>
-            <h1 class="hero__title title-xl reveal reveal-delay-2">
+            <h1 class="hero__title title-huge reveal reveal-delay-2">
               Tu portafolio,<br /><em>sin el caos.</em>
             </h1>
-            <p class="hero__sub body-lg reveal reveal-delay-3">
+            <p class="hero__sub body-xl reveal reveal-delay-3">
               Genera la portada oficial, ordena tus evidencias por sección y descarga el ZIP final en el formato que pide la facultad. Sin cuenta, sin vuelta larga, sin carpetas mal nombradas.
             </p>
             <div class="hero__cta-group reveal reveal-delay-3">
               <a href="generar.html" class="btn btn--primary hero__cta">Crear mi portafolio</a>
-              <a href="#como-funciona" class="btn btn--outline">Ver qué genera</a>
+              <a href="#como-funciona" class="btn btn--outline">Ver el proceso</a>
             </div>
-            <p class="hero__note reveal reveal-delay-3">Gratis y directo, pensado para estudiantes de FISC.</p>
           </div>
 
           <div class="hero__visual--landing reveal reveal-delay-2" aria-hidden="true">
@@ -92,12 +91,149 @@
                   </div>
 
                   <div class="artifact-dossier__stamp">LISTO</div>
-                  
-                  <div class="vertical-dossier__tabs" style="display: flex; gap: 0.5rem; margin-top: 2rem; border-top: 1px solid var(--border-subtle); padding-top: 1rem;">
-                    <div class="vertical-dossier__tab" style="font-size: 0.65rem; color: var(--text-hint); font-family: var(--font-mono);">01 Portada</div>
-                    <div class="vertical-dossier__tab" style="font-size: 0.65rem; color: var(--text-hint); font-family: var(--font-mono);">02 Asignaciones</div>
-                    <div class="vertical-dossier__tab" style="font-size: 0.65rem; color: var(--text-hint); font-family: var(--font-mono);">03 Laboratorios</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Narrative: La Noche Antes -->
+      <section class="section-vh narrative-chaos">
+        <div class="container">
+          <h2 class="narrative-chaos__title">La noche antes</h2>
+          <div class="narrative-chaos__grid">
+            <div class="chaos-text reveal">
+              <h3 class="chaos-text__headline">1–2 horas de archivos sueltos.</h3>
+              <p class="body-lg">Organizar el portafolio manualmente suele ser un proceso tedioso de renombrar carpetas, corregir portadas y buscar ese PDF que quedó en la carpeta de descargas.</p>
+              <div style="margin-top: 2rem; border-top: 1px solid var(--border); padding-top: 2rem;">
+                <span class="mono-label" style="color: var(--primary);">RESOLUCIÓN</span>
+                <h4 class="title-md" style="color: var(--primary); margin-top: 0.5rem; font-family: var(--font-display);">Hecho en 5 minutos.</h4>
+                <p class="body-md" style="font-family: var(--font-display); font-style: italic; color: var(--text);">Con el generador, el desorden se convierte en un paquete oficial listo para entrega.</p>
+              </div>
+            </div>
+            <div class="chaos-files reveal reveal-delay-2" aria-hidden="true">
+              <div class="chaos-file">Tarea_1_final_final.pdf</div>
+              <div class="chaos-file">Parcial_corregido_v2.pdf</div>
+              <div class="chaos-file">Proyecto_FINAL_v3.pdf</div>
+              <div class="chaos-file">Lab_3_nuevo_este_si.pdf</div>
+              <div class="chaos-file">Conclusion_borrador.docx</div>
+              <div class="chaos-file">Captura_de_pantalla_1.png</div>
+              <div class="chaos-file">Investigacion_Bases_Datos.pdf</div>
+              <div class="chaos-file">Taller_Sistemas_Operativos.pdf</div>
+              <div class="chaos-file">Enunciado_Parcial_2.pdf</div>
+              <div class="chaos-file">Bibliografia.txt</div>
+              <div class="chaos-file">Logo_UTP_baja_calidad.jpg</div>
+              <div class="chaos-file">Notas_de_clase.pdf</div>
+              <div class="chaos-file">lab4_nuevo.pdf</div>
+              <div class="chaos-file">lab7_ahora_si.pdf</div>
+              <div class="chaos-file">Tarea_final_REVISADA.pdf</div>
+              <div class="chaos-file">Proyecto_Grupal_v1.zip</div>
+              <div class="chaos-file">Evidencia_entrega_2026.pdf</div>
+              <div class="chaos-file">parcial2_final_ultimo.pdf</div>
+              <div class="chaos-file">lab_final_revisado2.pdf</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Numbered Problems -->
+      <section class="numbered-problems">
+        <div class="container">
+          <div class="problem-card reveal">
+            <span class="problem-card__num">01</span>
+            <div class="problem-card__body">
+              <h3 class="problem-card__title">Portada repetida</h3>
+              <p class="problem-card__desc">Cada semestre, miles de estudiantes vuelven a recrear el mismo documento Word para la portada oficial, arriesgando errores en datos básicos.</p>
+            </div>
+          </div>
+          <div class="problem-card reveal">
+            <span class="problem-card__num">02</span>
+            <div class="problem-card__body">
+              <h3 class="problem-card__title">Evidencias dispersas</h3>
+              <p class="problem-card__desc">Los archivos terminan repartidos entre descargas, WhatsApp y carpetas temporales, haciendo que la recopilación final sea caótica.</p>
+            </div>
+          </div>
+          <div class="problem-card reveal">
+            <span class="problem-card__num">03</span>
+            <div class="problem-card__body">
+              <h3 class="problem-card__title">Estructura incierta</h3>
+              <p class="problem-card__desc">Un pequeño error en el nombre de una carpeta o en el orden de los documentos puede hacer que el paquete se sienta poco profesional.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Sticky Process Section -->
+      <section class="sticky-process" id="como-funciona">
+        <div class="sticky-process__inner container">
+          <div class="sticky-process__steps">
+            <div class="step-panel" id="step-datos">
+              <span class="step-panel__num">I. ENTRADA</span>
+              <h3 class="step-panel__title">Datos del curso</h3>
+              <p class="step-panel__desc">La portada oficial recibe tus datos, el nombre del facilitador y el ciclo académico de forma automática.</p>
+            </div>
+            <div class="step-panel" id="step-evidencias">
+              <span class="step-panel__num">II. PROCESO</span>
+              <h3 class="step-panel__title">Sube tus evidencias</h3>
+              <p class="step-panel__desc">Arrastra tus documentos PDF. No importa el nombre original, el sistema los ubica en la sección correspondiente.</p>
+            </div>
+            <div class="step-panel" id="step-revision">
+              <span class="step-panel__num">III. REVISIÓN</span>
+              <h3 class="step-panel__title">Estructura lista</h3>
+              <p class="step-panel__desc">Visualiza cómo queda organizado tu portafolio antes de generar el paquete final. Todo en su lugar.</p>
+            </div>
+            <div class="step-panel" id="step-zip">
+              <span class="step-panel__num">IV. SALIDA</span>
+              <h3 class="step-panel__title">Descarga el ZIP</h3>
+              <p class="step-panel__desc">Recibe un archivo comprimido con el formato exacto que pide la facultad. Listo para entregar.</p>
+            </div>
+          </div>
+
+          <div class="sticky-process__visual" id="sticky-visual-target" data-step="datos">
+             <div class="artifact-papers">
+              <!-- Back Papers (Background) -->
+              <div class="paper-sheet paper-sheet--1">
+                <div class="paper-sheet__line paper-sheet__line--header"></div>
+                <div class="paper-sheet__line"></div>
+                <div class="paper-sheet__line"></div>
+                <div class="paper-sheet__line"></div>
+                <div class="paper-sheet__line paper-sheet__line--short"></div>
+                <div class="paper-sheet__line"></div>
+              </div>
+              
+              <!-- Middle Papers (Content) -->
+              <div class="paper-sheet paper-sheet--2">
+                <div class="paper-sheet__line paper-sheet__line--header" style="opacity: 0.3;"></div>
+                <div class="paper-sheet__line"></div>
+                <div class="paper-sheet__line"></div>
+                <div class="paper-sheet__line"></div>
+                <div class="paper-sheet__line paper-sheet__line--short"></div>
+                <div class="paper-sheet__line"></div>
+                <div class="paper-sheet__line"></div>
+                <div class="paper-sheet__line"></div>
+              </div>
+
+              <!-- Front Paper (Cover) -->
+              <div class="paper-sheet paper-sheet--3">
+                <div class="artifact-dossier__spine" style="left: 0; width: 1.8rem;">
+                  <span style="font-size: 0.45rem;">PORTAFOLIO FISC</span>
+                </div>
+                <div class="artifact-dossier__content" style="padding: 2.5rem 2rem 2.5rem 3.5rem;">
+                  <div class="artifact-dossier__seal" style="width: 2.8rem; height: 2.8rem; top: 2rem; right: 2rem;"></div>
+                  <div class="vertical-dossier__header" style="border-bottom: 2px solid var(--primary); padding-bottom: 0.75rem; margin-bottom: 1.5rem;">
+                    <div class="vertical-dossier__title" style="font-size: 1.15rem;">Portafolio Digital</div>
+                    <div class="vertical-dossier__subtitle" style="font-size: 0.55rem;">FISC · UTP</div>
                   </div>
+                  
+                  <div class="vertical-dossier__metadata">
+                    <div class="vertical-dossier__meta-row">
+                      <span class="vertical-dossier__meta-label" style="font-size: 0.5rem;">Estado</span>
+                      <span class="vertical-dossier__meta-value" id="artifact-status" style="font-size: 0.75rem;">Preparando...</span>
+                    </div>
+                  </div>
+
+                  <div class="artifact-dossier__stamp" style="font-size: 0.9rem; bottom: 2.5rem; right: 2rem;">OFICIAL</div>
                 </div>
               </div>
               
@@ -106,116 +242,24 @@
                   <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color: var(--primary); opacity: 0.6;"><path d="M21 8V5a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v3"></path><path d="m21 16 0 3a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-3"></path><path d="M4 12H20"></path><path d="M10 16v-8"></path><path d="M14 16v-8"></path></svg>
                 </div>
                 <strong class="artifact-zip__name">portafolio_fisc.zip</strong>
-                <span class="artifact-zip__label">Paquete comprimido</span>
+                <span class="artifact-zip__label">Listo</span>
               </div>
             </div>
           </div>
         </div>
       </section>
 
-      <!-- Contrast Bar -->
-      <section class="contrast-bar" aria-labelledby="contrast-heading">
-        <h2 id="contrast-heading" class="visually-hidden">Comparación de eficiencia</h2>
-        <div class="contrast-bar__inner container">
-          <div class="contrast-bar__grid">
-            <div class="contrast-item reveal reveal-delay-1">
-              <span class="contrast-item__time">3–6 horas</span>
-              <span class="contrast-item__label">Manualmente</span>
-              <p class="contrast-item__desc">lo que suele tardar organizar todo y nombrar carpetas.</p>
-            </div>
-            <div class="contrast-item reveal reveal-delay-2">
-              <span class="contrast-item__time">La noche antes</span>
-              <span class="contrast-item__label">El Momento Crítico</span>
-              <p class="contrast-item__desc">cuando casi siempre aparece el caos y los errores.</p>
-            </div>
-            <div class="contrast-item reveal reveal-delay-3">
-              <span class="contrast-item__time" style="color: var(--primary); text-shadow: 0 0 20px rgba(18, 61, 37, 0.1);">5 minutos</span>
-              <span class="contrast-item__label">Con el Generador</span>
-              <p class="contrast-item__desc">lo que debería tardar con una herramienta dedicada.</p>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <!-- How it Works -->
-      <section class="section how section--paper" id="como-funciona">
-        <div class="container container--narrow">
-          <h2 class="section__title title-lg reveal">Cómo funciona</h2>
-          <ol class="editorial-list">
-            <li class="editorial-item reveal">
-              <span class="editorial-item__num">I</span>
-              <div class="editorial-item__body">
-                <h3 class="editorial-item__title">Abre el generador</h3>
-                <p class="editorial-item__desc">Entra directo al formulario y prepara la estructura de tu portafolio sin crear una cuenta ni configurar nada.</p>
-              </div>
-            </li>
-            <li class="editorial-item reveal">
-              <span class="editorial-item__num">II</span>
-              <div class="editorial-item__body">
-                <h3 class="editorial-item__title">Llena el formulario</h3>
-                <p class="editorial-item__desc">Datos del curso, facilitador y semestre. La app se encarga de que todo cumpla el estándar oficial.</p>
-              </div>
-            </li>
-            <li class="editorial-item reveal">
-              <span class="editorial-item__num">III</span>
-              <div class="editorial-item__body">
-                <h3 class="editorial-item__title">Sube tus evidencias</h3>
-                <p class="editorial-item__desc">Arrastra tus PDFs a cada sección. No importa el nombre original, el generador los ubica donde deben ir.</p>
-              </div>
-            </li>
-            <li class="editorial-item reveal">
-              <span class="editorial-item__num">IV</span>
-              <div class="editorial-item__body">
-                <h3 class="editorial-item__title">Descarga el ZIP</h3>
-                <p class="editorial-item__desc">Recibe un archivo comprimido listo para subir, con la portada generada y las carpetas nombradas a la perfección.</p>
-              </div>
-            </li>
-          </ol>
-        </div>
-      </section>
-
-      <!-- What it generates -->
-      <section class="features-dark" id="que-genera">
-        <div class="container">
-          <h2 class="section__title title-lg reveal">Un paquete que se siente listo para entregar.</h2>
-          <p class="features-dark__lead reveal">La promesa no es decorar archivos. La promesa es convertir un semestre desordenado en un expediente claro, predecible y fácil de subir.</p>
-          
-          <div class="features-dark__grid">
-            <div class="feature-item reveal reveal-delay-1">
-              <span class="feature-item__title">01 Documento</span>
-              <strong class="feature-item__name">Portada oficial</strong>
-              <p class="feature-item__desc">Generada con los logos, tipografía y formato exacto que pide la facultad.</p>
-            </div>
-            <div class="feature-item reveal reveal-delay-2">
-              <span class="feature-item__title">02 Estructura</span>
-              <strong class="feature-item__name">Carpetas correctas</strong>
-              <p class="feature-item__desc">Las 6 secciones requeridas, nombradas y ordenadas jerárquicamente.</p>
-            </div>
-            <div class="feature-item reveal reveal-delay-3">
-              <span class="feature-item__title">03 Archivo</span>
-              <strong class="feature-item__name">PDFs ubicados</strong>
-              <p class="feature-item__desc">Tus evidencias se mueven automáticamente a su carpeta correspondiente.</p>
-            </div>
-            <div class="feature-item reveal reveal-delay-4">
-              <span class="feature-item__title">04 Salida</span>
-              <strong class="feature-item__name">ZIP final</strong>
-              <p class="feature-item__desc">Un solo archivo con el nombre estándar, listo para la plataforma virtual.</p>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <!-- Trust / Purpose -->
-      <section class="section" id="proposito">
+      <!-- Simplicity Section -->
+      <section class="section">
         <div class="container container--narrow">
           <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 4rem;">
             <div class="reveal">
-              <h3 class="title-md" style="margin-bottom: 1.5rem;">Hecho para el flujo real de estudiantes.</h3>
-              <p class="body-lg">Portafolio FISC nació en los laboratorios de la facultad, entendiendo que el final del semestre ya es suficientemente pesado como para pelear con carpetas ZIP y nombres de archivos.</p>
+              <h3 class="title-md" style="margin-bottom: 1.5rem;">Hecho para el flujo real.</h3>
+              <p class="body-lg">Entendemos que el final del semestre es pesado. Portafolio FISC elimina la fricción técnica para que te enfoques en lo importante.</p>
             </div>
             <div class="reveal">
-              <h3 class="title-md" style="margin-bottom: 1.5rem;">Directo, simple y sin cuenta.</h3>
-              <p class="body-lg">No es una red social, no es un sistema académico gigante. Es una herramienta concreta, privada y rápida para un solo propósito: entregar un portafolio impecable.</p>
+              <h3 class="title-md" style="margin-bottom: 1.5rem;">Directo y sin cuenta.</h3>
+              <p class="body-lg">No necesitas registrarte. Tus archivos se procesan localmente en tu navegador, garantizando privacidad y rapidez absoluta.</p>
             </div>
           </div>
         </div>
@@ -224,7 +268,7 @@
       <!-- Final CTA -->
       <section class="cta-banner reveal">
         <div class="container">
-          <h2 class="cta-banner__title title-lg">Convierte tus PDFs sueltos en un portafolio ordenado.</h2>
+          <h2 class="cta-banner__title title-lg">Convierte tus PDFs sueltos en un portafolio listo para entregar.</h2>
           <a href="generar.html" class="btn btn--primary btn--lg" style="padding: 1.25rem 2.5rem; font-size: 1.1rem;">Crear portafolio ahora</a>
         </div>
       </section>
@@ -249,5 +293,38 @@
         No afiliado oficialmente con la Universidad Tecnológica de Panamá. Proyecto estudiantil de apoyo académico.
       </p>
     </footer>
+
+    <script>
+      // Scroll Narrative Observer
+      document.addEventListener('DOMContentLoaded', () => {
+        const visualTarget = document.getElementById('sticky-visual-target');
+        const statusLabel = document.getElementById('artifact-status');
+        const panels = document.querySelectorAll('.step-panel');
+        
+        const statusMessages = {
+          'datos': 'Preparando datos...',
+          'evidencias': 'Organizando archivos...',
+          'revision': 'Estructura verificada',
+          'zip': 'ZIP empaquetado'
+        };
+
+        const observerOptions = {
+          root: null,
+          threshold: 0.5
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+          entries.forEach(entry => {
+            if (entry.isIntersecting) {
+              const step = entry.target.id.replace('step-', '');
+              visualTarget.dataset.step = step;
+              if (statusLabel) statusLabel.textContent = statusMessages[step] || '...';
+            }
+          });
+        }, observerOptions);
+
+        panels.forEach(panel => observer.observe(panel));
+      });
+    </script>
   </body>
 </html>
