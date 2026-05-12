@@ -39,6 +39,7 @@ No incluir:
 
 ```text
 .git/
+.wrangler/
 _old/
 DESIGN.md
 PRODUCT.md
@@ -46,6 +47,7 @@ README.md
 LICENSE
 LICENSE.es.md
 THIRD_PARTY_NOTICES.md
+PRODUCTION_CHECKLIST.md
 assets/README.md
 ```
 
@@ -108,6 +110,8 @@ El archivo `_headers` ya permite el beacon de Cloudflare:
 https://static.cloudflareinsights.com
 https://cloudflareinsights.com
 ```
+
+Checklist completo de producción: `PRODUCTION_CHECKLIST.md`.
 
 ## Privacidad de previews
 

@@ -1,5 +1,6 @@
 _old/
 .codex
+.wrangler/
 *.log
 *.tmp
 *.bak
