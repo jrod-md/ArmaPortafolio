@@ -591,19 +591,15 @@ function refreshSummary() {
 }
 
 function updateProgress() {
-  const bar = $("wizard-progress-bar");
   const meta = $("wizard-progress-meta");
   const track = document.querySelector(".wizard-progress__track");
-  const percent = (currentStep / TOTAL_STEPS) * 100;
 
-  if (bar) {
-    bar.style.width = `${percent}%`;
-  }
   if (meta) {
     meta.textContent = `Paso ${currentStep} de ${TOTAL_STEPS}`;
   }
   if (track) {
     track.setAttribute("aria-valuenow", String(currentStep));
+    track.dataset.step = String(currentStep);
   }
 }
 

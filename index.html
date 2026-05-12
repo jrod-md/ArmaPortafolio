@@ -25,7 +25,7 @@
       href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Lora:ital,wght@0,500;0,600;0,700;1,500;1,600&display=swap"
       rel="stylesheet"
     />
-    <link rel="stylesheet" href="css/styles.css?v=10" />
+    <link rel="stylesheet" href="css/styles.css?v=13" />
     <link rel="icon" type="image/svg+xml" href="favicon.svg" />
     <script src="theme-init.js"></script>
   </head>
@@ -63,47 +63,30 @@
           </div>
 
           <div class="hero__visual--landing reveal reveal-delay-2" aria-hidden="true">
-            <div class="vertical-dossier vertical-dossier--hero hero-dossier">
-              <div class="vertical-dossier__spine"></div>
-              <div class="vertical-dossier__body">
-                <div class="vertical-dossier__cover">
-                  <div class="vertical-dossier__header">
-                    <div class="vertical-dossier__title">BASES DE DATOS I</div>
-                    <div class="vertical-dossier__subtitle">FISC · UTP · 2026</div>
+            <div class="hero-package">
+              <div class="hero-package__layer hero-package__layer--back"></div>
+              <div class="hero-package__layer hero-package__layer--middle"></div>
+              <div class="hero-package__sheet">
+                <div class="hero-package__spine">
+                  <span>PORTAFOLIO FISC</span>
+                </div>
+                <div class="hero-package__content">
+                  <span class="hero-package__eyebrow">Paquete oficial</span>
+                  <h2 class="hero-package__title">Portafolio Digital</h2>
+                  <p class="hero-package__subtitle">Portada, evidencias y conclusión en una estructura lista.</p>
+
+                  <div class="hero-package__tree">
+                    <div class="hero-package__tree-root">Portafolio_FISC/</div>
+                    <div class="hero-package__tree-row"><span>01</span> Portada.pdf</div>
+                    <div class="hero-package__tree-row"><span>02</span> Plan_de_Contenido/</div>
+                    <div class="hero-package__tree-row"><span>03</span> Evidencias_del_Curso/</div>
+                    <div class="hero-package__tree-row"><span>04</span> Conclusion_Final/</div>
                   </div>
-                  <div class="vertical-dossier__metadata">
-                    <div class="vertical-dossier__meta-row vertical-dossier__meta-row--primary">
-                      <span class="vertical-dossier__meta-label">Estudiante</span>
-                      <span class="vertical-dossier__meta-value">Tu nombre completo</span>
-                    </div>
-                    <div class="vertical-dossier__meta-row vertical-dossier__meta-row--primary">
-                      <span class="vertical-dossier__meta-label">Cédula</span>
-                      <span class="vertical-dossier__meta-value">8-000-000</span>
-                    </div>
-                    <div class="vertical-dossier__meta-row vertical-dossier__meta-row--primary">
-                      <span class="vertical-dossier__meta-label">Curso</span>
-                      <span class="vertical-dossier__meta-value">Bases de Datos I</span>
-                    </div>
-                    <div class="vertical-dossier__meta-row vertical-dossier__meta-row--primary">
-                      <span class="vertical-dossier__meta-label">Facilitador</span>
-                      <span class="vertical-dossier__meta-value">Ing. Apellido</span>
-                    </div>
-                    <div class="vertical-dossier__meta-block" aria-label="Metadatos académicos">
-                      <div class="vertical-dossier__meta-row vertical-dossier__meta-row--secondary">
-                        <span class="vertical-dossier__meta-label">Departamento</span>
-                        <span class="vertical-dossier__meta-value">Sistemas de Información</span>
-                      </div>
-                      <div class="vertical-dossier__meta-row vertical-dossier__meta-row--secondary">
-                        <span class="vertical-dossier__meta-label">Semestre</span>
-                        <span class="vertical-dossier__meta-value">I</span>
-                      </div>
-                      <div class="vertical-dossier__meta-row vertical-dossier__meta-row--secondary">
-                        <span class="vertical-dossier__meta-label">Año</span>
-                        <span class="vertical-dossier__meta-value">2026</span>
-                      </div>
-                    </div>
+
+                  <div class="hero-package__footer">
+                    <span>Estructura validada</span>
+                    <strong>LISTO</strong>
                   </div>
-                  <div class="vertical-dossier__ready-stamp hero-dossier__stamp">LISTO</div>
                 </div>
               </div>
             </div>
@@ -119,10 +102,10 @@
             <div class="chaos-text reveal">
               <h3 class="chaos-text__headline">1–2 horas de archivos sueltos.</h3>
               <p class="body-lg">Organizar el portafolio manualmente suele ser un proceso tedioso de renombrar carpetas, corregir portadas y buscar ese archivo que quedó en la carpeta de descargas.</p>
-              <div style="margin-top: 2rem; border-top: 1px solid var(--border); padding-top: 2rem;">
-                <span class="mono-label" style="color: var(--primary);">RESOLUCIÓN</span>
-                <h4 class="title-md" style="color: var(--primary); margin-top: 0.5rem; font-family: var(--font-display);">Hecho en 5 minutos.</h4>
-                <p class="body-md" style="font-family: var(--font-display); font-style: italic; color: var(--text);">Con el generador, el desorden se convierte en un paquete oficial listo para entrega.</p>
+              <div class="resolution-note">
+                <span class="mono-label resolution-note__label">RESOLUCIÓN</span>
+                <h4 class="title-md resolution-note__title">Hecho en 5 minutos.</h4>
+                <p class="body-md resolution-note__copy">Con el generador, el desorden se convierte en un paquete oficial listo para entrega.</p>
               </div>
             </div>
             <div class="chaos-files reveal reveal-delay-2" aria-hidden="true">
@@ -217,7 +200,7 @@
               
               <!-- Middle Papers (Content) -->
               <div class="paper-sheet paper-sheet--2">
-                <div class="paper-sheet__line paper-sheet__line--header" style="opacity: 0.3;"></div>
+                <div class="paper-sheet__line paper-sheet__line--header paper-sheet__line--muted"></div>
                 <div class="paper-sheet__line"></div>
                 <div class="paper-sheet__line"></div>
                 <div class="paper-sheet__line"></div>
@@ -229,30 +212,30 @@
 
               <!-- Front Paper (Cover) -->
               <div class="paper-sheet paper-sheet--3">
-                <div class="artifact-dossier__spine" style="left: 0; width: 1.8rem;">
-                  <span style="font-size: 0.45rem;">PORTAFOLIO FISC</span>
+                <div class="artifact-dossier__spine">
+                  <span class="artifact-dossier__spine-label">PORTAFOLIO FISC</span>
                 </div>
-                <div class="artifact-dossier__content" style="padding: 2.5rem 2rem 2.5rem 3.5rem;">
-                  <div class="artifact-dossier__seal" style="width: 2.8rem; height: 2.8rem; top: 2rem; right: 2rem;"></div>
-                  <div class="vertical-dossier__header" style="border-bottom: 2px solid var(--primary); padding-bottom: 0.75rem; margin-bottom: 1.5rem;">
-                    <div class="vertical-dossier__title" style="font-size: 1.15rem;">Portafolio Digital</div>
-                    <div class="vertical-dossier__subtitle" style="font-size: 0.55rem;">FISC · UTP</div>
+                <div class="artifact-dossier__content">
+                  <div class="artifact-dossier__seal"></div>
+                  <div class="artifact-dossier__header">
+                    <div class="artifact-dossier__title">Portafolio Digital</div>
+                    <div class="artifact-dossier__subtitle">FISC · UTP</div>
                   </div>
                   
                   <div class="vertical-dossier__metadata">
                     <div class="vertical-dossier__meta-row">
-                      <span class="vertical-dossier__meta-label" style="font-size: 0.5rem;">Estado</span>
-                      <span class="vertical-dossier__meta-value" id="artifact-status" style="font-size: 0.75rem;">Preparando...</span>
+                      <span class="artifact-dossier__meta-label">Estado</span>
+                      <span class="artifact-dossier__meta-value" id="artifact-status">Preparando...</span>
                     </div>
                   </div>
 
-                  <div class="artifact-dossier__stamp" style="font-size: 0.9rem; bottom: 2.5rem; right: 2rem;">OFICIAL</div>
+                  <div class="artifact-dossier__stamp">OFICIAL</div>
                 </div>
               </div>
               
               <div class="artifact-zip">
                 <div class="artifact-zip__icon">
-                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color: var(--primary); opacity: 0.6;"><path d="M21 8V5a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v3"></path><path d="m21 16 0 3a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-3"></path><path d="M4 12H20"></path><path d="M10 16v-8"></path><path d="M14 16v-8"></path></svg>
+                  <svg class="artifact-zip__svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 8V5a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v3"></path><path d="m21 16 0 3a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-3"></path><path d="M4 12H20"></path><path d="M10 16v-8"></path><path d="M14 16v-8"></path></svg>
                 </div>
                 <strong class="artifact-zip__name">portafolio_fisc.zip</strong>
                 <span class="artifact-zip__label">Listo</span>
@@ -265,13 +248,13 @@
       <!-- Simplicity Section -->
       <section class="section">
         <div class="container container--narrow">
-          <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 4rem;">
+          <div class="simplicity-grid">
             <div class="reveal">
-              <h3 class="title-md" style="margin-bottom: 1.5rem;">Hecho para el flujo real.</h3>
+              <h3 class="title-md simplicity-grid__title">Hecho para el flujo real.</h3>
               <p class="body-lg">Entendemos que el final del semestre es pesado. Portafolio FISC elimina la fricción técnica para que te enfoques en lo importante.</p>
             </div>
             <div class="reveal">
-              <h3 class="title-md" style="margin-bottom: 1.5rem;">Directo y sin cuenta.</h3>
+              <h3 class="title-md simplicity-grid__title">Directo y sin cuenta.</h3>
               <p class="body-lg">No necesitas registrarte. Entras al generador, completas los datos, añades tus evidencias y descargas el paquete final.</p>
             </div>
           </div>
@@ -282,7 +265,7 @@
       <section class="cta-banner reveal">
         <div class="container">
           <h2 class="cta-banner__title title-lg">Convierte tus evidencias sueltas en un portafolio listo para entregar.</h2>
-          <a href="generar.html" class="btn btn--primary btn--lg" style="padding: 1.25rem 2.5rem; font-size: 1.1rem;">Crear portafolio ahora</a>
+          <a href="generar.html" class="btn btn--primary btn--lg cta-banner__button">Crear portafolio ahora</a>
         </div>
       </section>
     </main>
@@ -305,37 +288,6 @@
       </p>
     </footer>
 
-    <script>
-      // Scroll Narrative Observer
-      document.addEventListener('DOMContentLoaded', () => {
-        const visualTarget = document.getElementById('sticky-visual-target');
-        const statusLabel = document.getElementById('artifact-status');
-        const panels = document.querySelectorAll('.step-panel');
-        
-        const statusMessages = {
-          'datos': 'Preparando datos...',
-          'evidencias': 'Organizando archivos...',
-          'revision': 'Estructura verificada',
-          'zip': 'ZIP empaquetado'
-        };
-
-        const observerOptions = {
-          root: null,
-          threshold: 0.5
-        };
-
-        const observer = new IntersectionObserver((entries) => {
-          entries.forEach(entry => {
-            if (entry.isIntersecting) {
-              const step = entry.target.id.replace('step-', '');
-              visualTarget.dataset.step = step;
-              if (statusLabel) statusLabel.textContent = statusMessages[step] || '...';
-            }
-          });
-        }, observerOptions);
-
-        panels.forEach(panel => observer.observe(panel));
-      });
-    </script>
+    <script src="js/landing.js?v=1"></script>
   </body>
 </html>
