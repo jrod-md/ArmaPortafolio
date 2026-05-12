@@ -46,7 +46,6 @@ let currentStep = 1;
 let uploadSequence = 0;
 let previewActiveSection = "portada";
 let previewIsCompiling = false;
-let previewChipTimeout = null;
 
 const uploads = {};
 
@@ -276,10 +275,6 @@ function getMostRelevantPreviewSection(sections = getPreviewData()) {
   return "portada";
 }
 
-function countFilesLabel(count) {
-  return count === 1 ? "1 archivo" : `${count} archivos`;
-}
-
 function previewText(value) {
   const text = String(value || "").trim();
   return text || "—";
@@ -299,36 +294,6 @@ function setPreviewText(id, value) {
   window.requestAnimationFrame?.(() => {
     node.classList.add("vertical-dossier__value--updated");
   });
-}
-
-function showDossierUploadChip(sectionId, addedCount) {
-  if (!addedCount || window.matchMedia?.("(prefers-reduced-motion: reduce)")?.matches) return;
-
-  const chip = $("preview-upload-chip");
-  const tab = document.querySelector(`[data-preview-tab="${sectionId}"]`);
-  const root = $("portfolio-live-preview");
-  if (!chip || !tab || !root) return;
-
-  const rootBox = root.getBoundingClientRect();
-  const tabBox = tab.getBoundingClientRect();
-  const chipY = Math.round(tabBox.top - rootBox.top + tabBox.height / 2);
-
-  chip.textContent = `+${addedCount} PDF${addedCount === 1 ? "" : "s"}`;
-  chip.style.setProperty("--chip-y", String(chipY));
-  chip.classList.add("vertical-dossier__upload-chip--visible");
-
-  window.clearTimeout(previewChipTimeout);
-  previewChipTimeout = window.setTimeout(() => {
-    chip.classList.remove("vertical-dossier__upload-chip--visible");
-  }, 850);
-}
-
-function sectionStatusText(section, count) {
-  if (!section) return "Cada archivo entra en la carpeta correcta.";
-  if (section.id === "portada") return "Portada: 1 archivo preparado.";
-  if (count === 0) return `${section.label.replace(/^\d+_/, "")}: sin archivos agregados.`;
-  const suffix = count === 1 ? "agregado" : "agregados";
-  return `${section.label.replace(/^\d+_/, "")}: ${countFilesLabel(count)} ${suffix}.`;
 }
 
 function syncPreviewSectionToStep() {
@@ -354,9 +319,6 @@ function updateDossierPreview(options = {}) {
   }
 
   const activeSection = previewActiveSection || getMostRelevantPreviewSection(sections);
-  const activeConfig = getPreviewSectionConfig(activeSection);
-  const activeSectionData = sections.find((section) => section.id === activeSection);
-  const activeCount = activeSectionData?.entries.length || 0;
   const subtitleParts = ["FISC", "UTP", student.year].filter(Boolean);
   const completedCount = sections.filter((section) => section.entries.length > 0).length;
 
@@ -373,59 +335,11 @@ function updateDossierPreview(options = {}) {
   setPreviewText("preview-meta-semestre", student.semester);
   setPreviewText("preview-meta-anio", student.year);
 
-  sections.forEach((section) => {
-    const count = section.entries.length;
-    const countNode = document.querySelector(`[data-preview-count="${section.id}"]`);
-    if (countNode) {
-      countNode.textContent = String(count);
-      countNode.setAttribute("aria-label", countFilesLabel(count));
-    }
-
-    const tabEl = document.querySelector(`[data-preview-tab="${section.id}"]`);
-    if (tabEl) {
-      const isActive = section.id === activeSection;
-      const isCompleted = count > 0;
-      tabEl.classList.toggle("vertical-dossier__tab--active", isActive);
-      tabEl.classList.toggle("vertical-dossier__tab--completed", isCompleted);
-      tabEl.setAttribute("aria-current", isActive ? "step" : "false");
-      tabEl.setAttribute("aria-label", `${section.label}: ${countFilesLabel(count)}`);
-    }
-  });
-
-  showDossierUploadChip(activeSection, options.incomingEntryIds?.length || 0);
-
   const stamp = $("preview-ready-stamp");
+  const showReadyStamp = previewIsCompiling || isFinalStep;
   if (stamp) {
-    stamp.style.opacity = isFinalStep ? "1" : "0";
-    stamp.style.transform = isFinalStep ? "rotate(-15deg) scale(1)" : "rotate(-15deg) scale(1.4)";
-  }
-
-  const zipBadge = $("preview-zip-badge");
-  if (zipBadge) {
-    zipBadge.classList.toggle("vertical-dossier__zip-badge--visible", previewIsCompiling || isFinalStep);
-  }
-
-  const copy = $("preview-copy");
-  const state = $("preview-state");
-  if (state) {
-    const readyLabel = `${completedCount} de 6 secciones listas`;
-    if (previewIsCompiling) {
-      state.textContent = "Compilando paquete final";
-    } else if (isFinalStep) {
-      state.textContent = `Revisión final · ${readyLabel}`;
-    } else {
-      state.textContent = `Paquete en preparación · ${readyLabel}`;
-    }
-  }
-
-  if (copy) {
-    if (previewIsCompiling) {
-      copy.textContent = "Comprimiendo paquete final...";
-    } else if (isFinalStep) {
-      copy.textContent = "Estructura verificada y lista para descargar.";
-    } else {
-      copy.textContent = sectionStatusText(activeConfig, activeCount);
-    }
+    stamp.style.opacity = showReadyStamp ? "1" : "0";
+    stamp.style.transform = showReadyStamp ? "rotate(-15deg) scale(1)" : "rotate(-15deg) scale(1.4)";
   }
 }
 
@@ -442,6 +356,35 @@ function waitForPreviewTransition() {
   const reducedMotion = window.matchMedia?.("(prefers-reduced-motion: reduce)")?.matches;
   const delay = reducedMotion ? 80 : 520;
   return new Promise((resolve) => window.setTimeout(resolve, delay));
+}
+
+function downloadZipDirectly(payload) {
+  if (!payload?.blob || !payload?.filename) {
+    throw new Error("zip_payload_invalid");
+  }
+
+  const url = URL.createObjectURL(payload.blob);
+  const link = document.createElement("a");
+  link.href = url;
+  link.download = payload.filename || "portafolio_fisc.zip";
+  document.body.appendChild(link);
+  link.click();
+  link.remove();
+  window.setTimeout(() => URL.revokeObjectURL(url), 3000);
+}
+
+async function deliverGeneratedZip(payload) {
+  if (saveGeneratedZipFn) {
+    try {
+      await saveGeneratedZipFn(payload);
+      return "saved";
+    } catch (error) {
+      console.warn("Falling back to direct ZIP download.", error);
+    }
+  }
+
+  downloadZipDirectly(payload);
+  return "downloaded";
 }
 
 function refreshSummary() {
@@ -916,7 +859,7 @@ async function handleGenerate() {
   setPortfolioPreviewCompiling(true);
 
   try {
-    if (!generatePortadaFn || !buildZipFn || !saveGeneratedZipFn) {
+    if (!generatePortadaFn || !buildZipFn) {
       throw new Error("generator_scripts_unavailable");
     }
 
@@ -938,10 +881,24 @@ async function handleGenerate() {
       throw new Error("zip_not_created");
     }
 
-    await saveGeneratedZipFn(zipResult);
+    const deliveryMode = await deliverGeneratedZip(zipResult);
     await waitForPreviewTransition();
-    window.location.href = "descarga.html";
-  } catch {
+
+    if (deliveryMode === "saved") {
+      window.location.href = "descarga.html";
+      return;
+    }
+
+    setPortfolioPreviewCompiling(false);
+    showMessage("ZIP generado. Si la descarga no empezó, revisa las descargas del navegador.", "success");
+    if (idle) idle.hidden = false;
+    if (loading) loading.hidden = true;
+    if (button) {
+      button.disabled = false;
+      button.textContent = "Generar portafolio";
+    }
+  } catch (error) {
+    console.error("No se pudo generar el portafolio.", error);
     setPortfolioPreviewCompiling(false);
     showMessage(
       "No se pudo generar el portafolio. Revisa tus datos y vuelve a intentar.",

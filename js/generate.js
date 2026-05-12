@@ -236,16 +236,36 @@ async function loadAssetBytes(relativePath) {
   if (!assetBytesCache.has(assetUrl)) {
     assetBytesCache.set(
       assetUrl,
-      fetch(assetUrl).then(async (response) => {
-        if (!response.ok) {
-          throw new Error(`asset_unavailable:${relativePath}`);
-        }
-        return response.arrayBuffer();
-      })
+      fetch(assetUrl)
+        .then(async (response) => {
+          if (!response.ok) {
+            throw new Error(`asset_unavailable:${relativePath}`);
+          }
+          return response.arrayBuffer();
+        })
+        .catch(() => loadAssetBytesWithXhr(assetUrl, relativePath))
     );
   }
 
   return assetBytesCache.get(assetUrl);
+}
+
+function loadAssetBytesWithXhr(assetUrl, relativePath) {
+  return new Promise((resolve, reject) => {
+    const request = new XMLHttpRequest();
+    request.open("GET", assetUrl, true);
+    request.responseType = "arraybuffer";
+    request.onload = () => {
+      if (request.response && (request.status === 0 || (request.status >= 200 && request.status < 300))) {
+        resolve(request.response);
+        return;
+      }
+
+      reject(new Error(`asset_unavailable:${relativePath}`));
+    };
+    request.onerror = () => reject(new Error(`asset_unavailable:${relativePath}`));
+    request.send();
+  });
 }
 
 async function loadPdfLib() {
