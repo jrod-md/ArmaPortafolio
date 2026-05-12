@@ -25,11 +25,12 @@
       href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Lora:ital,wght@0,500;0,600;0,700;1,500;1,600&display=swap"
       rel="stylesheet"
     />
-    <link rel="stylesheet" href="css/styles.css?v=6" />
+    <link rel="stylesheet" href="css/styles.css?v=10" />
     <link rel="icon" type="image/svg+xml" href="favicon.svg" />
     <script src="theme-init.js"></script>
   </head>
   <body class="page-wizard">
+    <a class="skip-link" href="#generador">Saltar al generador</a>
     <header class="navbar reveal">
       <div class="navbar__inner container">
         <a href="index.html" class="wordmark">Portafolio FISC</a>
@@ -43,12 +44,13 @@
       </div>
     </header>
 
-    <div class="wizard-layout reveal">
+    <main class="wizard-layout reveal" id="generador" aria-labelledby="generator-title" tabindex="-1">
+      <h1 class="visually-hidden" id="generator-title">Generar portafolio</h1>
       <aside class="wizard-sidebar" aria-label="Pasos del asistente">
         <h2 class="wizard-sidebar__title">Pasos</h2>
         <ol class="wizard-steps">
           <li>
-            <button type="button" class="wizard-step wizard-step--active" id="wizard-nav-1" data-step="1">
+            <button type="button" class="wizard-step wizard-step--active" id="wizard-nav-1" data-step="1" aria-current="step" aria-controls="wizard-panel-1">
               <span class="wizard-step__circle" aria-hidden="true">
                 <span class="wizard-step__num">1</span>
                 <span class="wizard-step__check">✓</span>
@@ -57,7 +59,7 @@
             </button>
           </li>
           <li>
-            <button type="button" class="wizard-step" id="wizard-nav-2" data-step="2">
+            <button type="button" class="wizard-step" id="wizard-nav-2" data-step="2" aria-controls="wizard-panel-2">
               <span class="wizard-step__circle" aria-hidden="true">
                 <span class="wizard-step__num">2</span>
                 <span class="wizard-step__check">✓</span>
@@ -66,7 +68,7 @@
             </button>
           </li>
           <li>
-            <button type="button" class="wizard-step" id="wizard-nav-3" data-step="3">
+            <button type="button" class="wizard-step" id="wizard-nav-3" data-step="3" aria-controls="wizard-panel-3">
               <span class="wizard-step__circle" aria-hidden="true">
                 <span class="wizard-step__num">3</span>
                 <span class="wizard-step__check">✓</span>
@@ -75,7 +77,7 @@
             </button>
           </li>
           <li>
-            <button type="button" class="wizard-step" id="wizard-nav-4" data-step="4">
+            <button type="button" class="wizard-step" id="wizard-nav-4" data-step="4" aria-controls="wizard-panel-4">
               <span class="wizard-step__circle" aria-hidden="true">
                 <span class="wizard-step__num">4</span>
                 <span class="wizard-step__check">✓</span>
@@ -84,7 +86,7 @@
             </button>
           </li>
           <li>
-            <button type="button" class="wizard-step" id="wizard-nav-5" data-step="5">
+            <button type="button" class="wizard-step" id="wizard-nav-5" data-step="5" aria-controls="wizard-panel-5">
               <span class="wizard-step__circle" aria-hidden="true">
                 <span class="wizard-step__num">5</span>
                 <span class="wizard-step__check">✓</span>
@@ -98,15 +100,15 @@
       <div class="wizard-main">
         <div class="wizard-progress" aria-live="polite">
           <div class="wizard-progress__top">
-            <span class="wizard-progress__eyebrow">Progreso</span>
+            <span class="wizard-progress__eyebrow" id="wizard-progress-label">Progreso</span>
             <span class="wizard-progress__meta" id="wizard-progress-meta">Paso 1 de 5</span>
           </div>
-          <div class="wizard-progress__track" role="progressbar" aria-valuemin="1" aria-valuemax="5" aria-valuenow="1" aria-labelledby="wizard-progress-meta">
+          <div class="wizard-progress__track" role="progressbar" aria-valuemin="1" aria-valuemax="5" aria-valuenow="1" aria-labelledby="wizard-progress-label wizard-progress-meta">
             <span class="wizard-progress__bar" id="wizard-progress-bar" style="width: 20%"></span>
           </div>
         </div>
         <section class="wizard-panel" id="wizard-panel-1" aria-labelledby="wizard-h1">
-          <h1 class="wizard-panel__title" id="wizard-h1">Datos del estudiante</h1>
+          <h2 class="wizard-panel__title" id="wizard-h1" tabindex="-1">Datos del estudiante</h2>
           <div class="wizard-form">
             <div class="wizard-field">
               <label class="wizard-label" for="sf-nombre">Nombre completo</label>
@@ -159,7 +161,7 @@
         </section>
 
         <section class="wizard-panel" id="wizard-panel-2" hidden aria-labelledby="wizard-h2">
-          <h1 class="wizard-panel__title" id="wizard-h2">Documentos del curso</h1>
+          <h2 class="wizard-panel__title" id="wizard-h2" tabindex="-1">Documentos del curso</h2>
           <p class="wizard-panel__subtitle">Cada evidencia entra en la carpeta correcta. Los archivos se empaquetan tal como los subes; si tu profesor exige PDF, conviértelos antes de entregar.</p>
           <div class="wizard-upload-stack">
             <div class="upload-zone" data-upload-key="planContenido">
@@ -178,7 +180,7 @@
         </section>
 
                 <section class="wizard-panel" id="wizard-panel-3" hidden aria-labelledby="wizard-h3">
-          <h1 class="wizard-panel__title" id="wizard-h3">Actividades y materiales</h1>
+          <h2 class="wizard-panel__title" id="wizard-h3" tabindex="-1">Actividades y materiales</h2>
           <p class="wizard-panel__subtitle">
             Puedes cargar archivos sueltos o carpetas. Portafolio FISC no convierte tus evidencias:
             las ordena en la carpeta correcta y conserva su formato original.
@@ -269,7 +271,7 @@
         </section>
 
         <section class="wizard-panel" id="wizard-panel-4" hidden aria-labelledby="wizard-h4">
-          <h1 class="wizard-panel__title" id="wizard-h4">Conclusión final del curso</h1>
+          <h2 class="wizard-panel__title" id="wizard-h4" tabindex="-1">Conclusión final del curso</h2>
           <p class="wizard-panel__subtitle">
             Puedes escribir tu conclusión manualmente y editarla antes de generar el ZIP.
           </p>
@@ -284,13 +286,7 @@
                 rows="8"
                 placeholder="Escribe tu conclusión aquí..."
               ></textarea>
-              <p class="wizard-ia-hint-step3" id="conclusion-final-ia-hint" hidden>
-                ⚠ Texto sugerido por IA - revisa y edita antes de usar.
-              </p>
             </div>
-          </div>
-          <div class="wizard-step4-actions" hidden>
-            <button type="button" class="btn btn--outline" id="btn-generar-ia" hidden disabled>Generar conclusión con IA</button>
           </div>
           <footer class="wizard-panel__footer wizard-panel__footer--split">
             <button type="button" class="btn btn--outline" data-wizard-prev>← Anterior</button>
@@ -299,7 +295,7 @@
         </section>
 
         <section class="wizard-panel" id="wizard-panel-5" hidden aria-labelledby="wizard-h5">
-          <h1 class="wizard-panel__title" id="wizard-h5">Revisar y generar</h1>
+          <h2 class="wizard-panel__title" id="wizard-h5" tabindex="-1">Revisar y generar</h2>
           <p class="wizard-panel__subtitle">Revisa la estructura final antes de descargar. La portada PDF y tus evidencias quedan empaquetadas en un solo ZIP.</p>
           <div class="wizard-summary">
             <h2 class="wizard-summary__heading">Resumen del paquete</h2>
@@ -396,12 +392,12 @@
 
         </div>
       </aside>
-    </div>
+    </main>
 
     <script src="vendor/pdf-lib/pdf-lib.min.js?v=1"></script>
     <script src="vendor/fontkit/fontkit.umd.min.js?v=1"></script>
-    <script src="js/zip.js?v=6"></script>
-    <script src="js/generate.js?v=6"></script>
-    <script src="js/app.js?v=6"></script>
+    <script src="js/zip.js?v=7"></script>
+    <script src="js/generate.js?v=7"></script>
+    <script src="js/app.js?v=9"></script>
   </body>
 </html>

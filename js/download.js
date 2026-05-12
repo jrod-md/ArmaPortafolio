@@ -1,6 +1,6 @@
 (() => {
   async function initDownloadPage() {
-    const { loadGeneratedZip } = window.PortafolioFiscZip || {};
+    const { loadGeneratedZip, clearGeneratedZip } = window.PortafolioFiscZip || {};
     const button = document.querySelector(".descarga-btn");
     const filenameNode = document.querySelector(".descarga-filename");
     const noteNode = document.querySelector(".descarga-note");
@@ -37,6 +37,9 @@
         link.click();
         link.remove();
         setTimeout(() => URL.revokeObjectURL(url), 3000);
+        if (clearGeneratedZip) {
+          clearGeneratedZip().catch(() => {});
+        }
       });
     }
   }

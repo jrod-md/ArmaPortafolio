@@ -50,6 +50,21 @@ body {
 
 /* Utilities */
 .visually-hidden { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0,0,0,0); border: 0; }
+.skip-link {
+  position: fixed;
+  top: 0.75rem;
+  left: 0.75rem;
+  z-index: 1000;
+  padding: 0.7rem 1rem;
+  border-radius: 6px;
+  background: var(--primary);
+  color: var(--primary-text);
+  font-weight: 700;
+  text-decoration: none;
+  transform: translateY(-150%);
+  transition: transform 0.2s var(--ease);
+}
+.skip-link:focus-visible { transform: translateY(0); }
 .container { width: 100%; max-width: var(--container); margin-inline: auto; padding-inline: clamp(1.5rem, 5vw, 3rem); }
 .container--narrow { max-width: 800px; }
 
@@ -89,6 +104,16 @@ h1, h2, h3, h4 { font-family: var(--font-display); font-weight: 500; color: var(
 .btn { display: inline-flex; align-items: center; justify-content: center; font-family: var(--font-ui); font-weight: 600; font-size: 0.95rem; padding: 0.75rem 1.5rem; border: 1px solid var(--border-strong); background: var(--surface); color: var(--text); text-decoration: none; cursor: pointer; transition: all 0.25s var(--ease); border-radius: 6px; }
 .btn:hover { background: var(--bg-paper); border-color: var(--text); transform: translateY(-1px); }
 .btn:active { transform: translateY(0); }
+.btn:focus-visible,
+.navbar__nav a:focus-visible,
+.wordmark:focus-visible,
+.wizard-step:focus-visible,
+.wizard-disclosure__summary:focus-visible,
+.upload-zone__add:focus-visible,
+.upload-zone__add-folder:focus-visible {
+  outline: 3px solid rgba(18, 61, 37, 0.35);
+  outline-offset: 3px;
+}
 .btn--primary { background: var(--primary); color: var(--primary-text); border-color: var(--primary); }
 .btn--primary:hover { background: var(--primary-hover); border-color: var(--primary-hover); color: var(--primary-text); box-shadow: 0 4px 12px rgba(18, 61, 37, 0.15); }
 .btn--outline { border-color: var(--border-strong); background: transparent; }

@@ -5,6 +5,30 @@
   X-Frame-Options: DENY
   Permissions-Policy: camera=(), microphone=(), geolocation=(), payment=(), usb=()
 
+/
+  Cache-Control: no-cache
+
+/index.html
+  Cache-Control: no-cache
+
+/generar.html
+  Cache-Control: no-cache
+
+/descarga.html
+  Cache-Control: no-cache
+
+/faq.html
+  Cache-Control: no-cache
+
+/ayuda.html
+  Cache-Control: no-cache
+
+/nosotros.html
+  Cache-Control: no-cache
+
+/404.html
+  Cache-Control: no-cache
+
 /assets/*
   Cache-Control: public, max-age=31536000, immutable
 

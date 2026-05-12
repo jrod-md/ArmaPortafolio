@@ -9,7 +9,6 @@ const MAX_FACILITATOR_LENGTH = 80;
 const MAX_CONCLUSION_LENGTH = 2000;
 const MAX_UPLOAD_SIZE_BYTES = 10 * 1024 * 1024;
 const MAX_TOTAL_UPLOAD_SIZE_BYTES = 160 * 1024 * 1024;
-const AI_CONCLUSION_ENABLED = false;
 const FILE_TYPE_GROUPS = {
   documents: ["pdf", "doc", "docx", "txt", "rtf", "odt", "md"],
   spreadsheets: ["xls", "xlsx", "csv", "ods"],
@@ -315,6 +314,8 @@ function showMessage(message, type = "error") {
   node.hidden = false;
   node.textContent = message;
   node.dataset.type = type;
+  node.setAttribute("role", type === "error" ? "alert" : "status");
+  node.setAttribute("aria-live", type === "error" ? "assertive" : "polite");
 }
 
 function clearMessage() {
@@ -323,6 +324,8 @@ function clearMessage() {
   node.hidden = true;
   node.textContent = "";
   node.dataset.type = "";
+  node.removeAttribute("role");
+  node.removeAttribute("aria-live");
 }
 
 function getStudentData() {
@@ -621,9 +624,19 @@ function updateSidebar() {
     } else if (step === currentStep) {
       button.classList.add("wizard-step--active");
       button.disabled = false;
+      button.setAttribute("aria-current", "step");
     } else {
       button.classList.add("wizard-step--future");
       button.disabled = true;
+    }
+
+    if (step !== currentStep) {
+      button.removeAttribute("aria-current");
+    }
+    if (button.disabled) {
+      button.setAttribute("aria-disabled", "true");
+    } else {
+      button.removeAttribute("aria-disabled");
     }
   }
 }
@@ -633,6 +646,17 @@ function showPanel(step) {
     const panel = $(`wizard-panel-${index}`);
     if (!panel) continue;
     panel.hidden = index !== step;
+  }
+}
+
+function focusPanelHeading(step) {
+  const heading = $(`wizard-h${step}`);
+  if (!heading) return;
+
+  try {
+    heading.focus({ preventScroll: true });
+  } catch {
+    heading.focus();
   }
 }
 
@@ -651,7 +675,9 @@ function setStep(step) {
     renderPortfolioPreview();
   }
 
-  window.scrollTo({ top: 0, behavior: "smooth" });
+  const reducedMotion = window.matchMedia?.("(prefers-reduced-motion: reduce)")?.matches;
+  window.scrollTo({ top: 0, behavior: reducedMotion ? "auto" : "smooth" });
+  focusPanelHeading(step);
 }
 
 function validateStepOne() {
@@ -941,75 +967,6 @@ function bindUploadZone(root) {
   renderUploadUI(key);
 }
 
-async function requestConclusion(targetId, hintId, options = {}) {
-  if (!AI_CONCLUSION_ENABLED) {
-    return;
-  }
-
-  const target = $(targetId);
-  if (!target) return;
-
-  const student = getStudentData();
-  const button = options.buttonId ? $(options.buttonId) : null;
-  const hint = hintId ? $(hintId) : null;
-
-  const validationError = validateStepOne();
-  if (validationError) {
-    showMessage(validationError, "error");
-    setStep(1);
-    return;
-  }
-
-  if (button) {
-    button.disabled = true;
-    button.dataset.defaultLabel = button.dataset.defaultLabel || button.textContent || "";
-    button.textContent = "Generando...";
-  }
-
-  clearMessage();
-
-  try {
-    const response = await fetch("/api/conclusion", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        courseName: student.courseName,
-        department: student.department,
-        facilitator: student.facilitator,
-        semester: student.semester,
-        year: student.year,
-      }),
-    });
-
-    const data = await response.json().catch(() => ({}));
-    if (!response.ok || !data.conclusion) {
-      throw new Error(data.error || "ai_unavailable");
-    }
-
-    target.value = clampText(data.conclusion, MAX_CONCLUSION_LENGTH);
-
-    if (hint) {
-      hint.hidden = false;
-    }
-
-    previewActiveSection = "conclusion";
-    refreshSummary();
-  } catch {
-    showMessage(
-      "No se pudo generar la conclusión en este momento. Intenta nuevamente.",
-      "error"
-    );
-
-  } finally {
-    if (button) {
-      button.disabled = false;
-      button.textContent = button.dataset.defaultLabel || "Generar";
-    }
-  }
-}
-
 function bindNavigation() {
   document.querySelectorAll("[data-wizard-next]").forEach((button) => {
     button.addEventListener("click", () => {
@@ -1048,27 +1005,7 @@ function bindNavigation() {
 }
 
 function bindConclusionUi() {
-  const aiButton = $("btn-generar-ia");
   const conclusionText = $("conclusionFinal");
-  const aiHint = $("conclusion-final-ia-hint");
-
-  if (!AI_CONCLUSION_ENABLED) {
-    if (aiButton) {
-      aiButton.hidden = true;
-      aiButton.disabled = true;
-    }
-    if (aiHint) {
-      aiHint.hidden = true;
-    }
-  }
-
-  if (AI_CONCLUSION_ENABLED && aiButton) {
-    aiButton.addEventListener("click", () => {
-      requestConclusion("conclusionFinal", "conclusion-final-ia-hint", {
-        buttonId: "btn-generar-ia",
-      });
-    });
-  }
 
   if (conclusionText) {
     conclusionText.addEventListener("input", () => {

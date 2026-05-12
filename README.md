@@ -8,7 +8,7 @@ Generador web estatico para crear el ZIP del Portafolio Digital Estudiantil de F
 - URL canonica: https://portafolio-fisc.pages.dev
 - Autenticacion deshabilitada.
 - Generacion de ZIP y portada en el navegador.
-- Conclusion con IA preparada para futuro, pero oculta/deshabilitada.
+- Conclusion con IA retirada por ahora; se puede replantear mas adelante.
 - Dependencias PDF vendorizadas localmente en `vendor/`.
 
 ## Estructura de despliegue
@@ -40,7 +40,6 @@ No incluir:
 ```text
 .git/
 .codex
-worker/
 _old/
 DESIGN.md
 PRODUCT.md
