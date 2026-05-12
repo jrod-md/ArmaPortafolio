@@ -46,6 +46,7 @@ let currentStep = 1;
 let uploadSequence = 0;
 let previewActiveSection = "portada";
 let previewIsCompiling = false;
+let previewChipTimeout = null;
 
 const uploads = {};
 
@@ -286,7 +287,48 @@ function previewText(value) {
 
 function setPreviewText(id, value) {
   const node = $(id);
-  if (node) node.textContent = previewText(value);
+  if (!node) return;
+
+  const nextValue = previewText(value);
+  if (node.textContent === nextValue) return;
+
+  node.textContent = nextValue;
+
+  if (window.matchMedia?.("(prefers-reduced-motion: reduce)")?.matches) return;
+  node.classList.remove("vertical-dossier__value--updated");
+  window.requestAnimationFrame?.(() => {
+    node.classList.add("vertical-dossier__value--updated");
+  });
+}
+
+function showDossierUploadChip(sectionId, addedCount) {
+  if (!addedCount || window.matchMedia?.("(prefers-reduced-motion: reduce)")?.matches) return;
+
+  const chip = $("preview-upload-chip");
+  const tab = document.querySelector(`[data-preview-tab="${sectionId}"]`);
+  const root = $("portfolio-live-preview");
+  if (!chip || !tab || !root) return;
+
+  const rootBox = root.getBoundingClientRect();
+  const tabBox = tab.getBoundingClientRect();
+  const chipY = Math.round(tabBox.top - rootBox.top + tabBox.height / 2);
+
+  chip.textContent = `+${addedCount} PDF${addedCount === 1 ? "" : "s"}`;
+  chip.style.setProperty("--chip-y", String(chipY));
+  chip.classList.add("vertical-dossier__upload-chip--visible");
+
+  window.clearTimeout(previewChipTimeout);
+  previewChipTimeout = window.setTimeout(() => {
+    chip.classList.remove("vertical-dossier__upload-chip--visible");
+  }, 850);
+}
+
+function sectionStatusText(section, count) {
+  if (!section) return "Cada archivo entra en la carpeta correcta.";
+  if (section.id === "portada") return "Portada: 1 archivo preparado.";
+  if (count === 0) return `${section.label.replace(/^\d+_/, "")}: sin archivos agregados.`;
+  const suffix = count === 1 ? "agregado" : "agregados";
+  return `${section.label.replace(/^\d+_/, "")}: ${countFilesLabel(count)} ${suffix}.`;
 }
 
 function syncPreviewSectionToStep() {
@@ -313,9 +355,13 @@ function updateDossierPreview(options = {}) {
 
   const activeSection = previewActiveSection || getMostRelevantPreviewSection(sections);
   const activeConfig = getPreviewSectionConfig(activeSection);
+  const activeSectionData = sections.find((section) => section.id === activeSection);
+  const activeCount = activeSectionData?.entries.length || 0;
   const subtitleParts = ["FISC", "UTP", student.year].filter(Boolean);
+  const completedCount = sections.filter((section) => section.entries.length > 0).length;
 
   root.dataset.activeSection = activeSection;
+  root.dataset.completedSections = String(completedCount);
 
   setPreviewText("preview-dossier-title", student.courseName || "Portafolio Digital");
   setPreviewText("preview-dossier-subtitle", subtitleParts.join(" · "));
@@ -346,6 +392,8 @@ function updateDossierPreview(options = {}) {
     }
   });
 
+  showDossierUploadChip(activeSection, options.incomingEntryIds?.length || 0);
+
   const stamp = $("preview-ready-stamp");
   if (stamp) {
     stamp.style.opacity = isFinalStep ? "1" : "0";
@@ -358,13 +406,25 @@ function updateDossierPreview(options = {}) {
   }
 
   const copy = $("preview-copy");
+  const state = $("preview-state");
+  if (state) {
+    const readyLabel = `${completedCount} de 6 secciones listas`;
+    if (previewIsCompiling) {
+      state.textContent = "Compilando paquete final";
+    } else if (isFinalStep) {
+      state.textContent = `Revisión final · ${readyLabel}`;
+    } else {
+      state.textContent = `Paquete en preparación · ${readyLabel}`;
+    }
+  }
+
   if (copy) {
     if (previewIsCompiling) {
       copy.textContent = "Comprimiendo paquete final...";
     } else if (isFinalStep) {
       copy.textContent = "Estructura verificada y lista para descargar.";
     } else {
-      copy.textContent = activeConfig?.copy || "Cada archivo se organiza automáticamente en la sección correspondiente.";
+      copy.textContent = sectionStatusText(activeConfig, activeCount);
     }
   }
 }

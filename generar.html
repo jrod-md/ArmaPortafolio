@@ -345,7 +345,7 @@
           <h2 class="portfolio-preview__title">Paquete oficial</h2>
           
           <div class="vertical-dossier" id="portfolio-live-preview">
-            <div class="vertical-dossier__spine"></div>
+            <div class="vertical-dossier__spine" aria-hidden="true"></div>
             <div class="vertical-dossier__body">
               <div class="vertical-dossier__cover">
                 <div class="vertical-dossier__header">
@@ -355,33 +355,36 @@
                 </div>
                 
                 <div class="vertical-dossier__metadata">
-                  <div class="vertical-dossier__meta-row">
+                  <div class="vertical-dossier__meta-row vertical-dossier__meta-row--primary">
                     <span class="vertical-dossier__meta-label">Estudiante</span>
                     <span class="vertical-dossier__meta-value" id="preview-meta-nombre">—</span>
                   </div>
-                  <div class="vertical-dossier__meta-row">
+                  <div class="vertical-dossier__meta-row vertical-dossier__meta-row--primary">
                     <span class="vertical-dossier__meta-label">Cédula</span>
                     <span class="vertical-dossier__meta-value" id="preview-meta-cedula">—</span>
                   </div>
-                  <div class="vertical-dossier__meta-row">
+                  <div class="vertical-dossier__meta-row vertical-dossier__meta-row--primary">
                     <span class="vertical-dossier__meta-label">Curso</span>
                     <span class="vertical-dossier__meta-value" id="preview-meta-curso">—</span>
                   </div>
-                  <div class="vertical-dossier__meta-row">
+                  <div class="vertical-dossier__meta-row vertical-dossier__meta-row--primary">
                     <span class="vertical-dossier__meta-label">Facilitador</span>
                     <span class="vertical-dossier__meta-value" id="preview-meta-facilitador">—</span>
                   </div>
-                  <div class="vertical-dossier__meta-row">
-                    <span class="vertical-dossier__meta-label">Departamento</span>
-                    <span class="vertical-dossier__meta-value" id="preview-meta-departamento">—</span>
-                  </div>
-                  <div class="vertical-dossier__meta-row">
-                    <span class="vertical-dossier__meta-label">Semestre</span>
-                    <span class="vertical-dossier__meta-value" id="preview-meta-semestre">—</span>
-                  </div>
-                  <div class="vertical-dossier__meta-row">
-                    <span class="vertical-dossier__meta-label">Año</span>
-                    <span class="vertical-dossier__meta-value" id="preview-meta-anio">—</span>
+
+                  <div class="vertical-dossier__meta-block" aria-label="Metadatos académicos">
+                    <div class="vertical-dossier__meta-row vertical-dossier__meta-row--secondary">
+                      <span class="vertical-dossier__meta-label">Departamento</span>
+                      <span class="vertical-dossier__meta-value" id="preview-meta-departamento">—</span>
+                    </div>
+                    <div class="vertical-dossier__meta-row vertical-dossier__meta-row--secondary">
+                      <span class="vertical-dossier__meta-label">Semestre</span>
+                      <span class="vertical-dossier__meta-value" id="preview-meta-semestre">—</span>
+                    </div>
+                    <div class="vertical-dossier__meta-row vertical-dossier__meta-row--secondary">
+                      <span class="vertical-dossier__meta-label">Año</span>
+                      <span class="vertical-dossier__meta-value" id="preview-meta-anio">—</span>
+                    </div>
                   </div>
                 </div>
 
@@ -422,6 +425,8 @@
               </div>
             </div>
 
+            <div class="vertical-dossier__upload-chip" id="preview-upload-chip" aria-hidden="true"></div>
+
             <div class="vertical-dossier__zip-badge" id="preview-zip-badge">
               <div class="vertical-dossier__zip-icon"></div>
               <div class="vertical-dossier__zip-text">
@@ -431,7 +436,8 @@
             </div>
           </div>
 
-          <p class="portfolio-preview__copy" id="preview-copy" style="text-align: center; margin-top: 1.5rem;">
+          <div class="portfolio-preview__state" id="preview-state">Paquete en preparación · 1 de 6 secciones listas</div>
+          <p class="portfolio-preview__copy" id="preview-copy">
             Cada archivo se organiza automáticamente en la sección correspondiente.
           </p>
         </div>
