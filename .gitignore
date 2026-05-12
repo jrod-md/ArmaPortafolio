@@ -1,0 +1,10 @@
+_old/
+.codex
+*.log
+*.tmp
+*.bak
+*.zip
+.folio-*.png
+.edge-*/
+Deploy/
+dist/

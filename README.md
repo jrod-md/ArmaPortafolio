@@ -10,6 +10,7 @@ Generador web estatico para crear el ZIP del Portafolio Digital Estudiantil de F
 - Generacion de ZIP y portada en el navegador.
 - Conclusion con IA retirada por ahora; se puede replantear mas adelante.
 - Dependencias PDF vendorizadas localmente en `vendor/`.
+- Cloudflare Web Analytics activo desde el dashboard.
 
 ## Estructura de despliegue
 
@@ -32,19 +33,20 @@ index.html
 nosotros.html
 robots.txt
 sitemap.xml
-theme-init.js
 ```
 
 No incluir:
 
 ```text
 .git/
-.codex
 _old/
 DESIGN.md
 PRODUCT.md
-portada_spec_for_codex.md
 README.md
+LICENSE
+LICENSE.es.md
+THIRD_PARTY_NOTICES.md
+assets/README.md
 ```
 
 ## Prueba local
@@ -90,14 +92,15 @@ Las URLs con hash, como `https://<hash>.portafolio-fisc.pages.dev`, son desplieg
 
 ## Cloudflare Web Analytics
 
-Cloudflare Web Analytics es gratis y privacy-first. Para activarlo:
+Cloudflare Web Analytics es gratis y privacy-first. Ya esta activo desde el
+dashboard de Cloudflare.
 
-1. Entrar a Cloudflare Dashboard.
-2. Ir a Workers & Pages.
-3. Abrir el proyecto `portafolio-fisc`.
-4. Ir a Metrics.
-5. Activar Web Analytics.
-6. Hacer un nuevo deploy.
+Despues de cada deploy, verificar en:
+
+1. Cloudflare Dashboard.
+2. Workers & Pages.
+3. Proyecto `portafolio-fisc`.
+4. Metrics.
 
 El archivo `_headers` ya permite el beacon de Cloudflare:
 
@@ -122,9 +125,22 @@ Eso protege los previews, no la URL canonica.
 ## Pendientes
 
 - Revisar IA de conclusión solo cuando el producto base esté estable.
-- Agregar Cloudflare Web Analytics desde el dashboard.
+- Verificar visitas en Cloudflare Web Analytics despues del proximo deploy.
+
+## Licencia
+
+El código fuente de este repositorio está licenciado bajo la licencia MIT.
+
+Los logos universitarios, logos de facultades, marcas institucionales,
+plantillas oficiales y cualquier recurso de terceros no están cubiertos por la
+licencia MIT. Estos materiales siguen siendo propiedad de sus respectivos dueños
+y se incluyen únicamente con fines de demostración, apoyo académico o referencia
+nominativa.
+
+Consulta `THIRD_PARTY_NOTICES.md` y `assets/README.md` para los avisos de
+terceros y recursos. `LICENSE.es.md` incluye una traducción informativa al
+español de la licencia MIT.
 
 ## Créditos y Contribución
 
 Creado para la comunidad estudiantil de FISC - UTP.
-MIT License.

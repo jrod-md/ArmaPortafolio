@@ -25,9 +25,8 @@
       href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Lora:ital,wght@0,500;0,600;0,700;1,500;1,600&display=swap"
       rel="stylesheet"
     />
-    <link rel="stylesheet" href="css/styles.css?v=13" />
+    <link rel="stylesheet" href="css/styles.css?v=14" />
     <link rel="icon" type="image/svg+xml" href="favicon.svg" />
-    <script src="theme-init.js"></script>
   </head>
   <body>
     <header class="navbar reveal">
@@ -88,6 +87,16 @@
                 darle una última mirada.
               </p>
             </details>
+
+            <details class="faq-card" open>
+              <summary>¿La herramienta guarda mis datos?</summary>
+              <p>
+                No hay cuenta, backend propio ni base de datos del proyecto. El ZIP se
+                prepara en tu navegador. Para permitir la descarga, el archivo puede
+                guardarse temporalmente en el almacenamiento de ese navegador y se borra
+                después de descargarlo.
+              </p>
+            </details>
           </div>
         </div>
       </section>
@@ -135,6 +144,32 @@
                         facultades, pero si tienes info y piensas que se podría implementar
                         como en FISC, envíame un correo a
                         <a href="mailto:jose.rodriguez104@utp.ac.pa">jose.rodriguez104@utp.ac.pa</a>.
+                      </p>
+                    </div>
+                  </details>
+
+                  <details class="faq-item">
+                    <summary class="faq-item__question">¿Qué pasa con mis archivos y datos?</summary>
+                    <div class="faq-item__answer">
+                      <p>
+                        No se crea una cuenta ni se guarda un perfil del estudiante. Los
+                        datos que escribes y los archivos que agregas se usan para armar
+                        el paquete en tu navegador. El sitio puede guardar temporalmente
+                        el ZIP en el almacenamiento local del navegador, conocido como
+                        IndexedDB, para que la página de descarga pueda encontrarlo. Al
+                        descargarlo, la herramienta intenta borrar esa copia temporal.
+                      </p>
+                    </div>
+                  </details>
+
+                  <details class="faq-item">
+                    <summary class="faq-item__question">¿Qué mide Cloudflare Web Analytics?</summary>
+                    <div class="faq-item__answer">
+                      <p>
+                        Mide tráfico general del sitio, como visitas y páginas abiertas,
+                        para saber si la herramienta se está usando y dónde falla el flujo.
+                        No recibe tus archivos, no lee el contenido del ZIP y no crea una
+                        cuenta de usuario dentro de Portafolio FISC.
                       </p>
                     </div>
                   </details>
@@ -217,8 +252,9 @@
                     <div class="faq-item__answer">
                       <p>
                         Revisa si el navegador bloqueó descargas automáticas, intenta otra vez
-                        o prueba desde un navegador de escritorio. Para problemas paso a paso,
-                        ve a la página de ayuda.
+                        o prueba desde un navegador de escritorio. Si llegaste a la página de
+                        descarga y no aparece el archivo, vuelve al generador y crea un ZIP
+                        nuevo. Para problemas paso a paso, ve a la página de ayuda.
                       </p>
                     </div>
                   </details>
