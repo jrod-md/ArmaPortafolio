@@ -32,7 +32,7 @@
 
 /* Base & Scrollbar */
 *, *::before, *::after { box-sizing: border-box; }
-html { scroll-behavior: smooth; font-family: var(--font-ui); background: var(--bg); color: var(--text); }
+html { scroll-behavior: smooth; scroll-padding-top: 5.25rem; font-family: var(--font-ui); background: var(--bg); color: var(--text); }
 body { 
   margin: 0; 
   font-size: 1rem; 
@@ -101,6 +101,10 @@ h1, h2, h3, h4 { font-family: var(--font-display); font-weight: 500; color: var(
 .navbar__sep { color: var(--border-strong); }
 @media (max-width: 720px) { .navbar__inner { align-items: center; } .navbar__sep { display: none; } }
 @media (max-width: 720px) {
+  html {
+    scroll-padding-top: 7.5rem;
+  }
+
   .navbar__inner {
     min-height: auto;
     padding-block: 0.85rem;
@@ -559,29 +563,25 @@ h1, h2, h3, h4 { font-family: var(--font-display); font-weight: 500; color: var(
   }
 
   .wizard-steps {
-    flex-direction: row;
+    display: grid;
+    grid-template-columns: repeat(5, minmax(0, 1fr));
     gap: 0.5rem;
-    overflow-x: auto;
-    padding-bottom: 0.25rem;
-    scroll-snap-type: x proximity;
-    scrollbar-width: none;
-  }
-
-  .wizard-steps::-webkit-scrollbar {
-    display: none;
+    overflow: visible;
+    padding-bottom: 0;
+    scroll-snap-type: none;
   }
 
   .wizard-steps li {
-    flex: 0 0 auto;
-    scroll-snap-align: start;
+    min-width: 0;
   }
 
   .wizard-step {
-    width: auto;
-    min-width: 2.45rem;
-    min-height: 2.45rem;
-    gap: 0.45rem;
-    padding: 0.38rem;
+    width: 100%;
+    min-width: 0;
+    min-height: 2.75rem;
+    justify-content: center;
+    gap: 0;
+    padding: 0.42rem;
     border-radius: 999px;
     background: rgba(255, 250, 241, 0.45);
   }
@@ -604,21 +604,19 @@ h1, h2, h3, h4 { font-family: var(--font-display); font-weight: 500; color: var(
   }
 
   .wizard-step--active {
-    min-width: min(14.5rem, calc(100vw - 3rem));
-    padding-right: 0.9rem;
+    min-width: 0;
+    padding-right: 0.42rem;
   }
 
   .wizard-step--active .wizard-step__label {
-    position: static;
-    width: auto;
-    height: auto;
-    margin: 0;
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    margin: -1px;
     overflow: hidden;
-    clip: auto;
-    clip-path: none;
-    text-overflow: ellipsis;
+    clip: rect(0, 0, 0, 0);
+    clip-path: inset(50%);
     white-space: nowrap;
-    font-size: 0.86rem;
   }
 
   .wizard-step--complete:not(.wizard-step--active) {
@@ -1647,6 +1645,7 @@ h1, h2, h3, h4 { font-family: var(--font-display); font-weight: 500; color: var(
 @media (max-width: 1119px) {
   .sticky-process {
     overflow: hidden;
+    scroll-margin-top: 7.5rem;
   }
 
   .sticky-process__inner {
@@ -1670,6 +1669,7 @@ h1, h2, h3, h4 { font-family: var(--font-display); font-weight: 500; color: var(
   }
 
   .step-panel {
+    scroll-margin-top: 7.5rem;
     min-height: auto;
     justify-content: flex-start;
     padding-block: 3.25rem;
