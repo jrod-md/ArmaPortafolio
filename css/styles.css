@@ -2106,6 +2106,53 @@ html.lenis body {
   background-image: url("data:image/svg+xml,%3Csvg width='160' height='160' viewBox='0 0 160 160' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)' opacity='0.22'/%3E%3C/svg%3E");
 }
 
+.hero-spectra-noise {
+  position: absolute;
+  inset: -18%;
+  z-index: 0;
+  pointer-events: none;
+  overflow: hidden;
+  opacity: 0.48;
+  mix-blend-mode: screen;
+}
+
+.hero-spectra-noise::before,
+.hero-spectra-noise::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  transform: translate3d(0, 0, 0);
+  will-change: transform, opacity;
+}
+
+.hero-spectra-noise::before {
+  background:
+    linear-gradient(112deg, transparent 0 36%, rgba(181, 154, 97, 0.14) 48%, transparent 63%),
+    radial-gradient(ellipse at 70% 30%, rgba(199, 169, 110, 0.26), transparent 28rem),
+    radial-gradient(ellipse at 88% 62%, rgba(35, 108, 70, 0.24), transparent 26rem);
+  filter: blur(18px) saturate(1.08);
+  animation: spectra-field 13s var(--ease-expo) infinite alternate;
+}
+
+.hero-spectra-noise::after {
+  opacity: 0.28;
+  background-image:
+    repeating-linear-gradient(0deg, rgba(237, 232, 220, 0.12) 0 1px, transparent 1px 7px),
+    url("data:image/svg+xml,%3Csvg width='180' height='180' viewBox='0 0 180 180' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='1.12' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='180' height='180' filter='url(%23n)' opacity='0.38'/%3E%3C/svg%3E");
+  background-size: auto, 180px 180px;
+  animation: spectra-scan 9s linear infinite;
+}
+
+@keyframes spectra-field {
+  from { transform: translate3d(-1.5%, 0, 0) skewX(-3deg) scale(1.02); opacity: 0.8; }
+  to { transform: translate3d(1.5%, 1%, 0) skewX(3deg) scale(1.06); opacity: 1; }
+}
+
+@keyframes spectra-scan {
+  from { transform: translate3d(0, -2%, 0); }
+  to { transform: translate3d(0, 2%, 0); }
+}
+
 .hero-dark__rule {
   position: absolute;
   left: clamp(1.5rem, 5vw, 5rem);
@@ -2120,7 +2167,7 @@ html.lenis body {
   position: relative;
   z-index: 2;
   width: 100%;
-  gap: 3rem;
+  gap: clamp(3rem, 6vw, 5.25rem);
 }
 
 .hero--dark .hero__content {
@@ -2143,7 +2190,7 @@ html.lenis body {
   margin-bottom: 2rem;
   color: var(--text-on-dark);
   font-family: var(--font-display-hero);
-  font-size: 3.8rem;
+  font-size: clamp(3.65rem, 5.6vw, 5.1rem);
   font-weight: 800;
   line-height: 0.92;
   letter-spacing: 0;
@@ -2203,6 +2250,7 @@ html.lenis body {
   letter-spacing: 0.14em;
   text-decoration: none;
   text-transform: uppercase;
+  pointer-events: none;
 }
 
 .hero-scroll-cue::after {
@@ -2221,6 +2269,15 @@ html.lenis body {
 
 .hero--dark .hero-package {
   transform-style: preserve-3d;
+}
+
+.hero--dark .hero__visual--landing {
+  justify-self: end;
+}
+
+.hero--dark .hero-package {
+  width: min(100%, 360px);
+  margin-right: clamp(3.5rem, 8.5vw, 7.5rem);
 }
 
 .hero--dark .hero-package__layer,
@@ -2261,9 +2318,17 @@ html.lenis body {
 }
 
 .magnetic-button {
+  --magnet-x: 0px;
+  --magnet-y: 0px;
+  --magnet-scale: 1;
   position: relative;
   gap: 0.65rem;
+  transform: translate3d(var(--magnet-x), var(--magnet-y), 0) scale(var(--magnet-scale));
   will-change: transform;
+}
+
+.magnetic-button:hover {
+  transform: translate3d(var(--magnet-x), var(--magnet-y), 0) scale(var(--magnet-scale));
 }
 
 .btn__arrow {
@@ -2282,14 +2347,14 @@ html.lenis body {
 }
 
 @media (min-width: 768px) {
-  .hero--dark .title-huge {
-    font-size: 5rem;
+  .hero--dark .hero__inner {
+    grid-template-columns: minmax(0, 1fr) minmax(300px, 360px);
   }
 }
 
 @media (min-width: 1180px) {
-  .hero--dark .title-huge {
-    font-size: 5.85rem;
+  .hero--dark .hero__inner {
+    grid-template-columns: minmax(0, 1fr) minmax(340px, 380px);
   }
 }
 
@@ -2312,11 +2377,18 @@ html.lenis body {
   .hero-scroll-cue {
     display: none;
   }
+
+  .hero--dark .hero-package {
+    width: min(100%, 330px);
+    margin-right: 0;
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {
   .hero-scroll-cue::after,
-  .hero--dark .hero-package__sheet {
+  .hero--dark .hero-package__sheet,
+  .hero-spectra-noise::before,
+  .hero-spectra-noise::after {
     animation: none !important;
   }
 

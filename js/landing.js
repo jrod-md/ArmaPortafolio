@@ -144,13 +144,96 @@ try {
       let frame = 0;
       let targetX = 0;
       let targetY = 0;
+      let returnFrame = 0;
+
+      function setMagnet(x, y, scale = 1.015) {
+        button.style.setProperty("--magnet-x", `${x.toFixed(2)}px`);
+        button.style.setProperty("--magnet-y", `${y.toFixed(2)}px`);
+        button.style.setProperty("--magnet-scale", scale.toFixed(3));
+      }
 
       function applyTransform() {
         frame = 0;
-        button.style.transform = `translate3d(${targetX}px, ${targetY}px, 0)`;
+        setMagnet(targetX, targetY);
+      }
+
+      function cancelReturn() {
+        if (!returnFrame) return;
+        window.cancelAnimationFrame(returnFrame);
+        returnFrame = 0;
+      }
+
+      function fallbackSpringReturn(startX, startY) {
+        let x = startX;
+        let y = startY;
+        let vx = 0;
+        let vy = 0;
+        const stiffness = 0.24;
+        const damping = 0.68;
+
+        function step() {
+          vx += -x * stiffness;
+          vy += -y * stiffness;
+          vx *= damping;
+          vy *= damping;
+          x += vx;
+          y += vy;
+
+          setMagnet(x, y, 1 + Math.min(0.015, Math.hypot(x, y) / 900));
+
+          if (Math.abs(x) < 0.08 && Math.abs(y) < 0.08 && Math.abs(vx) < 0.08 && Math.abs(vy) < 0.08) {
+            setMagnet(0, 0, 1);
+            returnFrame = 0;
+            return;
+          }
+
+          returnFrame = window.requestAnimationFrame(step);
+        }
+
+        returnFrame = window.requestAnimationFrame(step);
+      }
+
+      function returnToRest() {
+        if (frame) {
+          window.cancelAnimationFrame(frame);
+          frame = 0;
+        }
+
+        const startX = parseFloat(button.style.getPropertyValue("--magnet-x")) || targetX;
+        const startY = parseFloat(button.style.getPropertyValue("--magnet-y")) || targetY;
+        targetX = 0;
+        targetY = 0;
+        cancelReturn();
+
+        if (motionAnimate) {
+          try {
+            const animation = motionAnimate(
+              button,
+              {
+                "--magnet-x": [`${startX}px`, "0px"],
+                "--magnet-y": [`${startY}px`, "0px"],
+                "--magnet-scale": [1.018, 1],
+              },
+              { type: "spring", stiffness: 720, damping: 19, mass: 0.42 }
+            );
+
+            if (animation?.finished) {
+              animation.finished.finally(() => setMagnet(0, 0, 1));
+            } else {
+              window.setTimeout(() => setMagnet(0, 0, 1), 460);
+            }
+            return;
+          } catch {
+            fallbackSpringReturn(startX, startY);
+            return;
+          }
+        }
+
+        fallbackSpringReturn(startX, startY);
       }
 
       button.addEventListener("pointermove", (event) => {
+        cancelReturn();
         const rect = button.getBoundingClientRect();
         targetX = (event.clientX - rect.left - rect.width / 2) * 0.16;
         targetY = (event.clientY - rect.top - rect.height / 2) * 0.24;
@@ -160,18 +243,23 @@ try {
         }
       });
 
-      button.addEventListener("pointerleave", () => {
-        if (frame) {
-          window.cancelAnimationFrame(frame);
-          frame = 0;
-        }
+      button.addEventListener("pointerleave", returnToRest);
+      button.addEventListener("pointerout", returnToRest);
+      button.addEventListener("mouseleave", returnToRest);
+      button.addEventListener("blur", returnToRest);
 
-        if (motionAnimate) {
-          motionAnimate(button, { x: 0, y: 0 }, { type: "spring", stiffness: 360, damping: 24, mass: 0.45 });
-        } else {
-          button.style.transform = "translate3d(0, 0, 0)";
+      document.addEventListener("pointermove", (event) => {
+        const rect = button.getBoundingClientRect();
+        const outside =
+          event.clientX < rect.left ||
+          event.clientX > rect.right ||
+          event.clientY < rect.top ||
+          event.clientY > rect.bottom;
+
+        if (outside && (targetX !== 0 || targetY !== 0)) {
+          returnToRest();
         }
-      });
+      }, { passive: true });
     });
   }
 
