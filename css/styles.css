@@ -1415,15 +1415,65 @@ h1, h2, h3, h4 { font-family: var(--font-display); font-weight: 500; color: var(
 @media (min-width: 1120px) { .sticky-process__inner { grid-template-columns: 1fr 1fr; } }
 
 .sticky-process__visual {
+  --process-progress: 18%;
   height: 100vh;
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
+  gap: clamp(1.5rem, 4vw, 2.5rem);
   position: sticky;
   top: 0;
   order: 1;
 }
 @media (min-width: 1120px) { .sticky-process__visual { order: 2; } }
+
+.process-progress {
+  width: min(100%, 440px);
+}
+
+.process-progress__meta {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  margin-bottom: 0.72rem;
+  font-family: var(--font-mono);
+  font-size: 0.66rem;
+  font-weight: 700;
+  line-height: 1;
+  letter-spacing: 0.14em;
+  color: var(--text-hint);
+  text-transform: uppercase;
+}
+
+.process-progress__meta span {
+  min-width: 0;
+  white-space: nowrap;
+}
+
+.process-progress__meta span:nth-child(1) { justify-self: start; }
+.process-progress__meta span:nth-child(2),
+.process-progress__meta span:nth-child(3) { justify-self: center; }
+.process-progress__meta span:nth-child(4) { justify-self: end; }
+
+.process-progress__track {
+  position: relative;
+  height: 2px;
+  overflow: hidden;
+  background: var(--border);
+}
+
+.process-progress__bar {
+  display: block;
+  width: var(--process-progress);
+  height: 100%;
+  background: var(--primary);
+  transition: width 0.22s var(--ease);
+}
+
+.sticky-process__visual[data-step="datos"] { --process-progress: 18%; }
+.sticky-process__visual[data-step="evidencias"] { --process-progress: 45%; }
+.sticky-process__visual[data-step="revision"] { --process-progress: 72%; }
+.sticky-process__visual[data-step="zip"] { --process-progress: 100%; }
 
 .sticky-process__steps {
   order: 2;
@@ -1666,6 +1716,15 @@ h1, h2, h3, h4 { font-family: var(--font-display); font-weight: 500; color: var(
     min-height: 0;
     padding: 1.5rem 0 4rem;
     overflow: hidden;
+  }
+
+  .process-progress {
+    width: min(calc(100% - 2rem), 360px);
+  }
+
+  .process-progress__meta {
+    font-size: 0.58rem;
+    letter-spacing: 0.1em;
   }
 
   .step-panel {
