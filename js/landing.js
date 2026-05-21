@@ -157,6 +157,117 @@ try {
     setGradient();
   }
 
+  function initChaosFiles() {
+    const files = Array.from(document.querySelectorAll(".chaos-file"));
+    const scene = document.querySelector(".narrative-chaos");
+    if (!files.length || !scene) return;
+
+    function seeded(index, salt = 0) {
+      const value = Math.sin((index + 1) * 78.233 + salt * 37.719) * 10000;
+      return value - Math.floor(value);
+    }
+
+    function placeFiles() {
+      const compact = window.matchMedia("(max-width: 760px)").matches;
+      const radiusX = compact ? 118 : 242;
+      const radiusY = compact ? 154 : 236;
+
+      files.forEach((file, index) => {
+        const angle = (index / files.length) * Math.PI * 2 + seeded(index, 1) * 0.74;
+        const spread = 0.62 + seeded(index, 2) * 0.46;
+        const x = Math.cos(angle) * radiusX * spread;
+        const y = Math.sin(angle) * radiusY * spread;
+        const rotation = -18 + seeded(index, 3) * 36;
+        const opacity = Math.max(0.36, 1 - index * 0.034);
+
+        file.style.setProperty("--chaos-x", `${x.toFixed(1)}px`);
+        file.style.setProperty("--chaos-y", `${y.toFixed(1)}px`);
+        file.style.setProperty("--chaos-scroll-x", "0px");
+        file.style.setProperty("--chaos-scroll-y", "0px");
+        file.style.setProperty("--chaos-r", `${rotation.toFixed(1)}deg`);
+        file.style.setProperty("--chaos-float-x", `${(3 + seeded(index, 4) * 8).toFixed(1)}px`);
+        file.style.setProperty("--chaos-float-y", `${(4 + seeded(index, 5) * 9).toFixed(1)}px`);
+        file.style.setProperty("--chaos-float-r", `${(0.35 + seeded(index, 6) * 1.3).toFixed(2)}deg`);
+        file.style.setProperty("--chaos-duration", `${(5.8 + seeded(index, 7) * 3.8).toFixed(2)}s`);
+        file.style.setProperty("--chaos-opacity", opacity.toFixed(2));
+        file.style.zIndex = String(files.length - index);
+        file.classList.add("chaos-file--live");
+      });
+    }
+
+    placeFiles();
+    window.addEventListener("resize", placeFiles, { passive: true });
+
+    if (reduceMotion || !window.gsap || !window.ScrollTrigger) return;
+
+    files.forEach((file, index) => {
+      const direction = index % 2 === 0 ? 1 : -1;
+      window.gsap.to(file, {
+        "--chaos-scroll-x": `${direction * (12 + seeded(index, 8) * 22)}px`,
+        "--chaos-scroll-y": `${(index % 3 - 1) * (10 + seeded(index, 9) * 24)}px`,
+        ease: "none",
+        scrollTrigger: {
+          trigger: scene,
+          start: "top bottom",
+          end: "bottom top",
+          scrub: true,
+        },
+      });
+    });
+  }
+
+  function initChaosHeadline() {
+    const headline = document.querySelector(".chaos-text__headline");
+    if (!headline || headline.dataset.splitReady) return;
+
+    const text = headline.textContent.trim();
+    headline.dataset.splitReady = "true";
+    headline.setAttribute("aria-label", text);
+    headline.textContent = "";
+
+    const fragment = document.createDocumentFragment();
+    text.split(/(\s+)/).forEach((part) => {
+      if (!part.trim()) {
+        fragment.append(document.createTextNode(" "));
+        return;
+      }
+
+      const word = document.createElement("span");
+      word.className = "chaos-word";
+      word.setAttribute("aria-hidden", "true");
+
+      Array.from(part).forEach((char) => {
+        const span = document.createElement("span");
+        span.className = "chaos-char";
+        span.textContent = char;
+        word.append(span);
+      });
+
+      fragment.append(word);
+    });
+    headline.append(fragment);
+
+    if (reduceMotion || !window.gsap || !window.ScrollTrigger) return;
+
+    const chars = headline.querySelectorAll(".chaos-char");
+    window.gsap.fromTo(
+      chars,
+      { autoAlpha: 0, yPercent: 105 },
+      {
+        autoAlpha: 1,
+        yPercent: 0,
+        duration: 0.58,
+        ease: "expo.out",
+        stagger: 0.014,
+        scrollTrigger: {
+          trigger: headline,
+          start: "top 82%",
+          once: true,
+        },
+      }
+    );
+  }
+
   function initLandingProcess() {
     const visualTarget = document.getElementById("sticky-visual-target");
     const statusLabel = document.getElementById("artifact-status");
@@ -321,6 +432,46 @@ try {
 
     window.gsap.registerPlugin(window.ScrollTrigger);
 
+    document.querySelectorAll(".problem-card").forEach((card, index) => {
+      const number = card.querySelector(".problem-card__num");
+
+      window.gsap.fromTo(
+        card,
+        { autoAlpha: 0, y: 34 },
+        {
+          autoAlpha: 1,
+          y: 0,
+          duration: 0.62,
+          ease: "expo.out",
+          delay: index * 0.04,
+          scrollTrigger: {
+            trigger: card,
+            start: "top 78%",
+            once: true,
+          },
+        }
+      );
+
+      if (number) {
+        window.gsap.fromTo(
+          number,
+          { clipPath: "inset(0 100% 0 0)", autoAlpha: 0.08, y: 18 },
+          {
+            clipPath: "inset(0 0% 0 0)",
+            autoAlpha: 0.2,
+            y: 0,
+            duration: 0.78,
+            ease: "expo.out",
+            scrollTrigger: {
+              trigger: card,
+              start: "top 80%",
+              once: true,
+            },
+          }
+        );
+      }
+    });
+
     document.querySelectorAll(".step-panel").forEach((panel) => {
       window.gsap.fromTo(
         panel,
@@ -339,6 +490,8 @@ try {
         }
       );
     });
+
+    window.ScrollTrigger.refresh();
   }
 
   function initLanding() {
@@ -350,6 +503,8 @@ try {
     initNavbarState();
     initInteractiveGradient();
     initHeroScene();
+    initChaosFiles();
+    initChaosHeadline();
     initLandingProcess();
     initMagneticButtons();
     initScrollScenes();

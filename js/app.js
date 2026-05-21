@@ -148,6 +148,7 @@ let uploadSequence = 0;
 let previewActiveSection = "portada";
 let previewIsCompiling = false;
 let appInitialized = false;
+let panelTransitionId = 0;
 
 const uploads = {};
 
@@ -492,9 +493,9 @@ function updateDossierPreview(options = {}) {
 
   const stamp = $("preview-ready-stamp");
   const showReadyStamp = previewIsCompiling || isFinalStep;
+  root.classList.toggle("vertical-dossier--ready", showReadyStamp);
   if (stamp) {
-    stamp.style.opacity = showReadyStamp ? "1" : "0";
-    stamp.style.transform = showReadyStamp ? "rotate(-15deg) scale(1)" : "rotate(-15deg) scale(1.4)";
+    stamp.setAttribute("aria-hidden", showReadyStamp ? "false" : "true");
   }
 }
 
@@ -604,6 +605,11 @@ function updateProgress() {
 }
 
 function updateSidebar() {
+  const steps = document.querySelector(".wizard-steps");
+  if (steps) {
+    steps.dataset.step = String(currentStep);
+  }
+
   for (let step = 1; step <= TOTAL_STEPS; step += 1) {
     const button = $(`wizard-nav-${step}`);
     if (!button) continue;
@@ -638,10 +644,43 @@ function updateSidebar() {
 }
 
 function showPanel(step) {
+  const reducedMotion = window.matchMedia?.("(prefers-reduced-motion: reduce)")?.matches;
+  panelTransitionId += 1;
+  const transitionId = panelTransitionId;
+
   for (let index = 1; index <= TOTAL_STEPS; index += 1) {
     const panel = $(`wizard-panel-${index}`);
     if (!panel) continue;
-    panel.hidden = index !== step;
+
+    panel.classList.remove("wizard-panel--enter", "wizard-panel--entered");
+
+    if (index === step) {
+      panel.hidden = false;
+      panel.classList.remove("wizard-panel--exit");
+
+      if (!reducedMotion) {
+        panel.classList.add("wizard-panel--enter");
+        window.requestAnimationFrame?.(() => {
+          panel.classList.add("wizard-panel--entered");
+        });
+        window.setTimeout(() => {
+          panel.classList.remove("wizard-panel--enter", "wizard-panel--entered");
+        }, 280);
+      }
+      continue;
+    }
+
+    if (!panel.hidden && !reducedMotion) {
+      panel.classList.add("wizard-panel--exit");
+      window.setTimeout(() => {
+        if (transitionId !== panelTransitionId || index === currentStep) return;
+        panel.hidden = true;
+        panel.classList.remove("wizard-panel--exit");
+      }, 170);
+    } else {
+      panel.hidden = true;
+      panel.classList.remove("wizard-panel--exit");
+    }
   }
 }
 
@@ -753,7 +792,7 @@ function buildUploadEntry(key, file, existingEntries) {
   };
 }
 
-function renderUploadUI(key) {
+function renderUploadUI(key, options = {}) {
   const root = document.querySelector(`[data-upload-key="${key}"]`);
   if (!root) return;
 
@@ -762,10 +801,25 @@ function renderUploadUI(key) {
   const fileList = root.querySelector(".upload-zone__file-list");
   let formatLine = root.querySelector(".upload-zone__format-line");
   const entries = getUploadEntries(key);
+  const incomingIds = new Set(options.incomingEntryIds || []);
 
   if (metaLine && config) {
+    const previousCount = Number(metaLine.dataset.uploadCount || 0);
+    const hasRenderedCount = Object.prototype.hasOwnProperty.call(metaLine.dataset, "uploadCount");
     const unit = config.maxFiles === 1 ? "archivo" : "archivos";
     metaLine.textContent = `${entries.length}/${config.maxFiles} ${unit} · Máx. 10MB por archivo`;
+    metaLine.dataset.uploadCount = String(entries.length);
+
+    if (
+      hasRenderedCount &&
+      previousCount !== entries.length &&
+      !window.matchMedia?.("(prefers-reduced-motion: reduce)")?.matches
+    ) {
+      metaLine.classList.remove("upload-zone__meta-line--tick");
+      window.requestAnimationFrame?.(() => {
+        metaLine.classList.add("upload-zone__meta-line--tick");
+      });
+    }
   }
 
   if (config?.formatsLabel && metaLine) {
@@ -784,10 +838,12 @@ function renderUploadUI(key) {
     } else {
       fileList.hidden = false;
       fileList.innerHTML = entries
-        .map(
-          (entry) =>
-            `<li><span>${escapeHtml(entry.name)}</span> <span>${formatBytes(entry.size)}</span> <button type="button" data-upload-remove="${entry.id}">Quitar</button></li>`
-        )
+        .map((entry) => {
+          const itemClass = incomingIds.has(entry.id)
+            ? "upload-zone__file-item upload-zone__file-item--new"
+            : "upload-zone__file-item";
+          return `<li class="${itemClass}"><span>${escapeHtml(entry.name)}</span> <span>${formatBytes(entry.size)}</span> <button type="button" data-upload-remove="${entry.id}">Quitar</button></li>`;
+        })
         .join("");
     }
   }
@@ -839,7 +895,9 @@ function addFilesToUpload(key, files) {
     delete uploads[key];
   }
 
-  renderUploadUI(key);
+  renderUploadUI(key, {
+    incomingEntryIds: addedEntries.map((entry) => entry.id),
+  });
   refreshSummary();
 
   if (addedEntries.length > 0) {
