@@ -104,6 +104,59 @@ try {
       .to(hero.querySelector(".hero-scroll-cue"), { autoAlpha: 1, y: 0, duration: 0.45 }, 1.05);
   }
 
+  function initInteractiveGradient() {
+    const gradient = document.querySelector(".hero-interactive-gradient");
+    const hero = document.querySelector("[data-landing-hero]");
+    if (!gradient || !hero) return;
+
+    let influenceX = 0;
+    let influenceY = 0;
+    let targetInfluenceX = 0;
+    let targetInfluenceY = 0;
+
+    const clamp = (value, min, max) => Math.min(max, Math.max(min, value));
+
+    function setGradient(time = 0) {
+      const baseX = 0.7 + Math.sin(time * 0.00032) * 0.055 + Math.sin(time * 0.00015 + 1.8) * 0.026;
+      const baseY = 0.25 + Math.cos(time * 0.00028) * 0.045 + Math.sin(time * 0.00014 + 0.6) * 0.018;
+
+      influenceX += (targetInfluenceX - influenceX) * 0.025;
+      influenceY += (targetInfluenceY - influenceY) * 0.025;
+
+      const x = clamp(baseX * 100, 54, 82);
+      const y = clamp(baseY * 100, 10, 42);
+      const driftX = Math.sin(time * 0.00042) * 24 + influenceX * 18;
+      const driftY = Math.cos(time * 0.00038) * 18 + influenceY * 14;
+      const rotate = Math.sin(time * 0.00018) * 4 + influenceX * 1.6;
+
+      gradient.style.setProperty("--ig-x", `${x.toFixed(2)}%`);
+      gradient.style.setProperty("--ig-y", `${y.toFixed(2)}%`);
+      gradient.style.setProperty("--ig-drift-x", `${driftX.toFixed(2)}px`);
+      gradient.style.setProperty("--ig-drift-y", `${driftY.toFixed(2)}px`);
+      gradient.style.setProperty("--ig-rotate", `${rotate.toFixed(2)}deg`);
+
+      if (!reduceMotion) {
+        window.requestAnimationFrame(setGradient);
+      }
+    }
+
+    hero.addEventListener("pointermove", (event) => {
+      const rect = hero.getBoundingClientRect();
+      const pointerX = (event.clientX - rect.left) / rect.width - 0.5;
+      const pointerY = (event.clientY - rect.top) / rect.height - 0.5;
+
+      targetInfluenceX = clamp(pointerX, -0.5, 0.5);
+      targetInfluenceY = clamp(pointerY, -0.5, 0.5);
+    }, { passive: true });
+
+    hero.addEventListener("pointerleave", () => {
+      targetInfluenceX = 0;
+      targetInfluenceY = 0;
+    });
+
+    setGradient();
+  }
+
   function initLandingProcess() {
     const visualTarget = document.getElementById("sticky-visual-target");
     const statusLabel = document.getElementById("artifact-status");
@@ -295,6 +348,7 @@ try {
 
     initLenis();
     initNavbarState();
+    initInteractiveGradient();
     initHeroScene();
     initLandingProcess();
     initMagneticButtons();

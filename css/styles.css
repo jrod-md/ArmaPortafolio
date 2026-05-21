@@ -2102,55 +2102,63 @@ html.lenis body {
   inset: 0;
   z-index: 0;
   pointer-events: none;
-  opacity: 0.18;
+  opacity: 0.08;
   background-image: url("data:image/svg+xml,%3Csvg width='160' height='160' viewBox='0 0 160 160' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)' opacity='0.22'/%3E%3C/svg%3E");
 }
 
-.hero-spectra-noise {
+.hero-interactive-gradient {
+  --ig-x: 72%;
+  --ig-y: 24%;
+  --ig-drift-x: 0px;
+  --ig-drift-y: 0px;
+  --ig-rotate: 0deg;
   position: absolute;
   inset: -18%;
   z-index: 0;
   pointer-events: none;
   overflow: hidden;
-  opacity: 0.48;
-  mix-blend-mode: screen;
+  opacity: 0.9;
+  mix-blend-mode: normal;
+  filter: saturate(1.08) contrast(1.04);
+  background:
+    radial-gradient(ellipse 72% 52% at var(--ig-x) var(--ig-y), rgba(198, 168, 110, 0.28), transparent 48%),
+    radial-gradient(ellipse 70% 58% at calc(var(--ig-x) - 18%) calc(var(--ig-y) + 24%), rgba(22, 88, 52, 0.62), transparent 62%),
+    linear-gradient(135deg, rgba(6, 22, 12, 0.2), transparent 42%, rgba(0, 5, 3, 0.54));
 }
 
-.hero-spectra-noise::before,
-.hero-spectra-noise::after {
+.hero-interactive-gradient::before,
+.hero-interactive-gradient::after {
   content: "";
   position: absolute;
   inset: 0;
-  transform: translate3d(0, 0, 0);
-  will-change: transform, opacity;
+  transform: translate3d(var(--ig-drift-x), var(--ig-drift-y), 0) rotate(var(--ig-rotate));
+  will-change: transform, background-position;
 }
 
-.hero-spectra-noise::before {
+.hero-interactive-gradient::before {
+  opacity: 0.9;
   background:
-    linear-gradient(112deg, transparent 0 36%, rgba(181, 154, 97, 0.14) 48%, transparent 63%),
-    radial-gradient(ellipse at 70% 30%, rgba(199, 169, 110, 0.26), transparent 28rem),
-    radial-gradient(ellipse at 88% 62%, rgba(35, 108, 70, 0.24), transparent 26rem);
-  filter: blur(18px) saturate(1.08);
-  animation: spectra-field 13s var(--ease-expo) infinite alternate;
+    conic-gradient(from calc(130deg + var(--ig-rotate)) at calc(var(--ig-x) + 4%) calc(var(--ig-y) + 2%),
+      rgba(4, 15, 8, 0) 0deg,
+      rgba(48, 115, 38, 0.5) 46deg,
+      rgba(194, 164, 98, 0.34) 86deg,
+      rgba(12, 56, 34, 0.66) 136deg,
+      rgba(2, 11, 6, 0.8) 190deg,
+      rgba(3, 12, 7, 0) 260deg),
+    radial-gradient(ellipse 46% 62% at calc(var(--ig-x) - 12%) calc(var(--ig-y) + 14%), rgba(0, 6, 3, 0.82), transparent 54%),
+    linear-gradient(110deg, transparent 0 34%, rgba(218, 185, 105, 0.16) 46%, rgba(36, 110, 55, 0.2) 58%, transparent 74%);
+  filter: blur(34px);
+  transform-origin: var(--ig-x) var(--ig-y);
 }
 
-.hero-spectra-noise::after {
-  opacity: 0.28;
-  background-image:
-    repeating-linear-gradient(0deg, rgba(237, 232, 220, 0.12) 0 1px, transparent 1px 7px),
-    url("data:image/svg+xml,%3Csvg width='180' height='180' viewBox='0 0 180 180' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='1.12' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='180' height='180' filter='url(%23n)' opacity='0.38'/%3E%3C/svg%3E");
-  background-size: auto, 180px 180px;
-  animation: spectra-scan 9s linear infinite;
-}
-
-@keyframes spectra-field {
-  from { transform: translate3d(-1.5%, 0, 0) skewX(-3deg) scale(1.02); opacity: 0.8; }
-  to { transform: translate3d(1.5%, 1%, 0) skewX(3deg) scale(1.06); opacity: 1; }
-}
-
-@keyframes spectra-scan {
-  from { transform: translate3d(0, -2%, 0); }
-  to { transform: translate3d(0, 2%, 0); }
+.hero-interactive-gradient::after {
+  opacity: 0.64;
+  background:
+    radial-gradient(ellipse 40% 34% at calc(var(--ig-x) + 18%) calc(var(--ig-y) + 8%), rgba(166, 220, 42, 0.3), transparent 58%),
+    radial-gradient(ellipse 34% 54% at calc(var(--ig-x) - 6%) calc(var(--ig-y) + 18%), rgba(0, 5, 2, 0.74), transparent 66%),
+    repeating-linear-gradient(92deg, rgba(237, 232, 220, 0.035) 0 1px, transparent 1px 11px);
+  filter: blur(16px);
+  mix-blend-mode: screen;
 }
 
 .hero-dark__rule {
@@ -2386,9 +2394,7 @@ html.lenis body {
 
 @media (prefers-reduced-motion: reduce) {
   .hero-scroll-cue::after,
-  .hero--dark .hero-package__sheet,
-  .hero-spectra-noise::before,
-  .hero-spectra-noise::after {
+  .hero--dark .hero-package__sheet {
     animation: none !important;
   }
 
