@@ -1,4 +1,4 @@
-/* Portafolio FISC - Professional Academic UI */
+/* ArmaPortafolio - Professional Academic UI */
 
 :root {
   --bg: #F4EFE6;
@@ -388,7 +388,7 @@ h1, h2, h3, h4 { font-family: var(--font-display); font-weight: 500; color: var(
   flex-shrink: 0;
 }
 .vertical-dossier__spine::before {
-  content: "PORTAFOLIO FISC";
+  content: "ARMAPORTAFOLIO";
   position: absolute;
   left: 50%;
   top: 1.2rem;
@@ -1400,8 +1400,6 @@ h1, h2, h3, h4 { font-family: var(--font-display); font-weight: 500; color: var(
 @media (min-width: 768px) { .footer__nav { justify-content: center; } }
 .footer__license { font-size: 0.85rem; opacity: 0.7; margin: 0; text-align: left; }
 @media (min-width: 768px) { .footer__license { text-align: right; } }
-.footer__disclaimer { margin-top: 2.75rem; padding-top: 1.5rem; border-top: 1px solid rgba(181, 154, 97, 0.55); font-size: 0.8rem; color: var(--text-hint); text-align: center; }
-
 /* Reduced Motion */
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
