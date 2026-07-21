@@ -18,6 +18,20 @@ Landing page showing the problem framing, portfolio package concept, and entry p
 
 Generator screen showing the five-step workflow, student metadata form, progress state, and live package preview.
 
+![Generated portfolio cover](assets/showcase/01-portada-generada.png)
+
+Generated `Portada.pdf` showing the cover included in the final portfolio package.
+
+![Client-side generator workflow](assets/showcase/02-flujo-del-generador.png)
+
+Client-side workflow with the student data form, five-step progress indicator, and live preview of the package cover.
+
+![Validated portfolio structure](assets/showcase/03-estructura-final.png)
+
+Example of the predictable folder structure produced inside the downloaded ZIP.
+
+The generator runs locally in the browser without an account or server-side file upload. It includes practical technical limits—10 MB per file and 160 MB per package—which are described below.
+
 ## Core workflow
 
 1. Collect student, course, department, facilitator, semester, and year information.
