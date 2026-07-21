@@ -4,6 +4,8 @@ ArmaPortafolio is a static, browser-based tool for assembling academic portfolio
 
 The application processes portfolio data in the browser. It has no application backend, server-side file upload, user account system, or server database. A generated ZIP may be stored temporarily in the browser's IndexedDB so the download page can retrieve it, and the app falls back to a direct browser download when that handoff is unavailable.
 
+Live demo: [armaport.pages.dev](https://armaport.pages.dev)
+
 > Scope note: this repository is a public static export, not a live operational platform. It does not implement collaboration, server-side validation, real-time monitoring, messaging, field verification, or AI features.
 
 ## Screenshots
@@ -85,10 +87,10 @@ node --check js/landing.js
 
 ## Deployment
 
-The current Cloudflare Pages setup uses manual Direct Upload. A GitHub push does not create a Cloudflare deployment automatically. The command deploys the folder supplied to Wrangler, so use a curated public export folder rather than a checkout root if documentation and screenshots should remain outside the hosted site.
+The live demo is a Cloudflare Pages Direct Upload deployment at [armaport.pages.dev](https://armaport.pages.dev). A GitHub push does not create a Cloudflare deployment automatically. The command deploys the folder supplied to Wrangler, so use the curated public export folder rather than the checkout root if documentation and screenshots should remain outside the hosted site.
 
 ```powershell
-npx wrangler@latest pages deploy . --project-name portafolio-fisc
+npx wrangler@latest pages deploy .\deploy --project-name armaport
 ```
 
 The deployment folder should contain only public files. Do not upload `.git/`, `.wrangler/`, `_old/`, local screenshots, documentation source files that are excluded from the public export, or private environment files.
