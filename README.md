@@ -1,234 +1,104 @@
-# Portafolio FISC
+# ArmaPortafolio
 
-Portafolio FISC es una aplicación web estática para ayudar a estudiantes de la
-Facultad de Ingeniería de Sistemas Computacionales (FISC) de la Universidad
-Tecnológica de Panamá (UTP) a preparar su Portafolio Digital Estudiantil.
+ArmaPortafolio is a static, browser-based tool for assembling academic portfolios. It helps a student enter cover-page information, add course evidence, organize files into a predictable folder structure, and download a final ZIP package.
 
-La herramienta genera la portada, organiza las evidencias por sección y entrega
-un archivo ZIP con la estructura esperada para el cierre del semestre.
+The application processes portfolio data in the browser. It has no application backend, server-side file upload, user account system, or server database. A generated ZIP may be stored temporarily in the browser's IndexedDB so the download page can retrieve it, and the app falls back to a direct browser download when that handoff is unavailable.
 
-> Herramienta de apoyo académico. No es un producto oficial de la Universidad
-> Tecnológica de Panamá ni de FISC.
+> Scope note: this repository is a public static export, not a live operational platform. It does not implement collaboration, server-side validation, real-time monitoring, messaging, field verification, or AI features.
 
-## Estado
+## Screenshots
 
-- Producción: <https://portafolio-fisc.pages.dev>
-- Hosting: Cloudflare Pages, Direct Upload manual.
-- Autenticación: no aplica, la herramienta es de uso libre y no requiere cuenta.
-- Generación: portada PDF y ZIP en el navegador.
-- Analytics: Cloudflare Web Analytics activo para medir visitas generales.
-- IA: módulo de conclusión deshabilitado por ahora, reservado para una etapa futura.
-- Dependencias clave: `pdf-lib` y `fontkit` vendorizadas localmente en `vendor/`.
+![Landing page overview](screenshots/01-overview.png)
 
-## Qué hace
+Landing page showing the problem framing, portfolio package concept, and entry point to the generator.
 
-- Captura datos del estudiante, curso, facilitador, ciclo académico y departamento.
-- Genera una portada PDF para el portafolio.
-- Permite subir evidencias en formatos comunes, no solo PDF.
-- Conserva los archivos originales dentro del ZIP.
-- Sanitiza nombres de archivos antes de agregarlos al paquete.
-- Bloquea extensiones peligrosas como ejecutables o scripts de sistema.
-- Agrupa las evidencias en carpetas académicas predefinidas.
-- Genera un ZIP final listo para revisar y entregar.
+![Portfolio generator](screenshots/02-generator.png)
 
-## Privacidad y datos
+Generator screen showing the five-step workflow, student metadata form, progress state, and live package preview.
 
-Portafolio FISC no tiene backend propio, base de datos del proyecto, usuarios,
-sesiones privadas ni cuentas.
+## Core workflow
 
-Los archivos se procesan en el navegador del usuario. Para facilitar la pantalla
-de descarga, el ZIP puede guardarse temporalmente en IndexedDB, que es
-almacenamiento local del propio navegador. Después de descargarlo, la herramienta
-intenta borrar esa copia temporal.
+1. Collect student, course, department, facilitator, semester, and year information.
+2. Accept optional evidence uploads grouped into predefined portfolio categories.
+3. Generate a `Portada.pdf` cover in the browser using the supplied template and fonts.
+4. Add the cover, uploaded files, and optional conclusion text to a structured ZIP package.
+5. Save the latest ZIP temporarily in IndexedDB, open the download screen, and clear the stored copy after download.
 
-Cloudflare Web Analytics está activo para medir visitas y rendimiento básico de
-la página. Ese analytics no está pensado para leer el contenido de los archivos
-subidos ni los datos escritos en el formulario.
+## Technical implementation
 
-La configuración de analytics se administra desde Cloudflare; no hay llaves,
-tokens ni secretos de analytics dentro del repositorio.
+- Static HTML, CSS, and vanilla JavaScript. There is no `package.json`, framework, or build step in the repository.
+- `pdf-lib` creates the PDF document and embeds the supplied cover image and fonts.
+- `fontkit` is registered with `pdf-lib` so the bundled Liberation Sans fonts can be embedded in the generated PDF.
+- `js/zip.js` contains a custom stored-ZIP writer. It writes local file headers, central-directory entries, end-of-central-directory data, and CRC-32 checksums. The project does not use JSZip.
+- IndexedDB stores only the latest generated ZIP Blob, filename, and creation time for the handoff to `descarga.html`.
+- The landing page loads GSAP, ScrollTrigger, and Lenis from CDN for motion and scroll behavior. These libraries are not used by the generator workflow.
 
-## Formatos permitidos
+## File handling and limits
 
-La app acepta evidencias en formatos comunes:
+The upload workflow applies category-specific allowlists and limits:
 
-- Documentos: `pdf`, `doc`, `docx`, `txt`, `rtf`, `odt`, `md`
-- Hojas de cálculo: `xls`, `xlsx`, `csv`, `ods`
-- Presentaciones: `ppt`, `pptx`, `odp`
-- Código fuente: `java`, `py`, `js`, `ts`, `html`, `css`, `sql`, `json`, `xml`, `c`, `cpp`, `cs`, `php`, `ipynb`
-- Imágenes: `png`, `jpg`, `jpeg`, `gif`, `webp`
-- Archivos comprimidos: `zip`, `rar`, `7z`
+- Maximum file size: 10 MB.
+- Maximum package size: 160 MB.
+- Category limits range from 1 to 120 files, depending on the section.
+- Supported groups include documents, spreadsheets, presentations, source code, images, and archives.
+- Dangerous executable or script-like extensions are rejected.
+- Filenames and relative paths are sanitized before entering the ZIP. Path traversal segments are removed, names are normalized, and duplicate ZIP paths receive suffixes such as `_2`.
+- Required student fields and text lengths are validated before generation.
 
-Límites actuales:
-
-- Máximo por archivo: 10 MB.
-- Máximo total del paquete: 160 MB.
-- Algunas secciones tienen límites propios de cantidad y formato.
-
-## Estructura del proyecto
+## Repository layout
 
 ```text
 .
-|-- assets/
-|   |-- fonts/
-|   |-- logos/
-|   `-- templates/
-|-- css/
-|   `-- styles.css
-|-- js/
-|   |-- app.js
-|   |-- download.js
-|   |-- faq.js
-|   |-- generate.js
-|   |-- landing.js
-|   `-- zip.js
-|-- vendor/
-|   |-- fontkit/
-|   `-- pdf-lib/
-|-- 404.html
-|-- ayuda.html
-|-- descarga.html
-|-- faq.html
-|-- generar.html
-|-- index.html
-|-- nosotros.html
+|-- assets/       Cover template, fonts, and retained reference assets
+|-- css/          Application styles
+|-- docs/         Technical, legal, and deployment documentation
+|-- js/           Generator, validation, ZIP, download, and landing logic
+|-- screenshots/  Public README screenshots
+|-- vendor/       Vendored pdf-lib and fontkit builds
+|-- *.html        Static application pages
+|-- _headers      Cloudflare Pages response headers
+|-- _redirects    Cloudflare Pages redirects
 |-- robots.txt
 |-- sitemap.xml
-|-- _headers
-`-- _redirects
+`-- LICENSE
 ```
 
-## Prueba local
+## Local development
 
-La app es estática. Puede probarse desde cualquier servidor local simple.
-
-Desde el folder que se vaya a desplegar:
+The app can be served by any simple static HTTP server. For example:
 
 ```powershell
 python -m http.server 8081
 ```
 
-Abrir:
+Open `http://127.0.0.1:8081/` and test the complete flow from `index.html` to `generar.html` and `descarga.html`. The generator loads local assets through HTTP, so opening the HTML files directly with `file://` is not the representative runtime.
 
-```text
-http://127.0.0.1:8081
+Basic JavaScript syntax checks can be run without installing project dependencies:
+
+```powershell
+node --check js/app.js
+node --check js/generate.js
+node --check js/zip.js
+node --check js/download.js
+node --check js/landing.js
 ```
 
-Checklist mínimo:
+## Deployment
 
-- Abrir `index.html`.
-- Entrar a `generar.html`.
-- Completar el flujo del asistente.
-- Subir archivos con nombres normales y nombres problemáticos.
-- Confirmar que los nombres quedan sanitizados dentro del ZIP.
-- Generar el portafolio.
-- Descargar desde `descarga.html`.
-- Revisar que `Portada.pdf` y la estructura de carpetas estén correctas.
-
-## Deploy manual en Cloudflare Pages
-
-El proyecto se despliega manualmente con Wrangler desde el folder público de
-deploy, no desde una instalación permanente por proyecto.
+The current Cloudflare Pages setup uses manual Direct Upload. A GitHub push does not create a Cloudflare deployment automatically. The command deploys the folder supplied to Wrangler, so use a curated public export folder rather than a checkout root if documentation and screenshots should remain outside the hosted site.
 
 ```powershell
 npx wrangler@latest pages deploy . --project-name portafolio-fisc
 ```
 
-La URL pública para compartir es:
+The deployment folder should contain only public files. Do not upload `.git/`, `.wrangler/`, `_old/`, local screenshots, documentation source files that are excluded from the public export, or private environment files.
 
-```text
-https://portafolio-fisc.pages.dev
-```
+## Documentation
 
-Las URLs con hash, por ejemplo `https://<hash>.portafolio-fisc.pages.dev`, son
-deploys históricos o previews de Cloudflare Pages. No son la URL canónica.
+- [Production checklist](docs/PRODUCTION_CHECKLIST.md)
+- [Third-party notices](docs/THIRD_PARTY_NOTICES.md)
+- [Asset notices](docs/ASSET_NOTICES.md)
 
-## Carpeta de deploy
+## License
 
-La carpeta de deploy debe contener solo archivos públicos:
-
-```text
-assets/
-css/
-js/
-vendor/
-404.html
-_headers
-_redirects
-ayuda.html
-descarga.html
-faq.html
-favicon.svg
-generar.html
-index.html
-nosotros.html
-robots.txt
-sitemap.xml
-```
-
-No incluir:
-
-```text
-.git/
-.wrangler/
-_old/
-DESIGN.md
-PRODUCT.md
-README.md
-LICENSE
-LICENSE.es.md
-THIRD_PARTY_NOTICES.md
-PRODUCTION_CHECKLIST.md
-assets/README.md
-```
-
-## Seguridad
-
-La configuración de Cloudflare Pages usa `_headers` para aplicar controles de
-seguridad:
-
-- Content Security Policy sin `unsafe-inline`.
-- `object-src 'none'`.
-- `frame-ancestors 'none'`.
-- `base-uri 'self'`.
-- `X-Content-Type-Options: nosniff`.
-- `Referrer-Policy: strict-origin-when-cross-origin`.
-- `Permissions-Policy` restrictiva para cámara, micrófono, geolocalización,
-  pagos y USB.
-
-También se separa cache:
-
-- HTML con `Cache-Control: no-cache`.
-- `assets/` y `vendor/` con cache largo e immutable.
-- `css/` y `js/` con cache corto y versionado por query string en HTML.
-
-## Preparación para GitHub público
-
-Antes de publicar el repositorio:
-
-- Confirmar que no existan `.wrangler`, `.git` dentro del folder público de deploy,
-  capturas temporales, perfiles de navegador, dumps o archivos locales.
-- Mantener `LICENSE`, `LICENSE.es.md`, `THIRD_PARTY_NOTICES.md` y
-  `assets/README.md`.
-- Revisar si los logos institucionales deben mantenerse con aviso de propiedad o
-  reemplazarse por placeholders.
-- Confirmar que no existan llaves, tokens, secretos ni credenciales.
-- Confirmar que el README describa el estado real del producto.
-
-## Licencia
-
-El código fuente de este repositorio está licenciado bajo la licencia MIT.
-
-Los logos universitarios, logos de facultades, marcas institucionales,
-plantillas oficiales y cualquier recurso de terceros no están cubiertos por la
-licencia MIT. Estos materiales siguen siendo propiedad de sus respectivos dueños
-y se incluyen únicamente con fines de demostración, apoyo académico o referencia
-nominativa.
-
-Consulta `THIRD_PARTY_NOTICES.md` y `assets/README.md` para los avisos de
-terceros y recursos. `LICENSE.es.md` incluye una traducción informativa al
-español de la licencia MIT.
-
-## Créditos
-
-Creado como herramienta de apoyo para estudiantes de FISC, UTP.
+Original source code is available under the MIT License. Third-party libraries, fonts, templates, and retained reference assets remain subject to their own licenses and notices. See the [third-party notices](docs/THIRD_PARTY_NOTICES.md) for details.

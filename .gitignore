@@ -11,6 +11,7 @@ Thumbs.db
 *.tmp
 *.bak
 *.zip
+# Public README screenshots live under screenshots/; generated local captures stay ignored.
 .folio-*.png
 .audit-mobile-*.png
 .process-*.png
