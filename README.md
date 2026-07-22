@@ -114,7 +114,3 @@ The deployment folder should contain only public files. Do not upload `.git/`, `
 - [Production checklist](docs/PRODUCTION_CHECKLIST.md)
 - [Third-party notices](docs/THIRD_PARTY_NOTICES.md)
 - [Asset notices](docs/ASSET_NOTICES.md)
-
-## License
-
-Original source code is available under the MIT License. Third-party libraries, fonts, templates, and retained reference assets remain subject to their own licenses and notices. See the [third-party notices](docs/THIRD_PARTY_NOTICES.md) for details.
