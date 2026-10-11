@@ -125,11 +125,12 @@ textarea {
 .band .wordmark::before {
   content: "";
   display: inline-block;
-  width: 27px;
-  height: 21px;
+  width: 26px;
+  height: 15px;
   margin-right: 10px;
-  background: url("../assets/marca.svg") center / contain no-repeat;
-  vertical-align: -3px;
+  background: repeating-linear-gradient(var(--cream) 0 2px, transparent 2px 4px);
+  border-radius: 50%;
+  vertical-align: -1px;
 }
 
 .band__nav {
