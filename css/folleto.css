@@ -17,7 +17,7 @@
   --green-hi: #2a6048;
   --cream: #f3ead8;
   --gold: #b08a3e;
-  --gold-deep: #7f6122;
+  --gold-deep: #6f541b;
   --line: #cbbd9f;
   --field: #fbf6ea;
   --folder: #dcb866;
@@ -362,7 +362,8 @@ textarea {
 .wizard-input::placeholder,
 .wizard-textarea::placeholder {
   color: var(--ink-soft);
-  opacity: 0.75;
+  font-style: italic;
+  opacity: 1;
 }
 
 .wizard-input:focus-visible,
@@ -397,22 +398,26 @@ textarea {
 
 .wizard-segment label {
   display: grid;
-  place-items: center;
-  font-weight: 500;
   cursor: pointer;
-  transition: background-color var(--t-fast) var(--ease), color var(--t-fast) var(--ease);
 }
 
 .wizard-segment label + label {
   border-left: 1.5px solid var(--ink);
 }
 
-.wizard-segment label:has(input:checked) {
+.wizard-segment span {
+  display: grid;
+  place-items: center;
+  font-weight: 500;
+  transition: background-color var(--t-fast) var(--ease), color var(--t-fast) var(--ease);
+}
+
+.wizard-segment input:checked + span {
   color: var(--cream);
   background: var(--green);
 }
 
-.wizard-segment label:has(input:focus-visible) {
+.wizard-segment input:focus-visible + span {
   outline: 2px solid var(--gold);
   outline-offset: -5px;
 }

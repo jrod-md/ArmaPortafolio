@@ -22,382 +22,212 @@
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Lora:ital,wght@0,500;0,600;0,700;1,500;1,600&family=Syne:wght@700;800&display=swap"
+      href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Newsreader:opsz,wght@6..72,400;6..72,500;6..72,600&family=Young+Serif&display=swap"
       rel="stylesheet"
     />
-    <link rel="stylesheet" href="css/styles.css?v=19" />
+    <link rel="stylesheet" href="css/folleto.css?v=3" />
+    <link rel="stylesheet" href="css/sitio.css?v=2" />
     <link rel="icon" type="image/svg+xml" href="favicon.svg" />
   </head>
   <body>
-    <header class="navbar landing-nav reveal">
-      <div class="navbar__inner container">
-        <a href="index.html" class="wordmark">ArmaPortafolio</a>
-        <nav class="navbar__nav" aria-label="Principal">
-          <a href="nosotros.html">Nosotros</a>
-          <span class="navbar__sep" aria-hidden="true">·</span>
-          <a href="faq.html">FAQ</a>
-          <span class="navbar__sep" aria-hidden="true">·</span>
-          <a href="ayuda.html">Ayuda</a>
-          <a href="generar.html" class="btn btn--primary btn--sm">Crear portafolio</a>
-        </nav>
-      </div>
+    <a class="skip-link" href="#contenido">Saltar al contenido</a>
+    <header class="band">
+      <a href="index.html" class="wordmark">ArmaPortafolio</a>
+      <nav class="band__nav" aria-label="Principal">
+        <a href="nosotros.html">El proyecto</a>
+        <a href="faq.html">FAQ</a>
+        <a href="ayuda.html">Ayuda</a>
+        <a href="generar.html" class="band__cta">Crear portafolio</a>
+      </nav>
     </header>
 
-    <main>
-      <!-- Hero Section -->
-      <section class="section-vh hero--landing hero--dark" id="inicio" data-landing-hero>
-        <div class="hero-interactive-gradient" aria-hidden="true"></div>
-        <div class="hero-dark__grain" aria-hidden="true"></div>
-        <div class="hero-dark__rule" aria-hidden="true"></div>
-        <div class="hero__inner container">
-          <div class="hero__content">
-            <span class="mono-label hero__kicker reveal reveal-delay-1" data-hero-kicker>Panamá</span>
-            <h1 class="hero__title title-huge reveal reveal-delay-2" data-hero-title>
-              <span class="hero-title-line">Tu</span>
-              <span class="hero-title-line">portafolio,</span>
-              <em class="hero-title-line">sin el caos.</em>
-            </h1>
-            <p class="hero__sub body-xl reveal reveal-delay-3">
-              Genera la portada oficial, ordena tus evidencias por sección y descarga el ZIP final en el formato que pide la facultad. Sin cuenta, sin vuelta larga, sin carpetas mal nombradas.
-            </p>
-            <div class="hero__cta-group reveal reveal-delay-3">
-              <a href="generar.html" class="btn btn--primary hero__cta magnetic-button" data-magnetic>
-                <span>Crear mi portafolio</span>
-                <span class="btn__arrow" aria-hidden="true">→</span>
-              </a>
-              <a href="#como-funciona" class="btn btn--outline">Ver el proceso</a>
-            </div>
-            <div class="hero-scroll-cue" aria-hidden="true">
-              <span>Desliza</span>
-            </div>
+    <main id="contenido">
+      <section class="hero" id="inicio">
+        <div class="hero__copy">
+          <p class="kicker">Generador de portafolio académico</p>
+          <h1 class="display display--xl">Tu portafolio, <em>sin el caos.</em></h1>
+          <p class="lead">
+            Genera la portada oficial, ordena tus evidencias por sección y descarga el ZIP final en el formato que pide la facultad. Sin cuenta, sin vuelta larga, sin carpetas mal nombradas.
+          </p>
+          <div class="btn-row">
+            <a href="generar.html" class="btn btn--primary">Crear mi portafolio <span class="btn__arrow" aria-hidden="true">→</span></a>
+            <a href="#como-funciona" class="text-link">Ver el proceso</a>
           </div>
-
-          <div class="hero__visual--landing reveal reveal-delay-2" aria-hidden="true" data-hero-visual>
-            <div class="hero-package">
-              <div class="hero-package__layer hero-package__layer--back"></div>
-              <div class="hero-package__layer hero-package__layer--middle"></div>
-              <div class="hero-package__sheet">
-                <div class="hero-package__spine">
-                  <span>ARMAPORTAFOLIO</span>
-                </div>
-                <div class="hero-package__content">
-                  <span class="hero-package__eyebrow">Paquete organizado</span>
-                  <h2 class="hero-package__title">Portafolio Digital</h2>
-                  <p class="hero-package__subtitle">Portada, evidencias y conclusión en una estructura lista.</p>
-
-                  <div class="hero-package__tree">
-                    <div class="hero-package__tree-root">ArmaPortafolio/</div>
-                    <div class="hero-package__tree-row"><span>01</span> Portada.pdf</div>
-                    <div class="hero-package__tree-row"><span>02</span> Plan_de_Contenido/</div>
-                    <div class="hero-package__tree-row"><span>03</span> Evidencias_del_Curso/</div>
-                    <div class="hero-package__tree-row"><span>04</span> Conclusion_Final/</div>
-                  </div>
-
-                  <div class="hero-package__footer">
-                    <span>Estructura validada</span>
-                    <strong>LISTO</strong>
-                  </div>
-                </div>
-              </div>
-            </div>
+        </div>
+        <div class="hero__stage" aria-hidden="true">
+          <div class="stack" id="hero-stack">
+              <div class="fold is-filled"><i class="back"></i><i class="page"></i><i class="front"><span>Conclusión</span></i></div>
+              <div class="fold is-filled"><i class="back"></i><i class="page"></i><i class="front"><span>Material</span></i></div>
+              <div class="fold is-filled"><i class="back"></i><i class="page"></i><i class="front"><span>Actividades</span></i></div>
+              <div class="fold is-filled"><i class="back"></i><i class="page"></i><i class="front"><span>Curso</span></i></div>
+              <div class="fold is-filled"><i class="back"></i><i class="page"></i><i class="front"><span>Portada</span></i></div>
           </div>
+          <p class="hero__tag">portafolio.zip · 5 carpetas</p>
         </div>
       </section>
 
-      <!-- Narrative: La Noche Antes -->
-      <section class="section-vh narrative-chaos narrative-chaos--landing">
-        <div class="container">
-          <h2 class="narrative-chaos__title">La noche antes</h2>
-          <div class="narrative-chaos__grid">
-            <div class="chaos-text reveal">
-              <h3 class="chaos-text__headline">1–2 horas de archivos sueltos.</h3>
-              <p class="body-lg">Organizar el portafolio manualmente suele ser un proceso tedioso de renombrar carpetas, corregir portadas y buscar ese archivo que quedó en la carpeta de descargas.</p>
-              <div class="resolution-note">
-                <span class="mono-label resolution-note__label">RESOLUCIÓN</span>
-                <h4 class="title-md resolution-note__title">Hecho en 5 minutos.</h4>
-                <p class="body-md resolution-note__copy">Con el generador, el desorden se convierte en un paquete oficial listo para entrega.</p>
+      <ul class="facts">
+        <li><b>Sin cuenta</b>Entras y lo usas.</li>
+        <li><b>En tu navegador</b>Nada se sube a un servidor.</li>
+        <li><b>Límites claros</b>10 MB por archivo, 160 MB por paquete.</li>
+      </ul>
+
+      <section class="section" aria-labelledby="noche-title">
+        <div class="wrap">
+          <div class="night">
+            <div class="night__copy reveal">
+              <p class="kicker">La noche antes</p>
+              <h2 class="display display--lg" id="noche-title">1–2 horas de archivos sueltos.</h2>
+              <p class="lead">Organizar el portafolio manualmente suele ser un proceso tedioso de renombrar carpetas, corregir portadas y buscar ese archivo que quedó en la carpeta de descargas.</p>
+              <div class="night__fix">
+                <h3 class="display display--md">Hecho en 5 minutos.</h3>
+                <p>Con el generador, el desorden se convierte en un paquete listo para entrega.</p>
               </div>
             </div>
-            <div class="chaos-files reveal reveal-delay-2" aria-hidden="true">
-              <div class="chaos-file">Tarea_1_final_final.pdf</div>
-              <div class="chaos-file">Parcial_corregido_v2.pdf</div>
-              <div class="chaos-file">Proyecto_FINAL_v3.pdf</div>
-              <div class="chaos-file">Lab_3_nuevo_este_si.pdf</div>
-              <div class="chaos-file">Conclusion_borrador.docx</div>
-              <div class="chaos-file">Captura_de_pantalla_1.png</div>
-              <div class="chaos-file">Investigacion_Bases_Datos.pdf</div>
-              <div class="chaos-file">Taller_Sistemas_Operativos.pdf</div>
-              <div class="chaos-file">Enunciado_Parcial_2.pdf</div>
-              <div class="chaos-file">Bibliografia.txt</div>
-              <div class="chaos-file">Logo_baja_calidad.jpg</div>
-              <div class="chaos-file">Notas_de_clase.pdf</div>
-              <div class="chaos-file">lab4_nuevo.pdf</div>
-              <div class="chaos-file">lab7_ahora_si.pdf</div>
-              <div class="chaos-file">Tarea_final_REVISADA.pdf</div>
-              <div class="chaos-file">Proyecto_Grupal_v1.zip</div>
-              <div class="chaos-file">Evidencia_entrega_2026.pdf</div>
-              <div class="chaos-file">parcial2_final_ultimo.pdf</div>
-              <div class="chaos-file">lab_final_revisado2.pdf</div>
+            <div class="reveal">
+              <ul class="chaos" id="chaos" aria-label="Ejemplos de archivos sueltos">
+              <li>Tarea_1_final_final.pdf</li>
+              <li>Parcial_corregido_v2.pdf</li>
+              <li>Proyecto_FINAL_v3.pdf</li>
+              <li>Lab_3_nuevo_este_si.pdf</li>
+              <li>Conclusion_borrador.docx</li>
+              <li>Captura_de_pantalla_1.png</li>
+              <li>lab7_ahora_si.pdf</li>
+              <li>Bibliografia.txt</li>
+              <li>Tarea_final_REVISADA.pdf</li>
+              <li>Proyecto_Grupal_v1.zip</li>
+              <li>parcial2_final_ultimo.pdf</li>
+              <li>Notas_de_clase.pdf</li>
+              </ul>
+              <p class="chaos__state" id="chaos-state" aria-hidden="true">Así llegan.</p>
             </div>
           </div>
+
+          <ol class="trio">
+            <li class="reveal">
+              <span class="numeral">01</span>
+              <h3 class="display display--sm">Portada repetida</h3>
+              <p>Cada semestre, muchos estudiantes vuelven a recrear el mismo documento Word para la portada oficial, arriesgando errores en datos básicos.</p>
+            </li>
+            <li class="reveal">
+              <span class="numeral">02</span>
+              <h3 class="display display--sm">Evidencias dispersas</h3>
+              <p>Los archivos terminan repartidos entre descargas, WhatsApp y carpetas temporales, haciendo que la recopilación final sea caótica.</p>
+            </li>
+            <li class="reveal">
+              <span class="numeral">03</span>
+              <h3 class="display display--sm">Estructura incierta</h3>
+              <p>Un pequeño error en el nombre de una carpeta o en el orden de los documentos puede hacer que el paquete se sienta poco profesional.</p>
+            </li>
+          </ol>
         </div>
       </section>
 
-      <!-- Numbered Problems -->
-      <section class="numbered-problems">
-        <div class="container">
-          <div class="problem-card reveal">
-            <span class="problem-card__num">01</span>
-            <div class="problem-card__body">
-              <h3 class="problem-card__title">Portada repetida</h3>
-              <p class="problem-card__desc">Cada semestre, muchos estudiantes vuelven a recrear el mismo documento Word para la portada oficial, arriesgando errores en datos básicos.</p>
-            </div>
+      <section class="section section--tint" id="como-funciona" aria-labelledby="proceso-title">
+        <div class="wrap">
+          <div class="section__head reveal">
+            <p class="kicker">Cómo funciona</p>
+            <h2 class="display display--lg" id="proceso-title">Cuatro pasos, uno detrás del otro.</h2>
           </div>
-          <div class="problem-card reveal">
-            <span class="problem-card__num">02</span>
-            <div class="problem-card__body">
-              <h3 class="problem-card__title">Evidencias dispersas</h3>
-              <p class="problem-card__desc">Los archivos terminan repartidos entre descargas, WhatsApp y carpetas temporales, haciendo que la recopilación final sea caótica.</p>
-            </div>
-          </div>
-          <div class="problem-card reveal">
-            <span class="problem-card__num">03</span>
-            <div class="problem-card__body">
-              <h3 class="problem-card__title">Estructura incierta</h3>
-              <p class="problem-card__desc">Un pequeño error en el nombre de una carpeta o en el orden de los documentos puede hacer que el paquete se sienta poco profesional.</p>
-            </div>
-          </div>
+          <ol class="process">
+            <li class="reveal">
+              <span class="process__num" aria-hidden="true">I</span>
+              <h3 class="display display--sm">Datos del curso</h3>
+              <p>La portada oficial recibe tus datos, el nombre del facilitador y el ciclo académico de forma automática.</p>
+            </li>
+            <li class="reveal">
+              <span class="process__num" aria-hidden="true">II</span>
+              <h3 class="display display--sm">Sube tus evidencias</h3>
+              <p>Añade tus archivos en cada sección. No importa cómo se llamen: los nombres se limpian y cada uno queda en su carpeta.</p>
+            </li>
+            <li class="reveal">
+              <span class="process__num" aria-hidden="true">III</span>
+              <h3 class="display display--sm">Estructura lista</h3>
+              <p>Visualiza cómo queda organizado tu portafolio antes de generar el paquete final. Todo en su lugar.</p>
+            </li>
+            <li class="reveal">
+              <span class="process__num" aria-hidden="true">IV</span>
+              <h3 class="display display--sm">Descarga el ZIP</h3>
+              <p>Recibe un archivo comprimido con el formato exacto que pide la facultad. Listo para entregar.</p>
+            </li>
+          </ol>
         </div>
       </section>
 
-      <!-- Sticky Process Section -->
-      <section class="sticky-process" id="como-funciona">
-        <div class="sticky-process__inner container">
-          <div class="sticky-process__steps">
-            <div class="step-panel" id="step-datos">
-              <span class="step-panel__num">I. ENTRADA</span>
-              <h3 class="step-panel__title">Datos del curso</h3>
-              <p class="step-panel__desc">La portada oficial recibe tus datos, el nombre del facilitador y el ciclo académico de forma automática.</p>
-            </div>
-            <div class="step-panel" id="step-evidencias">
-              <span class="step-panel__num">II. PROCESO</span>
-              <h3 class="step-panel__title">Sube tus evidencias</h3>
-              <p class="step-panel__desc">Arrastra tus evidencias. No importa el nombre original, el sistema las ubica en la sección correspondiente.</p>
-            </div>
-            <div class="step-panel" id="step-revision">
-              <span class="step-panel__num">III. REVISIÓN</span>
-              <h3 class="step-panel__title">Estructura lista</h3>
-              <p class="step-panel__desc">Visualiza cómo queda organizado tu portafolio antes de generar el paquete final. Todo en su lugar.</p>
-            </div>
-            <div class="step-panel" id="step-zip">
-              <span class="step-panel__num">IV. SALIDA</span>
-              <h3 class="step-panel__title">Descarga el ZIP</h3>
-              <p class="step-panel__desc">Recibe un archivo comprimido con el formato exacto que pide la facultad. Listo para entregar.</p>
-            </div>
+      <section class="section" id="resultado" aria-labelledby="resultado-title">
+        <div class="wrap">
+          <div class="section__head reveal">
+            <p class="kicker">Prueba del resultado</p>
+            <h2 class="display display--lg" id="resultado-title">La sazón está en lo que entregas.</h2>
+            <p class="lead">No es una promesa abstracta: el generador convierte tus datos y evidencias en una portada, una estructura clara y un ZIP listo para revisar.</p>
           </div>
 
-          <div class="sticky-process__visual" id="sticky-visual-target" data-step="datos">
-            <div class="process-progress" aria-hidden="true">
-              <div class="process-progress__meta">
-                <span>Entrada</span>
-                <span>Proceso</span>
-                <span>Revisión</span>
-                <span>Salida</span>
-              </div>
-              <div class="process-progress__track">
-                <span class="process-progress__bar"></span>
-              </div>
-            </div>
-
-            <div class="artifact-papers">
-              <!-- Back Papers (Background) -->
-              <div class="paper-sheet paper-sheet--1">
-                <div class="paper-sheet__line paper-sheet__line--header"></div>
-                <div class="paper-sheet__line"></div>
-                <div class="paper-sheet__line"></div>
-                <div class="paper-sheet__line"></div>
-                <div class="paper-sheet__line paper-sheet__line--short"></div>
-                <div class="paper-sheet__line"></div>
-              </div>
-              
-              <!-- Middle Papers (Content) -->
-              <div class="paper-sheet paper-sheet--2">
-                <div class="paper-sheet__line paper-sheet__line--header paper-sheet__line--muted"></div>
-                <div class="paper-sheet__line"></div>
-                <div class="paper-sheet__line"></div>
-                <div class="paper-sheet__line"></div>
-                <div class="paper-sheet__line paper-sheet__line--short"></div>
-                <div class="paper-sheet__line"></div>
-                <div class="paper-sheet__line"></div>
-                <div class="paper-sheet__line"></div>
-              </div>
-
-              <!-- Front Paper (Cover) -->
-              <div class="paper-sheet paper-sheet--3">
-                <div class="artifact-dossier__spine">
-                  <span class="artifact-dossier__spine-label">ARMAPORTAFOLIO</span>
-                </div>
-                <div class="artifact-dossier__content">
-                  <div class="artifact-dossier__seal"></div>
-                  <div class="artifact-dossier__header">
-                    <div class="artifact-dossier__title">Portafolio Digital</div>
-                    <div class="artifact-dossier__subtitle">Portafolio académico</div>
-                  </div>
-                  
-                  <div class="vertical-dossier__metadata">
-                    <div class="vertical-dossier__meta-row">
-                      <span class="artifact-dossier__meta-label">Estado</span>
-                      <span class="artifact-dossier__meta-value" id="artifact-status">Preparando...</span>
-                    </div>
-                  </div>
-
-                  <div class="artifact-dossier__stamp">LISTO</div>
-                </div>
-              </div>
-              
-              <div class="artifact-zip">
-                <div class="artifact-zip__icon">
-                  <svg class="artifact-zip__svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 8V5a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v3"></path><path d="m21 16 0 3a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-3"></path><path d="M4 12H20"></path><path d="M10 16v-8"></path><path d="M14 16v-8"></path></svg>
-                </div>
-                <strong class="artifact-zip__name">armaportafolio.zip</strong>
-                <span class="artifact-zip__label">Listo</span>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <!-- Proof Gallery -->
-      <section class="evidence-gallery" id="resultado">
-        <div class="container">
-          <div class="evidence-gallery__intro">
-            <div>
-              <span class="mono-label evidence-gallery__kicker">PRUEBA DEL RESULTADO</span>
-              <h2 class="title-lg">La sazón está en lo que entregas.</h2>
-            </div>
-            <p class="body-lg">No es una promesa abstracta: el generador convierte tus datos y evidencias en una portada, una estructura clara y un ZIP listo para revisar. Estas son capturas del flujo real.</p>
-          </div>
-
-          <div class="evidence-gallery__layout">
-            <figure class="evidence-shot evidence-shot--workflow reveal">
-              <div class="evidence-shot__media">
-                <img src="assets/showcase/02-flujo-del-generador.png" alt="Flujo del generador con datos del estudiante, progreso por pasos y vista previa del paquete" loading="lazy" decoding="async" />
-              </div>
-              <figcaption class="evidence-shot__caption">
-                <span class="mono-label">02 / FLUJO</span>
-                <p><strong>Datos, evidencias y preview</strong> en una sola ruta guiada.</p>
-              </figcaption>
+          <div class="proof">
+            <figure class="shot reveal">
+              <img src="assets/showcase/01-portada-generada.png" alt="Ejemplo de portada PDF generada desde el navegador" width="1867" height="962" loading="lazy" decoding="async" />
+              <figcaption><b>Portada incluida</b> como PDF dentro del paquete final.</figcaption>
             </figure>
-
-            <div class="evidence-gallery__stack">
-              <figure class="evidence-shot evidence-shot--cover reveal reveal-delay-1">
-                <div class="evidence-shot__media">
-                  <img src="assets/showcase/01-portada-generada.png" alt="Ejemplo de portada PDF generada desde el navegador" loading="lazy" decoding="async" />
-                </div>
-                <figcaption class="evidence-shot__caption">
-                  <span class="mono-label">01 / PORTADA</span>
-                  <p><strong>Portada incluida</strong> como PDF dentro del paquete final.</p>
-                </figcaption>
-              </figure>
-
-              <figure class="evidence-shot evidence-shot--structure reveal reveal-delay-2">
-                <div class="evidence-shot__media">
-                  <img src="assets/showcase/03-estructura-final.png" alt="Estructura final del paquete con carpetas numeradas para portada, curso, actividades, material y conclusión" loading="lazy" decoding="async" />
-                </div>
-                <figcaption class="evidence-shot__caption">
-                  <span class="mono-label">03 / ESTRUCTURA</span>
-                  <p><strong>Carpetas predecibles</strong> para encontrar cada evidencia sin adivinar.</p>
-                </figcaption>
-              </figure>
-            </div>
+            <figure class="shot reveal">
+              <img src="assets/showcase/03-estructura-final.png" alt="Estructura final del paquete con carpetas numeradas para portada, curso, actividades, material y conclusión" loading="lazy" decoding="async" />
+              <figcaption><b>Carpetas en el estándar de la facultad</b>, con los nombres y el orden que se piden.</figcaption>
+            </figure>
           </div>
 
-          <div class="evidence-proof reveal">
-            <div class="evidence-proof__lead">
-              <span class="mono-label">LO QUE HAY DETRÁS</span>
-              <h3 class="title-md">Simple para quien lo usa. Serio en cómo funciona.</h3>
-              <p class="evidence-gallery__fineprint">Sin cuenta ni suscripción. Los límites que existen son técnicos y visibles: 10 MB por archivo y 160 MB por paquete.</p>
+          <dl class="ledger">
+            <div class="reveal">
+              <dt>Estructura validada</dt>
+              <dd>El ZIP usa rutas numeradas y consistentes para portada, curso, actividades, material y conclusión.</dd>
             </div>
-            <ol class="evidence-proof__list">
-              <li class="evidence-proof__item">
-                <span class="evidence-proof__num">01</span>
-                <div>
-                  <strong>Estructura validada</strong>
-                  <p>El ZIP usa rutas numeradas y consistentes para portada, curso, actividades, material y conclusión.</p>
-                </div>
-              </li>
-              <li class="evidence-proof__item">
-                <span class="evidence-proof__num">02</span>
-                <div>
-                  <strong>Local por diseño</strong>
-                  <p>La portada y el ZIP se construyen en tu navegador. No hay backend, cuenta ni base de datos.</p>
-                </div>
-              </li>
-              <li class="evidence-proof__item">
-                <span class="evidence-proof__num">03</span>
-                <div>
-                  <strong>Protecciones reales</strong>
-                  <p>Se limpian nombres y rutas, se evitan colisiones y se bloquean extensiones ejecutables o de script.</p>
-                </div>
-              </li>
-              <li class="evidence-proof__item">
-                <span class="evidence-proof__num">04</span>
-                <div>
-                  <strong>Código abierto</strong>
-                  <p>El código propio está bajo la <a href="LICENSE">licencia MIT</a>; las dependencias mantienen sus avisos.</p>
-                </div>
-              </li>
-            </ol>
+            <div class="reveal">
+              <dt>Local por diseño</dt>
+              <dd>La portada y el ZIP se construyen en tu navegador. No hay backend, cuenta ni base de datos.</dd>
+            </div>
+            <div class="reveal">
+              <dt>Protecciones reales</dt>
+              <dd>Se limpian nombres y rutas, se evitan colisiones y se bloquean extensiones ejecutables o de script.</dd>
+            </div>
+            <div class="reveal">
+              <dt>Código abierto</dt>
+              <dd>El código propio está bajo la <a href="LICENSE">licencia MIT</a>; las dependencias mantienen sus avisos.</dd>
+            </div>
+          </dl>
+        </div>
+      </section>
+
+      <section class="section section--tint" aria-label="Sobre la herramienta">
+        <div class="wrap columns">
+          <div class="reveal">
+            <h2 class="display display--md">Hecho para el flujo real.</h2>
+            <p>ArmaPortafolio surge para simplificar la preparación del portafolio académico, reduciendo el tiempo y la fricción de organizar portada, evidencias y ZIP final en una estructura clara y consistente.</p>
+          </div>
+          <div class="reveal">
+            <h2 class="display display--md">Directo y sin cuenta.</h2>
+            <p>No necesitas registrarte. Entras al generador, completas los datos, añades tus evidencias y descargas el paquete final.</p>
           </div>
         </div>
       </section>
 
-      <!-- Simplicity Section -->
-      <section class="section">
-        <div class="container container--narrow">
-          <div class="simplicity-grid">
-            <div class="reveal">
-              <h3 class="title-md simplicity-grid__title">Hecho para el flujo real.</h3>
-              <p class="body-lg">ArmaPortafolio surge para simplificar la preparación del portafolio académico, reduciendo el tiempo y la fricción de organizar portada, evidencias y ZIP final en una estructura clara y consistente.</p>
-            </div>
-            <div class="reveal">
-              <h3 class="title-md simplicity-grid__title">Directo y sin cuenta.</h3>
-              <p class="body-lg">No necesitas registrarte. Entras al generador, completas los datos, añades tus evidencias y descargas el paquete final.</p>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <!-- Final CTA -->
-      <section class="cta-banner reveal">
-        <div class="container">
-          <h2 class="cta-banner__title title-lg">Convierte tus evidencias sueltas en un portafolio listo para entregar.</h2>
-          <a href="generar.html" class="btn btn--primary btn--lg cta-banner__button magnetic-button" data-magnetic>
-            <span>Crear portafolio ahora</span>
-            <span class="btn__arrow" aria-hidden="true">→</span>
-          </a>
+      <section class="closing" aria-labelledby="cierre-title">
+        <div class="wrap">
+          <h2 class="display display--lg" id="cierre-title">Convierte tus evidencias sueltas en un portafolio listo para entregar.</h2>
+          <a href="generar.html" class="btn btn--primary">Crear portafolio ahora <span class="btn__arrow" aria-hidden="true">→</span></a>
         </div>
       </section>
     </main>
 
     <footer class="footer">
-      <div class="footer__main container">
+      <div class="wrap">
         <div>
-          <a href="index.html" class="wordmark footer__brand">ArmaPortafolio</a>
-          <p class="footer__tagline">Proyecto estudiantil independiente</p>
+          <a href="index.html" class="footer__brand">ArmaPortafolio</a>
+          <p>Proyecto estudiantil independiente de apoyo académico</p>
         </div>
-        <nav class="footer__nav" aria-label="Pie de página">
-          <a href="nosotros.html">Nosotros</a>
+        <nav aria-label="Pie de página">
+          <a href="nosotros.html">El proyecto</a>
           <a href="faq.html">FAQ</a>
           <a href="ayuda.html">Ayuda</a>
         </nav>
-        <p class="footer__license">Proyecto estudiantil de apoyo académico</p>
       </div>
     </footer>
-
-    <script src="https://cdn.jsdelivr.net/npm/lenis@1.3.23/dist/lenis.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js"></script>
-    <script type="module" src="js/landing.js?v=2"></script>
+    <script src="js/landing.js?v=3"></script>
   </body>
 </html>
