@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="es">
   <head>
     <meta charset="UTF-8" />
@@ -22,46 +22,42 @@
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Lora:ital,wght@0,500;0,600;0,700;1,500;1,600&display=swap"
+      href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Newsreader:opsz,wght@6..72,400;6..72,500;6..72,600&family=Young+Serif&display=swap"
       rel="stylesheet"
     />
-    <link rel="stylesheet" href="css/styles.css?v=18" />
+    <link rel="stylesheet" href="css/folleto.css?v=2" />
+    <link rel="stylesheet" href="css/sitio.css?v=2" />
     <link rel="icon" type="image/svg+xml" href="favicon.svg" />
   </head>
   <body>
-    <header class="navbar reveal">
-      <div class="navbar__inner container">
-        <a href="index.html" class="wordmark">ArmaPortafolio</a>
-        <nav class="navbar__nav" aria-label="Principal">
-          <a href="nosotros.html" aria-current="page">Nosotros</a>
-          <span class="navbar__sep" aria-hidden="true">·</span>
-          <a href="faq.html">FAQ</a>
-          <span class="navbar__sep" aria-hidden="true">·</span>
-          <a href="ayuda.html">Ayuda</a>
-          <a href="generar.html" class="btn btn--outline btn--sm">Crear portafolio</a>
-        </nav>
-      </div>
+    <a class="skip-link" href="#contenido">Saltar al contenido</a>
+    <header class="band">
+      <a href="index.html" class="wordmark">ArmaPortafolio</a>
+      <nav class="band__nav" aria-label="Principal">
+        <a href="nosotros.html" aria-current="page">Nosotros</a>
+        <a href="faq.html">FAQ</a>
+        <a href="ayuda.html">Ayuda</a>
+        <a href="generar.html" class="band__cta">Crear portafolio</a>
+      </nav>
     </header>
 
-    <main>
-      <header class="about-hero">
-        <div class="about-hero__inner container">
-          <p class="about-kicker reveal">Nosotros</p>
-          <h1 class="about-hero__title reveal reveal-delay-1">
-            Nació de una entrega que llegó tarde.
-          </h1>
-          <p class="about-hero__lead reveal reveal-delay-2">
+    <main id="contenido">
+      <header class="page-head">
+        <div class="wrap">
+          <p class="kicker">Nosotros</p>
+          <h1 class="display display--xl">Nació de una entrega que llegó tarde.</h1>
+          <p class="lead">
             ArmaPortafolio existe para que preparar el portafolio no se vuelva
             otra barrera entre el estudiante y su nota.
           </p>
         </div>
       </header>
 
-      <section class="about-brief section--paper reveal" aria-labelledby="origin-heading">
-        <div class="about-brief__inner container">
-          <article class="about-origin">
-            <p class="about-kicker">Origen</p>
-            <h2 id="origin-heading" class="about-origin__title">
+      <section class="section" aria-labelledby="origin-heading">
+        <div class="wrap origin">
+          <article class="origin__text">
+            <p class="kicker">Origen</p>
+            <h2 class="display display--lg" id="origin-heading">
               El problema no era el contenido. Era llegar a tiempo con todo armado.
             </h2>
             <p>
@@ -73,68 +69,65 @@
             </p>
           </article>
 
-          <aside class="about-note" aria-label="Resumen del proyecto">
-            <span class="about-note__label">En una frase</span>
-            <p>
-              Menos tiempo armando carpetas. Más tiempo revisando lo que sí cuenta.
-            </p>
+          <aside class="pull" aria-label="Resumen del proyecto">
+            <span>En una frase</span>
+            <p>Menos tiempo armando carpetas. Más tiempo revisando lo que sí cuenta.</p>
           </aside>
         </div>
       </section>
 
-      <section class="about-points reveal" aria-labelledby="purpose-heading">
-        <div class="container">
-          <div class="about-points__header">
-            <p class="about-kicker">Qué resuelve</p>
-            <h2 id="purpose-heading" class="title-md">Un flujo corto para una entrega ordenada.</h2>
+      <section class="section section--tint" aria-labelledby="purpose-heading">
+        <div class="wrap">
+          <div class="section__head">
+            <p class="kicker">Qué resuelve</p>
+            <h2 class="display display--lg" id="purpose-heading">Un flujo corto para una entrega ordenada.</h2>
           </div>
-          <div class="about-points__grid">
-            <article class="about-point">
-              <span>01</span>
-              <h3>Reduce la vuelta larga</h3>
-              <p>Completas los datos, subes tus PDFs y generas el paquete final desde un solo flujo.</p>
-            </article>
-            <article class="about-point">
-              <span>02</span>
-              <h3>Cuida la estructura</h3>
+          <ol class="trio">
+            <li>
+              <span class="numeral">01</span>
+              <h3 class="display display--sm">Reduce la vuelta larga</h3>
+              <p>Completas los datos, subes tus evidencias y generas el paquete final desde un solo flujo.</p>
+            </li>
+            <li>
+              <span class="numeral">02</span>
+              <h3 class="display display--sm">Cuida la estructura</h3>
               <p>La portada, las secciones y el ZIP se preparan con una organización clara para entrega.</p>
-            </article>
-            <article class="about-point">
-              <span>03</span>
-              <h3>Entra sin fricción</h3>
+            </li>
+            <li>
+              <span class="numeral">03</span>
+              <h3 class="display display--sm">Entra sin fricción</h3>
               <p>No necesitas cuenta, pago ni correo para usar el generador.</p>
-            </article>
-          </div>
+            </li>
+          </ol>
         </div>
       </section>
 
-      <section class="about-footer-note reveal" aria-labelledby="status-heading">
-        <div class="about-footer-note__inner container">
+      <section class="section" aria-labelledby="status-heading">
+        <div class="wrap callout">
           <div>
-            <p class="about-kicker">Estado</p>
-            <h2 id="status-heading">Proyecto estudiantil independiente.</h2>
+            <p class="kicker">Estado</p>
+            <h2 class="display display--md" id="status-heading">Proyecto estudiantil independiente.</h2>
             <p>
               ArmaPortafolio es una herramienta de apoyo académico en mejora, hecha para
               facilitar el proceso de entrega del portafolio.
             </p>
           </div>
-          <a href="faq.html" class="btn btn--outline">Leer FAQ</a>
+          <a href="faq.html" class="btn">Leer FAQ</a>
         </div>
       </section>
     </main>
 
     <footer class="footer">
-      <div class="footer__main container">
+      <div class="wrap">
         <div>
-          <a href="index.html" class="wordmark footer__brand">ArmaPortafolio</a>
-          <p class="footer__tagline">Proyecto estudiantil independiente</p>
+          <a href="index.html" class="footer__brand">ArmaPortafolio</a>
+          <p>Proyecto estudiantil independiente de apoyo académico</p>
         </div>
-        <nav class="footer__nav" aria-label="Pie de página">
+        <nav aria-label="Pie de página">
           <a href="nosotros.html">Nosotros</a>
           <a href="faq.html">FAQ</a>
           <a href="ayuda.html">Ayuda</a>
         </nav>
-        <p class="footer__license">Proyecto estudiantil de apoyo académico</p>
       </div>
     </footer>
   </body>

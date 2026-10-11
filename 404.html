@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="es">
   <head>
     <meta charset="UTF-8" />
@@ -8,35 +8,32 @@
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Lora:ital,wght@0,500;0,600;0,700;1,500;1,600&display=swap"
+      href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Newsreader:opsz,wght@6..72,400;6..72,500;6..72,600&family=Young+Serif&display=swap"
       rel="stylesheet"
     />
-    <link rel="stylesheet" href="css/styles.css?v=18" />
+    <link rel="stylesheet" href="css/folleto.css?v=2" />
+    <link rel="stylesheet" href="css/sitio.css?v=2" />
     <link rel="icon" type="image/svg+xml" href="favicon.svg" />
   </head>
   <body>
-    <header class="navbar reveal">
-      <div class="navbar__inner container">
-        <a href="index.html" class="wordmark">ArmaPortafolio</a>
-        <nav class="navbar__nav" aria-label="Principal">
-          <a href="nosotros.html">Nosotros</a>
-          <span class="navbar__sep" aria-hidden="true">·</span>
-          <a href="faq.html">FAQ</a>
-          <span class="navbar__sep" aria-hidden="true">·</span>
-          <a href="ayuda.html">Ayuda</a>
-        </nav>
-      </div>
+    <header class="band">
+      <a href="index.html" class="wordmark">ArmaPortafolio</a>
+      <nav class="band__nav" aria-label="Principal">
+        <a href="nosotros.html">Nosotros</a>
+        <a href="faq.html">FAQ</a>
+        <a href="ayuda.html">Ayuda</a>
+        <a href="generar.html" class="band__cta">Crear portafolio</a>
+      </nav>
     </header>
 
-    <main class="page-header reveal">
-      <div class="container container--narrow">
-        <h1 class="page-header__title">Página no encontrada</h1>
-        <p class="page-header__subtitle">
-          Esta ruta ya no existe o cambió de lugar. Puedes volver al inicio o abrir el generador.
-        </p>
-        <p class="page-header__actions">
-          <a href="index.html" class="btn btn--outline">Ir al inicio</a>
+    <main class="lost" id="contenido">
+      <div class="wrap">
+        <span class="lost__code" aria-hidden="true">404</span>
+        <h1 class="display display--lg">Página no encontrada</h1>
+        <p class="lead">Esta ruta ya no existe o cambió de lugar. Puedes volver al inicio o abrir el generador.</p>
+        <p class="btn-row">
           <a href="generar.html" class="btn btn--primary">Crear portafolio</a>
+          <a href="index.html" class="btn">Ir al inicio</a>
         </p>
       </div>
     </main>
