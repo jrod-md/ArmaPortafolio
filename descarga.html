@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="es">
   <head>
     <meta charset="UTF-8" />
@@ -12,57 +12,57 @@
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Lora:ital,wght@0,500;0,600;0,700;1,500;1,600&display=swap"
+      href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Newsreader:opsz,wght@6..72,400;6..72,500;6..72,600&family=Young+Serif&display=swap"
       rel="stylesheet"
     />
-    <link rel="stylesheet" href="css/styles.css?v=18" />
+    <link rel="stylesheet" href="css/folleto.css?v=2" />
     <link rel="icon" type="image/svg+xml" href="favicon.svg" />
   </head>
   <body class="page-descarga">
-    <header class="navbar reveal">
-      <div class="navbar__inner container">
-        <a href="index.html" class="wordmark">ArmaPortafolio</a>
-        <nav class="navbar__nav" aria-label="Principal">
-          <a href="nosotros.html">Nosotros</a>
-          <span class="navbar__sep" aria-hidden="true">·</span>
-          <a href="faq.html">FAQ</a>
-          <span class="navbar__sep" aria-hidden="true">·</span>
-          <a href="ayuda.html">Ayuda</a>
-        </nav>
-      </div>
+    <header class="band">
+      <a href="index.html" class="wordmark">ArmaPortafolio</a>
+      <nav class="band__nav" aria-label="Principal">
+        <a href="nosotros.html">Nosotros</a>
+        <a href="faq.html">FAQ</a>
+        <a href="ayuda.html">Ayuda</a>
+      </nav>
     </header>
 
-    <main class="descarga-main reveal">
-      <div class="descarga-inner">
-        <section class="success-hero">
-          <div class="success-hero__badge" aria-hidden="true">
-            <svg width="86" height="86" viewBox="0 0 86 86" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <circle cx="43" cy="43" r="42" fill="#123D25" fill-opacity="0.14" stroke="#123D25" stroke-opacity="0.22" />
-              <path d="M26 44l11 11 23-23" stroke="#123D25" stroke-width="6" stroke-linecap="round" stroke-linejoin="round" />
-            </svg>
-          </div>
-          <p class="success-hero__eyebrow">Completado</p>
-          <h1 class="descarga-title">Tu portafolio está listo</h1>
-          <p class="descarga-lead">
-            Todo quedó estructurado en el formato solicitado: portada, carpetas y documentos organizados.
+    <div class="descarga-layout">
+      <main class="descarga-main">
+        <section class="wizard-panel wizard-panel--enter">
+          <p class="wizard-kicker" id="descarga-kicker">Listo</p>
+          <h1 class="wizard-panel__title descarga-title" id="descarga-title">Tu portafolio está armado.</h1>
+          <p class="wizard-panel__subtitle descarga-lead" id="descarga-lead">Abre la portada y revísala antes de entregar.</p>
+          <p class="descarga-filename">portafolio.zip</p>
+          <p class="descarga-note" hidden></p>
+          <button type="button" class="btn btn--primary descarga-btn">Descargar ZIP</button>
+          <p class="descarga-links">
+            <a href="generar.html">Armar otro portafolio</a>
+            <a href="index.html">Ir al inicio</a>
           </p>
         </section>
+      </main>
 
-        <section class="descarga-preview" aria-label="Vista previa">
-          <p class="descarga-filename">portafolio_Lopez_BasesDeDatos_I2026.zip</p>
-          <button type="button" class="btn btn--primary descarga-btn">Descargar ZIP</button>
-        </section>
-
-        <div class="descarga-actions">
-          <a href="generar.html" class="btn btn--outline descarga-btn-secondary">Generar otro portafolio</a>
-          <p class="descarga-panel-link"><a href="index.html">Ir al inicio</a></p>
+      <aside class="descarga-side" aria-labelledby="contenido-title">
+        <div class="stack-stage" aria-hidden="true">
+          <div class="stack is-zipped">
+            <div class="fold is-filled"><i class="back"></i><i class="page"></i><i class="front"></i></div>
+            <div class="fold is-filled"><i class="back"></i><i class="page"></i><i class="front"></i></div>
+            <div class="fold is-filled"><i class="back"></i><i class="page"></i><i class="front"><span>Portada</span></i></div>
+          </div>
         </div>
-
-        <p class="descarga-note" hidden></p>
-      </div>
-    </main>
+        <div class="contenido">
+          <h2 class="contenido__title" id="contenido-title">Dentro del ZIP</h2>
+          <ul class="contenido__list" id="contenido-lista">
+            <li><span>01_Portada</span><span>1 archivo</span></li>
+          </ul>
+          <p class="contenido__total"><span>Peso total</span><span id="contenido-peso">-</span></p>
+        </div>
+      </aside>
+    </div>
 
     <script src="js/zip.js?v=7"></script>
-    <script src="js/download.js?v=8"></script>
+    <script src="js/download.js?v=10"></script>
   </body>
 </html>

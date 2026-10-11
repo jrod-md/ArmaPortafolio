@@ -145,67 +145,12 @@ const UPLOAD_CONFIG = {
 
 let currentStep = 1;
 let uploadSequence = 0;
-let previewActiveSection = "portada";
 let previewIsCompiling = false;
 let appInitialized = false;
-let panelTransitionId = 0;
+let leavingForDownload = false;
+const RECEIPT_STORAGE_KEY = "armaportafolio-recibo";
 
 const uploads = {};
-
-const PREVIEW_SECTIONS = [
-  {
-    id: "portada",
-    label: "01_Portada",
-    empty: "Portada preparada",
-    copy: "La portada oficial queda preparada desde los datos del estudiante.",
-  },
-  {
-    id: "asignaciones",
-    label: "02_Asignaciones",
-    empty: "Sin evidencias todavía",
-    copy: "Cada archivo entra en la carpeta correcta.",
-  },
-  {
-    id: "parciales",
-    label: "03_Parciales",
-    empty: "Sin parciales todavía",
-    copy: "Los parciales se agrupan sin mezclar el resto de evidencias.",
-  },
-  {
-    id: "laboratorios",
-    label: "04_Laboratorios",
-    empty: "Sin laboratorios todavía",
-    copy: "Los laboratorios y talleres quedan archivados como una sección propia.",
-  },
-  {
-    id: "proyectos",
-    label: "05_Proyectos",
-    empty: "Sin proyectos todavía",
-    copy: "Los proyectos se guardan aparte para revisar la estructura final.",
-  },
-  {
-    id: "conclusion",
-    label: "06_Conclusión",
-    empty: "Conclusión opcional",
-    copy: "La conclusión se añade solo si decides incluirla.",
-  },
-];
-
-const PREVIEW_UPLOAD_SECTIONS = {
-  planContenido: "asignaciones",
-  tareas: "asignaciones",
-  material: "asignaciones",
-  parciales: "parciales",
-  labs: "laboratorios",
-  proyectos: "proyectos",
-};
-
-const PREVIEW_STEP_SECTIONS = {
-  1: "portada",
-  2: "asignaciones",
-  3: "asignaciones",
-  4: "conclusion",
-};
 
 function $(id) {
   return document.getElementById(id);
@@ -341,7 +286,7 @@ function getStudentData() {
     courseName: clampText($("sf-curso")?.value, MAX_COURSE_NAME_LENGTH),
     department,
     facilitator: clampText($("sf-facilitador")?.value, MAX_FACILITATOR_LENGTH),
-    semester: ($("sf-semestre")?.value || "").trim(),
+    semester: (document.querySelector('input[name="semestre"]:checked')?.value || "").trim(),
     year: ($("sf-anio")?.value || "").trim(),
     faculty: "fisc",
   };
@@ -367,140 +312,137 @@ function getAllUploadEntries() {
   return Object.values(uploads).flat().filter((entry) => entry?.file);
 }
 
-function getPreviewSectionConfig(sectionId) {
-  return PREVIEW_SECTIONS.find((section) => section.id === sectionId) || PREVIEW_SECTIONS[0];
-}
+const COVER_PAGE_WIDTH = 966;
+// Mismos tamaños y anchos que usa generate.js, para que la vista previa coincida con el PDF.
+const COVER_FIELDS = [
+  { id: "cover-depto", key: "department", initialSize: 14.5, minimumSize: 12, maxWidth: 280 },
+  { id: "cover-curso", key: "courseName", initialSize: 17.5, minimumSize: 14.5, maxWidth: 560 },
+  { id: "cover-nombre", key: "fullName", initialSize: 19, minimumSize: 14.5, maxWidth: 280 },
+  { id: "cover-cedula", key: "cedula", initialSize: 18.5, minimumSize: 15, maxWidth: 210 },
+  { id: "cover-facil", key: "facilitator", initialSize: 17, minimumSize: 14.5, maxWidth: 285 },
+  { id: "cover-anio", key: "year", initialSize: 17, minimumSize: 15, maxWidth: 96 },
+];
+const COVER_FONT_FAMILY = '"Liberation Sans Cover", Arial, Helvetica, sans-serif';
+const STEP_FOLDERS = {
+  1: ["portada"],
+  2: ["curso"],
+  3: ["actividades", "material"],
+  4: ["conclusion"],
+};
+const STEP_NOTES = {
+  1: ["Empieza por la portada.", "Se escribe sola mientras llenas tus datos."],
+  2: ["Carpeta del curso.", "Aquí va el plan de contenido."],
+  3: ["Actividades y material.", "Cada archivo cae en su carpeta."],
+  4: ["La última carpeta.", "Solo se crea si escribes algo."],
+  5: ["Todo en orden.", "Las carpetas vacías no se incluyen."],
+};
+const STACK_CLOSED_STEP = 16;
+const STACK_STAGGER_MS = 55;
 
-function getPreviewSectionForUploadKey(key) {
-  return PREVIEW_UPLOAD_SECTIONS[key] || "asignaciones";
-}
+let coverMeasureContext = null;
 
-function getPreviewData() {
-  const sections = PREVIEW_SECTIONS.map((section) => ({
-    ...section,
-    entries: [],
-  }));
-  const sectionMap = Object.fromEntries(sections.map((section) => [section.id, section]));
-
-  sectionMap.portada.entries.push({
-    id: "preview-portada-generated",
-    name: "Portada_Oficial.pdf",
-    sectionId: "portada",
-    sectionLabel: "01_Portada",
-  });
-
-  Object.entries(uploads).forEach(([key, entries]) => {
-    const sectionId = getPreviewSectionForUploadKey(key);
-    const section = sectionMap[sectionId];
-    if (!section) return;
-
-    entries.forEach((entry) => {
-      section.entries.push({
-        id: entry.id,
-        name: sanitizeFileName(entry.name),
-        sectionId,
-        sectionLabel: section.label,
-      });
-    });
-  });
-
-  if (getConclusionText()) {
-    sectionMap.conclusion.entries.push({
-      id: "preview-conclusion-final",
-      name: "conclusion_final.txt",
-      sectionId: "conclusion",
-      sectionLabel: "06_Conclusión",
-    });
-  }
-
-  return sections;
-}
-
-function getMostRelevantPreviewSection(sections = getPreviewData()) {
-  const activeSection = sections.find((section) => section.id === previewActiveSection);
-  if (activeSection?.entries.length) {
-    return activeSection.id;
-  }
-
-  for (let index = sections.length - 1; index >= 0; index -= 1) {
-    if (sections[index].entries.length > 0) {
-      return sections[index].id;
-    }
-  }
-
-  return "portada";
-}
-
-function previewText(value) {
-  const text = String(value || "").trim();
-  return text || "—";
-}
-
-function setPreviewText(id, value) {
-  const node = $(id);
-  if (!node) return;
-
-  const nextValue = previewText(value);
-  if (node.textContent === nextValue) return;
-
-  node.textContent = nextValue;
-
-  if (window.matchMedia?.("(prefers-reduced-motion: reduce)")?.matches) return;
-  node.classList.remove("vertical-dossier__value--updated");
-  window.requestAnimationFrame?.(() => {
-    node.classList.add("vertical-dossier__value--updated");
-  });
-}
-
-function syncPreviewSectionToStep() {
-  if (currentStep === 5) {
-    previewActiveSection = getMostRelevantPreviewSection();
-    return;
-  }
-
-  previewActiveSection = PREVIEW_STEP_SECTIONS[currentStep] || previewActiveSection || "portada";
-}
-
-function updateDossierPreview(options = {}) {
-  const root = $("portfolio-live-preview");
-  if (!root) return;
-
-  const sections = getPreviewData();
+function getFolderCounts() {
   const student = getStudentData();
-  const isFinalStep = currentStep === 5;
-  const requestedSection = options.activeSection || options.incomingSection;
+  const count = (key) => getUploadEntries(key).length;
 
-  if (sections.some((section) => section.id === requestedSection)) {
-    previewActiveSection = requestedSection;
-  }
-
-  const activeSection = previewActiveSection || getMostRelevantPreviewSection(sections);
-  const subtitleParts = ["FISC", "UTP", student.year].filter(Boolean);
-  const completedCount = sections.filter((section) => section.entries.length > 0).length;
-
-  root.dataset.activeSection = activeSection;
-  root.dataset.completedSections = String(completedCount);
-
-  setPreviewText("preview-dossier-title", student.courseName || "Portafolio Digital");
-  setPreviewText("preview-dossier-subtitle", subtitleParts.join(" · "));
-  setPreviewText("preview-meta-nombre", student.fullName);
-  setPreviewText("preview-meta-cedula", student.cedula);
-  setPreviewText("preview-meta-curso", student.courseName);
-  setPreviewText("preview-meta-facilitador", student.facilitator);
-  setPreviewText("preview-meta-departamento", student.department);
-  setPreviewText("preview-meta-semestre", student.semester);
-  setPreviewText("preview-meta-anio", student.year);
-
-  const stamp = $("preview-ready-stamp");
-  const showReadyStamp = previewIsCompiling || isFinalStep;
-  root.classList.toggle("vertical-dossier--ready", showReadyStamp);
-  if (stamp) {
-    stamp.setAttribute("aria-hidden", showReadyStamp ? "false" : "true");
-  }
+  return {
+    portada: student.fullName || student.courseName ? 1 : 0,
+    curso: count("planContenido"),
+    actividades: count("tareas") + count("parciales") + count("proyectos") + count("labs"),
+    material: count("material"),
+    conclusion: getConclusionText() ? 1 : 0,
+  };
 }
 
-function renderPortfolioPreview(options = {}) {
-  updateDossierPreview(options);
+function measureCoverText(text, size) {
+  if (!coverMeasureContext) {
+    coverMeasureContext = document.createElement("canvas").getContext("2d");
+  }
+  if (!coverMeasureContext) return 0;
+  coverMeasureContext.font = `700 ${size}px ${COVER_FONT_FAMILY}`;
+  return coverMeasureContext.measureText(text).width;
+}
+
+function fitCoverSize(text, field) {
+  for (let size = field.initialSize; size >= field.minimumSize; size -= 0.5) {
+    if (measureCoverText(text, size) <= field.maxWidth) return size;
+  }
+  return field.minimumSize;
+}
+
+function updateCoverPreview() {
+  const student = getStudentData();
+  const values = {
+    department: student.department.replace(/^departamento\s+de\s+/i, "").toLocaleUpperCase("es-PA"),
+    courseName: student.courseName,
+    fullName: student.fullName,
+    cedula: student.cedula,
+    facilitator: student.facilitator,
+    year: student.year || "2026",
+  };
+
+  COVER_FIELDS.forEach((field) => {
+    const node = $(field.id);
+    if (!node) return;
+
+    const text = values[field.key] || "";
+    if (node.textContent !== text) node.textContent = text;
+    node.style.fontSize = `${((fitCoverSize(text, field) / COVER_PAGE_WIDTH) * 100).toFixed(3)}cqw`;
+  });
+}
+
+function updateStackPreview() {
+  const stack = $("portfolio-stack");
+  if (!stack) return;
+
+  const counts = getFolderCounts();
+  const activeFolders = previewIsCompiling ? [] : STEP_FOLDERS[currentStep] || [];
+  const folds = Array.from(stack.querySelectorAll(".fold"));
+  let closedZ = 0;
+
+  // En el HTML van de abajo hacia arriba.
+  folds.forEach((fold) => {
+    const key = fold.dataset.folder;
+    const count = counts[key] || 0;
+    const badge = fold.querySelector("small");
+
+    fold.classList.toggle("is-filled", count > 0);
+    fold.classList.toggle("is-active", activeFolders.includes(key));
+    if (badge) badge.textContent = count > 1 ? String(count) : "";
+
+    if (previewIsCompiling) {
+      fold.style.setProperty("--z", `${closedZ}px`);
+      if (count > 0) closedZ += STACK_CLOSED_STEP;
+    } else {
+      fold.style.removeProperty("--z");
+    }
+  });
+
+  // Al armar el ZIP las carpetas bajan una tras otra, de arriba hacia abajo.
+  folds
+    .slice()
+    .reverse()
+    .forEach((fold, index) => {
+      fold.style.transitionDelay = previewIsCompiling ? `${index * STACK_STAGGER_MS}ms` : "";
+    });
+  stack.classList.toggle("is-zipped", previewIsCompiling);
+
+  const note = previewIsCompiling
+    ? ["Armando el ZIP.", "Un solo archivo, listo para entregar."]
+    : STEP_NOTES[currentStep] || STEP_NOTES[1];
+  const noteTitle = $("preview-note-title");
+  const noteText = $("preview-note-text");
+  if (noteTitle) noteTitle.textContent = note[0];
+  if (noteText) noteText.textContent = note[1];
+}
+
+function updateDossierPreview() {
+  updateCoverPreview();
+  updateStackPreview();
+}
+
+function renderPortfolioPreview() {
+  updateDossierPreview();
 }
 
 function setPortfolioPreviewCompiling(isCompiling) {
@@ -510,7 +452,7 @@ function setPortfolioPreviewCompiling(isCompiling) {
 
 function waitForPreviewTransition() {
   const reducedMotion = window.matchMedia?.("(prefers-reduced-motion: reduce)")?.matches;
-  const delay = reducedMotion ? 80 : 520;
+  const delay = reducedMotion ? 80 : 760;
   return new Promise((resolve) => window.setTimeout(resolve, delay));
 }
 
@@ -527,6 +469,23 @@ function downloadZipDirectly(payload) {
   link.click();
   link.remove();
   window.setTimeout(() => URL.revokeObjectURL(url), 3000);
+}
+
+// Resumen sin datos personales para la página de descarga.
+function saveReceipt(conclusionText) {
+  const rows = [{ label: "01_Portada", count: 1 }];
+
+  Object.values(UPLOAD_CONFIG).forEach((config) => {
+    const count = getAllUploadEntries().filter((entry) => entry.zipPath.startsWith(config.path)).length;
+    if (count > 0) rows.push({ label: config.path.replace(/\/$/, ""), count });
+  });
+  if (conclusionText) rows.push({ label: "06_Conclusion_Final", count: 1 });
+
+  try {
+    window.sessionStorage.setItem(RECEIPT_STORAGE_KEY, JSON.stringify({ rows }));
+  } catch {
+    // Sin sessionStorage la descarga solo muestra el nombre y el peso del ZIP.
+  }
 }
 
 async function deliverGeneratedZip(payload) {
@@ -643,45 +602,24 @@ function updateSidebar() {
   }
 }
 
-function showPanel(step) {
-  const reducedMotion = window.matchMedia?.("(prefers-reduced-motion: reduce)")?.matches;
-  panelTransitionId += 1;
-  const transitionId = panelTransitionId;
+function showPanel(step, direction = 1) {
+  const layout = $("generador");
+  if (layout) layout.dataset.step = String(step);
 
   for (let index = 1; index <= TOTAL_STEPS; index += 1) {
     const panel = $(`wizard-panel-${index}`);
     if (!panel) continue;
-
-    panel.classList.remove("wizard-panel--enter", "wizard-panel--entered");
-
-    if (index === step) {
-      panel.hidden = false;
-      panel.classList.remove("wizard-panel--exit");
-
-      if (!reducedMotion) {
-        panel.classList.add("wizard-panel--enter");
-        window.requestAnimationFrame?.(() => {
-          panel.classList.add("wizard-panel--entered");
-        });
-        window.setTimeout(() => {
-          panel.classList.remove("wizard-panel--enter", "wizard-panel--entered");
-        }, 280);
-      }
-      continue;
-    }
-
-    if (!panel.hidden && !reducedMotion) {
-      panel.classList.add("wizard-panel--exit");
-      window.setTimeout(() => {
-        if (transitionId !== panelTransitionId || index === currentStep) return;
-        panel.hidden = true;
-        panel.classList.remove("wizard-panel--exit");
-      }, 170);
-    } else {
-      panel.hidden = true;
-      panel.classList.remove("wizard-panel--exit");
-    }
+    panel.hidden = index !== step;
+    panel.classList.remove("wizard-panel--enter");
   }
+
+  const panel = $(`wizard-panel-${step}`);
+  if (!panel) return;
+
+  // El panel entra desde el lado hacia donde se avanza; la animación vive en CSS.
+  panel.style.setProperty("--dir", String(direction));
+  void panel.offsetWidth;
+  panel.classList.add("wizard-panel--enter");
 }
 
 function focusPanelHeading(step) {
@@ -697,12 +635,12 @@ function focusPanelHeading(step) {
 
 function setStep(step) {
   if (step < 1 || step > TOTAL_STEPS) return;
+  const direction = step >= currentStep ? 1 : -1;
   currentStep = step;
-  showPanel(step);
+  showPanel(step, direction);
   updateSidebar();
   updateProgress();
   clearMessage();
-  syncPreviewSectionToStep();
 
   if (step === 5) {
     refreshSummary();
@@ -715,29 +653,73 @@ function setStep(step) {
   focusPanelHeading(step);
 }
 
-function validateStepOne() {
+const STUDENT_FIELD_IDS = ["sf-nombre", "sf-cedula", "sf-curso", "sf-depto", "sf-facilitador", "sf-semestre"];
+
+function getStudentErrors() {
   const student = getStudentData();
+  const errors = [];
 
   if (!student.fullName || student.fullName.length < 3) {
-    return "Completa el nombre del estudiante.";
+    errors.push({ id: "sf-nombre", note: "Falta tu nombre.", message: "Completa el nombre del estudiante." });
   }
   if (!student.cedula) {
-    return "Completa la cédula del estudiante.";
+    errors.push({ id: "sf-cedula", note: "Falta la cédula.", message: "Completa la cédula del estudiante." });
   }
   if (!student.courseName || student.courseName.length < 3) {
-    return "Completa el nombre del curso.";
+    errors.push({ id: "sf-curso", note: "Falta el curso.", message: "Completa el nombre del curso." });
   }
   if (!$("sf-depto")?.value) {
-    return "Selecciona un departamento.";
+    errors.push({ id: "sf-depto", note: "Elige un departamento.", message: "Selecciona un departamento." });
   }
   if (!student.facilitator || student.facilitator.length < 3) {
-    return "Completa el nombre del facilitador.";
+    errors.push({ id: "sf-facilitador", note: "Falta el facilitador.", message: "Completa el nombre del facilitador." });
   }
   if (!student.semester || !student.year) {
-    return "Selecciona el semestre y el anio.";
+    errors.push({ id: "sf-semestre", note: "Elige el semestre.", message: "Selecciona el semestre y el año." });
   }
 
-  return null;
+  return errors;
+}
+
+function setFieldError(id, note) {
+  const field = $(id);
+  const noteNode = $(`${id}-error`);
+
+  if (field) {
+    if (note) {
+      field.setAttribute("aria-invalid", "true");
+    } else {
+      field.removeAttribute("aria-invalid");
+    }
+  }
+  if (noteNode) {
+    noteNode.textContent = note || "";
+    noteNode.hidden = !note;
+  }
+}
+
+function clearFieldError(id) {
+  if ($(id)?.getAttribute("aria-invalid") !== "true") return;
+  setFieldError(id, "");
+  // El aviso general se va cuando ya no queda ningún campo marcado.
+  if (!document.querySelector('.wizard-main [aria-invalid="true"]')) clearMessage();
+}
+
+function validateStepOne() {
+  const errors = getStudentErrors();
+  const notes = Object.fromEntries(errors.map((error) => [error.id, error.note]));
+  STUDENT_FIELD_IDS.forEach((id) => setFieldError(id, notes[id] || ""));
+
+  if (errors.length === 0) return null;
+
+  if (currentStep === 1) {
+    const first = errors[0].id;
+    (first === "sf-semestre" ? document.querySelector('input[name="semestre"]') : $(first))?.focus();
+  }
+
+  return errors.length === 1
+    ? errors[0].message
+    : `Faltan ${errors.length} datos. Están marcados en el formulario.`;
 }
 
 function validateStepTwo() {
@@ -842,7 +824,8 @@ function renderUploadUI(key, options = {}) {
           const itemClass = incomingIds.has(entry.id)
             ? "upload-zone__file-item upload-zone__file-item--new"
             : "upload-zone__file-item";
-          return `<li class="${itemClass}"><span>${escapeHtml(entry.name)}</span> <span>${formatBytes(entry.size)}</span> <button type="button" data-upload-remove="${entry.id}">Quitar</button></li>`;
+          const name = escapeHtml(entry.name);
+          return `<li class="${itemClass}"><span>${name}</span> <span>${formatBytes(entry.size)}</span> <button type="button" data-upload-remove="${entry.id}" aria-label="Quitar ${name}">×</button></li>`;
         })
         .join("");
     }
@@ -900,16 +883,6 @@ function addFilesToUpload(key, files) {
   });
   refreshSummary();
 
-  if (addedEntries.length > 0) {
-    const incomingSection = getPreviewSectionForUploadKey(key);
-    previewActiveSection = incomingSection;
-    renderPortfolioPreview({
-      activeSection: incomingSection,
-      incomingSection,
-      incomingEntryIds: addedEntries.map((entry) => entry.id),
-    });
-  }
-
   if (feedbackMessage) {
     showMessage(feedbackMessage, "error");
   } else {
@@ -956,8 +929,8 @@ function bindUploadZone(root) {
 
     folderButton = document.createElement("button");
     folderButton.type = "button";
-    folderButton.className = "btn btn--outline btn--sm upload-zone__add-folder";
-    folderButton.textContent = "+ Añadir carpeta";
+    folderButton.className = "btn upload-zone__add-folder";
+    folderButton.textContent = "Añadir carpeta";
 
     const actions = document.createElement("div");
     actions.className = "upload-zone__actions";
@@ -1060,19 +1033,22 @@ function bindNavigation() {
 
 function bindConclusionUi() {
   const conclusionText = $("conclusionFinal");
+  const counter = $("conclusion-count");
+  if (!conclusionText) return;
 
-  if (conclusionText) {
-    conclusionText.addEventListener("input", () => {
-      previewActiveSection = "conclusion";
-      refreshSummary();
-    });
-  }
+  conclusionText.addEventListener("input", () => {
+    if (counter) {
+      counter.textContent = `${conclusionText.value.length} / ${MAX_CONCLUSION_LENGTH}`;
+    }
+    refreshSummary();
+  });
 }
 
 async function handleGenerate() {
-  const error = validateStepOne() || validateStepTwo();
-  if (error) {
-    showMessage(error, "error");
+  if (getStudentErrors().length > 0) {
+    // Los datos viven en el paso 1: se vuelve ahí para mostrar qué falta.
+    if (currentStep !== 1) setStep(1);
+    showMessage(validateStepOne(), "error");
     return;
   }
 
@@ -1112,10 +1088,12 @@ async function handleGenerate() {
       throw new Error("zip_not_created");
     }
 
+    saveReceipt(conclusionText);
     const deliveryMode = await deliverGeneratedZip(zipResult);
     await waitForPreviewTransition();
 
     if (deliveryMode === "saved") {
+      leavingForDownload = true;
       window.location.href = "descarga.html";
       return;
     }
@@ -1154,19 +1132,49 @@ function bindGenerateButton() {
 }
 
 function bindDossierPreviewInputs() {
-  [
-    "sf-nombre",
-    "sf-cedula",
-    "sf-curso",
-    "sf-facilitador",
-    "sf-semestre",
-    "sf-anio",
-    "sf-depto",
-  ].forEach((id) => {
+  ["sf-nombre", "sf-cedula", "sf-curso", "sf-facilitador", "sf-anio", "sf-depto"].forEach((id) => {
     const field = $(id);
     if (!field) return;
-    field.addEventListener("input", () => updateDossierPreview());
-    field.addEventListener("change", () => updateDossierPreview());
+    const onChange = () => {
+      clearFieldError(id);
+      updateDossierPreview();
+    };
+    field.addEventListener("input", onChange);
+    field.addEventListener("change", onChange);
+  });
+
+  document.querySelectorAll('input[name="semestre"]').forEach((radio) => {
+    radio.addEventListener("change", () => {
+      clearFieldError("sf-semestre");
+      updateDossierPreview();
+    });
+  });
+}
+
+function hasUnsavedWork() {
+  const student = getStudentData();
+  return Boolean(
+    getAllUploadEntries().length ||
+      getConclusionText() ||
+      student.fullName ||
+      student.cedula ||
+      student.courseName ||
+      student.facilitator
+  );
+}
+
+function bindPageGuards() {
+  // Un archivo soltado fuera de una zona no debe abrirse en la pestaña y borrar el trabajo.
+  ["dragover", "drop"].forEach((type) => {
+    window.addEventListener(type, (event) => {
+      if (!event.defaultPrevented) event.preventDefault();
+    });
+  });
+
+  window.addEventListener("beforeunload", (event) => {
+    if (leavingForDownload || !hasUnsavedWork()) return;
+    event.preventDefault();
+    event.returnValue = "";
   });
 }
 
@@ -1184,10 +1192,13 @@ function initApp() {
   bindConclusionUi();
   bindGenerateButton();
   bindDossierPreviewInputs();
+  bindPageGuards();
   refreshSummary();
   updateSidebar();
   updateProgress();
   showPanel(1);
+  // Vuelve a medir la portada cuando carga su fuente.
+  document.fonts?.load?.(`700 17px ${COVER_FONT_FAMILY}`).then(updateCoverPreview, () => {});
   document.body.dataset.appReady = "true";
 }
 
