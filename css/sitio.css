@@ -151,6 +151,8 @@ a.btn--primary {
   grid-template-columns: minmax(0, 1.08fr) minmax(0, 0.92fr);
   min-height: min(calc(100vh - var(--band-height)), 860px);
   border-bottom: 1.5px solid var(--ink);
+  /* La entrada desliza el texto unos píxeles; no debe ensanchar la página. */
+  overflow-x: clip;
 }
 
 .hero__copy {
@@ -505,6 +507,8 @@ a.btn--primary {
 .page-head {
   padding-block: clamp(44px, 7vw, 92px) clamp(36px, 5vw, 64px);
   border-bottom: 1.5px solid var(--ink);
+  /* La entrada desliza el contenido unos píxeles; sin esto aparece scroll horizontal un instante. */
+  overflow-x: clip;
 }
 
 .page-head .wrap {
@@ -811,6 +815,7 @@ a.btn--primary {
   align-content: center;
   min-height: calc(100vh - var(--band-height));
   padding-block: 56px;
+  overflow-x: clip;
 }
 
 .lost .wrap {

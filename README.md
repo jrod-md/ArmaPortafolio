@@ -12,19 +12,15 @@ Live demo: [armaport.pages.dev](https://armaport.pages.dev)
 
 ![Landing page overview](screenshots/01-overview.png)
 
-Landing page showing the problem framing, portfolio package concept, and entry point to the generator.
+Landing page with the entry point to the generator and the portfolio shown as a stack of folders.
 
 ![Portfolio generator](screenshots/02-generator.png)
 
-Generator screen showing the five-step workflow, student metadata form, progress state, and live package preview.
+Generator screen showing the five-step workflow, the student data form, the folder stack that fills as evidence is added, and the live cover preview.
 
 ![Generated portfolio cover](assets/showcase/01-portada-generada.png)
 
 Generated `Portada.pdf` showing the cover included in the final portfolio package.
-
-![Client-side generator workflow](assets/showcase/02-flujo-del-generador.png)
-
-Client-side workflow with the student data form, five-step progress indicator, and live preview of the package cover.
 
 ![Validated portfolio structure](assets/showcase/03-estructura-final.png)
 
@@ -42,12 +38,12 @@ The generator runs locally in the browser without an account or server-side file
 
 ## Technical implementation
 
-- Static HTML, CSS, and vanilla JavaScript. There is no `package.json`, framework, or build step in the repository.
+- Static HTML, CSS, and vanilla JavaScript, with no framework and no build step. The `package.json` in the repository only holds the checking and testing tools.
 - `pdf-lib` creates the PDF document and embeds the supplied cover image and fonts.
 - `fontkit` is registered with `pdf-lib` so the bundled Liberation Sans fonts can be embedded in the generated PDF.
 - `js/zip.js` contains a custom stored-ZIP writer. It writes local file headers, central-directory entries, end-of-central-directory data, and CRC-32 checksums. The project does not use JSZip.
 - IndexedDB stores only the latest generated ZIP Blob, filename, and creation time for the handoff to `descarga.html`.
-- The landing page loads GSAP, ScrollTrigger, and Lenis from CDN for motion and scroll behavior. These libraries are not used by the generator workflow.
+- Motion is plain CSS plus a small script (`js/landing.js`). No animation library is loaded.
 
 ## File handling and limits
 
@@ -81,36 +77,47 @@ The upload workflow applies category-specific allowlists and limits:
 
 ## Local development
 
-The app can be served by any simple static HTTP server. For example:
+The site itself has no dependencies and no build step. The repository includes a small Node toolchain (Node 22 or newer) for checking, testing and publishing it.
 
 ```powershell
-python -m http.server 8081
+npm install
+npx playwright install chromium
 ```
 
-Open `http://127.0.0.1:8081/` and test the complete flow from `index.html` to `generar.html` and `descarga.html`. The generator loads local assets through HTTP, so opening the HTML files directly with `file://` is not the representative runtime.
+| Command | What it does |
+|---|---|
+| `npm run serve` | Serves the checkout at `http://127.0.0.1:4173` with the response headers from `_headers`, including the Content-Security-Policy. |
+| `npm run check` | Static review: missing files and links, inline code the CSP would block, external origins the CSP does not allow, duplicate or dangling ids, JavaScript syntax. |
+| `npm run test:e2e` | Builds `dist/`, serves it with the production headers and runs the browser tests: every page loads without console errors or horizontal overflow, validation, file rejection, and a full run that generates a ZIP and checks its folder structure. |
+| `npm test` | `check` followed by the browser tests. |
+| `npm run build` | Writes the public export to `dist/`. |
 
-Basic JavaScript syntax checks can be run without installing project dependencies:
+Use `npm run serve` rather than a plain static server when testing by hand. A plain server does not send the Content-Security-Policy, so it will not show what production blocks. Opening the HTML files with `file://` is not a representative runtime either.
+
+## Continuous integration and deployment
+
+`.github/workflows/ci.yml` runs on every pull request and on every push to `main`:
+
+1. **Revisar y probar**: `npm run check`, then the browser tests against `dist/` served with the production headers.
+2. **Publicar en Cloudflare Pages**: only on `main`, and only if step 1 passed. It builds `dist/` and uploads it to the `armaport` Pages project.
+
+The Pages project is a Direct Upload project, so Cloudflare does not build from this repository by itself; the workflow does the upload. It needs two repository secrets:
+
+- `CLOUDFLARE_API_TOKEN`: an API token with the *Account / Cloudflare Pages / Edit* permission.
+- `CLOUDFLARE_ACCOUNT_ID`: the account id shown in the Cloudflare dashboard.
+
+Without them the publish job ends with a notice and uploads nothing. The job runs in the `production` environment; adding a required reviewer there turns each publish into a manual approval.
+
+To publish by hand instead:
 
 ```powershell
-node --check js/app.js
-node --check js/generate.js
-node --check js/zip.js
-node --check js/download.js
-node --check js/landing.js
+npm run build
+npx wrangler@4 pages deploy dist --project-name armaport
 ```
 
-## Deployment
-
-The live demo is a Cloudflare Pages Direct Upload deployment at [armaport.pages.dev](https://armaport.pages.dev). A GitHub push does not create a Cloudflare deployment automatically. The command deploys the folder supplied to Wrangler, so use the curated public export folder rather than the checkout root if documentation and screenshots should remain outside the hosted site.
-
-```powershell
-npx wrangler@latest pages deploy .\deploy --project-name armaport
-```
-
-The deployment folder should contain only public files. Do not upload `.git/`, `.wrangler/`, `_old/`, local screenshots, documentation source files that are excluded from the public export, or private environment files.
+`dist/` contains only the public files: the HTML pages, `css/`, `js/`, `assets/`, `vendor/`, `_headers`, `_redirects`, `robots.txt`, `sitemap.xml`, `favicon.svg` and `LICENSE`.
 
 ## Documentation
 
-- [Production checklist](docs/PRODUCTION_CHECKLIST.md)
 - [Third-party notices](docs/THIRD_PARTY_NOTICES.md)
 - [Asset notices](docs/ASSET_NOTICES.md)
