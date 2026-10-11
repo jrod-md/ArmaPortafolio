@@ -151,6 +151,8 @@ a.btn--primary {
   grid-template-columns: minmax(0, 1.08fr) minmax(0, 0.92fr);
   min-height: min(calc(100vh - var(--band-height)), 860px);
   border-bottom: 1.5px solid var(--ink);
+  /* La entrada desliza el texto unos píxeles; no debe ensanchar la página. */
+  overflow-x: clip;
 }
 
 .hero__copy {

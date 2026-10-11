@@ -54,10 +54,15 @@ test.describe("páginas", () => {
 
       for (const width of [375, 1280]) {
         await page.setViewportSize({ width, height: 800 });
-        const overflow = await page.evaluate(
-          () => document.documentElement.scrollWidth - document.documentElement.clientWidth
-        );
-        expect(overflow, `desborde horizontal a ${width}px`).toBeLessThanOrEqual(0);
+        const overflow = await page.evaluate(() => {
+          const limit = document.documentElement.clientWidth;
+          const culprits = [...document.querySelectorAll("body *")]
+            .filter((element) => element.getBoundingClientRect().right > limit + 0.5)
+            .slice(0, 5)
+            .map((element) => `${element.tagName.toLowerCase()}.${element.className}`);
+          return { extra: document.documentElement.scrollWidth - limit, culprits };
+        });
+        expect(overflow.extra, `desborde horizontal a ${width}px: ${overflow.culprits.join(", ")}`).toBeLessThanOrEqual(0);
       }
       // La página de descarga sin ZIP avisa con un mensaje propio, no con un error.
       expect(errors).toEqual([]);

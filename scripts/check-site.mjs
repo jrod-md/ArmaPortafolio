@@ -33,6 +33,11 @@ const csp = Object.fromEntries(
 );
 const allows = (directive, origin) => (csp[directive] || csp["default-src"] || []).includes(origin);
 
+// Valor de un atributo HTML: con comillas dobles, simples o sin comillas.
+const ATTR_VALUE = String.raw`\s*=\s*(?:"([^"]*)"|'([^']*)'|([^\s"'=<>]+))`;
+const attrPattern = (names, flags = "gi") => new RegExp(String.raw`\s(${names})${ATTR_VALUE}`, flags);
+const attrValue = (match) => match[2] ?? match[3] ?? match[4] ?? "";
+
 const isExternal = (url) => /^https?:\/\//i.test(url);
 const isSkippable = (url) => /^(mailto:|tel:|data:|blob:|#|javascript:)/i.test(url) || url === "";
 
@@ -48,15 +53,18 @@ for (const page of pages) {
   const withoutComments = html.replace(/<!--[\s\S]*?-->/g, "");
 
   if (/<style[\s>]/i.test(withoutComments)) report(page, "tiene <style> en línea (la CSP lo bloquea)");
-  if (/\sstyle\s*=\s*["']/i.test(withoutComments)) report(page, 'tiene atributos style="" (la CSP los bloquea)');
-  if (/\son[a-z]+\s*=\s*["']/i.test(withoutComments)) report(page, "tiene manejadores on*= en línea (la CSP los bloquea)");
+  const tags = withoutComments.match(/<[a-z][^>]*>/gi) || [];
+  if (tags.some((tag) => /\sstyle\s*=/i.test(tag))) report(page, "tiene atributos style (la CSP los bloquea)");
+  if (tags.some((tag) => /\son[a-z]+\s*=/i.test(tag))) report(page, "tiene manejadores on*= en línea (la CSP los bloquea)");
   for (const tag of withoutComments.match(/<script\b[^>]*>/gi) || []) {
-    if (!/\ssrc\s*=/.test(tag)) report(page, "tiene un <script> sin src (la CSP lo bloquea)");
+    if (!/\ssrc\s*=/i.test(tag)) report(page, "tiene un <script> sin src (la CSP lo bloquea)");
   }
 
   for (const [, tag, attrs] of withoutComments.matchAll(/<(a|link|script|img|source)\b([^>]*)>/gi)) {
-    const url = attrs.match(/\s(?:href|src)\s*=\s*"([^"]*)"/i)?.[1];
-    if (url === undefined || isSkippable(url)) continue;
+    const found = attrs.match(attrPattern("href|src", "i"));
+    if (!found) continue;
+    const url = attrValue(found);
+    if (isSkippable(url)) continue;
 
     if (!isExternal(url)) {
       checkLocalTarget(page, url);
@@ -68,7 +76,7 @@ for (const page of pages) {
     if (name === "script" && !allows("script-src", origin)) {
       report(page, `carga un script de ${origin}, que script-src no permite`);
     }
-    if (name === "link" && /rel\s*=\s*"stylesheet"/i.test(attrs) && !allows("style-src", origin)) {
+    if (name === "link" && /rel\s*=\s*["']?stylesheet/i.test(attrs) && !allows("style-src", origin)) {
       report(page, `carga una hoja de estilo de ${origin}, que style-src no permite`);
     }
     if (name === "img" && !allows("img-src", origin)) {
@@ -76,20 +84,23 @@ for (const page of pages) {
     }
   }
 
-  const ids = [...withoutComments.matchAll(/\sid\s*=\s*"([^"]+)"/g)].map((match) => match[1]);
+  const ids = [...withoutComments.matchAll(attrPattern("id"))].map(attrValue).filter(Boolean);
   const seen = new Set();
   for (const id of ids) {
     if (seen.has(id)) report(page, `id repetido: ${id}`);
     seen.add(id);
   }
 
-  for (const [, attr, value] of withoutComments.matchAll(/\s(for|aria-labelledby|aria-describedby|aria-controls)\s*=\s*"([^"]+)"/g)) {
-    for (const id of value.split(/\s+/)) {
-      if (!seen.has(id)) report(page, `${attr} apunta a un id que no existe: ${id}`);
+  for (const match of withoutComments.matchAll(attrPattern("for|aria-labelledby|aria-describedby|aria-controls"))) {
+    for (const id of attrValue(match).split(/\s+/).filter(Boolean)) {
+      if (!seen.has(id)) report(page, `${match[1]} apunta a un id que no existe: ${id}`);
     }
   }
-  for (const [, id] of withoutComments.matchAll(/\shref\s*=\s*"#([^"]+)"/g)) {
-    if (!seen.has(id)) report(page, `enlace interno a un id que no existe: #${id}`);
+  for (const match of withoutComments.matchAll(attrPattern("href"))) {
+    const target = attrValue(match);
+    if (target.startsWith("#") && target.length > 1 && !seen.has(target.slice(1))) {
+      report(page, `enlace interno a un id que no existe: ${target}`);
+    }
   }
 
   if (!/<html[^>]*\slang=/.test(html)) report(page, "falta el atributo lang");

@@ -98,16 +98,16 @@ npx playwright install chromium
 
 Use `npm run serve` rather than a plain static server when testing by hand. A plain server does not send the Content-Security-Policy, so it will not show what production blocks. Opening the HTML files with `file://` is not a representative runtime either.
 
-## Continuous integration and deployment
+## Continuous integration
 
-`.github/workflows/ci.yml` runs on every pull request and on every push to `main`:
+`.github/workflows/ci.yml` runs on every pull request and on every push to `main`: `npm run check`, then the browser tests against `dist/` served with the production headers.
 
-1. **Revisar y probar**: `npm run check`, then the browser tests against `dist/`.
-2. **Publicar en Cloudflare Pages**: only on `main`, and only if step 1 passed. It builds `dist/` and deploys it to the `armaport` Pages project.
+## Deployment
 
-Publishing needs two repository secrets, `CLOUDFLARE_API_TOKEN` (a token with the *Cloudflare Pages: Edit* permission) and `CLOUDFLARE_ACCOUNT_ID`. Without them the job finishes with a notice and publishes nothing. The job runs in the `production` environment, so a required reviewer can be added there to approve each deployment by hand.
+The workflow does not publish the site. Deployment stays with Cloudflare Pages, in one of two ways:
 
-To publish manually instead:
+- **Git integration**: if the Pages project is connected to this repository, Cloudflare builds and publishes each push by itself and no token is needed here. Set the build command to `node scripts/build-export.mjs` and the output directory to `dist`, so only the public files are published.
+- **Manual upload**:
 
 ```powershell
 npm run build
