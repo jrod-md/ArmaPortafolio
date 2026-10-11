@@ -70,6 +70,7 @@
       setText("descarga-kicker", "Sin portafolio");
       setText("descarga-title", "Aquí todavía no hay nada.");
       setText("descarga-lead", "Esta página guarda el último ZIP que armaste en este navegador.");
+      setText("descarga-again", "Armar un portafolio");
       showMessage("No se encontró un ZIP generado. Vuelve a generar el portafolio.");
       return;
     }

@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="es">
   <head>
     <meta charset="UTF-8" />
@@ -22,299 +22,269 @@
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Lora:ital,wght@0,500;0,600;0,700;1,500;1,600&display=swap"
+      href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Newsreader:opsz,wght@6..72,400;6..72,500;6..72,600&family=Young+Serif&display=swap"
       rel="stylesheet"
     />
-    <link rel="stylesheet" href="css/styles.css?v=18" />
+    <link rel="stylesheet" href="css/folleto.css?v=3" />
+    <link rel="stylesheet" href="css/sitio.css?v=2" />
     <link rel="icon" type="image/svg+xml" href="favicon.svg" />
   </head>
   <body>
-    <header class="navbar reveal">
-      <div class="navbar__inner container">
-        <a href="index.html" class="wordmark">ArmaPortafolio</a>
-        <nav class="navbar__nav" aria-label="Principal">
-          <a href="nosotros.html">Nosotros</a>
-          <span class="navbar__sep" aria-hidden="true">·</span>
-          <a href="faq.html" aria-current="page">FAQ</a>
-          <span class="navbar__sep" aria-hidden="true">·</span>
-          <a href="ayuda.html">Ayuda</a>
-          <a href="generar.html" class="btn btn--outline btn--sm">Crear portafolio</a>
-        </nav>
-      </div>
+    <a class="skip-link" href="#contenido">Saltar al contenido</a>
+    <header class="band">
+      <a href="index.html" class="wordmark">ArmaPortafolio</a>
+      <nav class="band__nav" aria-label="Principal">
+        <a href="nosotros.html">El proyecto</a>
+        <a href="faq.html" aria-current="page">FAQ</a>
+        <a href="ayuda.html">Ayuda</a>
+        <a href="generar.html" class="band__cta">Crear portafolio</a>
+      </nav>
     </header>
 
-    <main>
-      <header class="faq-hero">
-        <div class="faq-hero__inner container">
-          <p class="faq-kicker reveal">FAQ</p>
-          <h1 class="faq-hero__title reveal reveal-delay-1">Preguntas sin vuelta larga.</h1>
-          <p class="faq-hero__lead reveal reveal-delay-2">
-            Lo esencial sobre confianza, acceso y entrega.
-          </p>
+    <main id="contenido">
+      <header class="page-head">
+        <div class="wrap">
+          <p class="kicker">FAQ</p>
+          <h1 class="display display--xl">Preguntas sin vuelta larga.</h1>
+          <p class="lead">Lo esencial sobre confianza, acceso y entrega.</p>
         </div>
       </header>
 
-      <section class="faq-featured section--paper reveal" aria-labelledby="faq-featured-heading">
-        <div class="container">
-          <div class="faq-featured__header">
-            <p class="faq-kicker">Primero lo importante</p>
-            <h2 id="faq-featured-heading">Antes de usarlo, aclaremos esto.</h2>
+      <section class="section" aria-labelledby="faq-featured-heading">
+        <div class="wrap">
+          <div class="section__head">
+            <p class="kicker">Primero lo importante</p>
+            <h2 class="display display--lg" id="faq-featured-heading">Antes de usarlo, aclaremos esto.</h2>
           </div>
-
-          <div class="faq-featured__grid">
-            <details class="faq-card" open>
-              <summary>¿Es un proyecto oficial de alguna institución?</summary>
-              <p>
-                No. ArmaPortafolio es un proyecto estudiantil independiente creado como apoyo
-                académico. Sirve para preparar el paquete, pero no reemplaza las instrucciones
-                de tu profesor, facultad o plataforma de entrega.
-              </p>
-            </details>
-
-            <details class="faq-card" open>
-              <summary>¿Tengo que pagar o crear cuenta?</summary>
-              <p>
-                No. Entras al generador y lo usas directo. No necesitas cuenta, pago ni
-                correo para armar el portafolio.
-              </p>
-            </details>
-
-            <details class="faq-card" open>
-              <summary>¿Puedo confiar en el ZIP que genera?</summary>
-              <p>
-                La herramienta organiza portada, secciones y evidencias en un paquete final.
-                Aun así, revísalo antes de entregarlo: es tu portafolio y vale la pena
-                darle una última mirada.
-              </p>
-            </details>
-
-            <details class="faq-card" open>
-              <summary>¿La herramienta guarda mis datos?</summary>
-              <p>
-                No hay cuenta, backend propio ni base de datos del proyecto. El ZIP se
-                prepara en tu navegador. Para permitir la descarga, el archivo puede
-                guardarse temporalmente en el almacenamiento de ese navegador y se borra
-                después de descargarlo.
-              </p>
-            </details>
+          <div class="qa-grid">
+            <div class="qa">
+              <h3>¿Es un proyecto oficial de alguna institución?</h3>
+              <p>No. ArmaPortafolio es un proyecto estudiantil independiente creado como apoyo académico. Sirve para preparar el paquete, pero no reemplaza las instrucciones de tu profesor, facultad o plataforma de entrega.</p>
+            </div>
+            <div class="qa">
+              <h3>¿Tengo que pagar o crear cuenta?</h3>
+              <p>No. Entras al generador y lo usas directo. No necesitas cuenta, pago ni correo para armar el portafolio.</p>
+            </div>
+            <div class="qa">
+              <h3>¿Puedo confiar en el ZIP que genera?</h3>
+              <p>La herramienta organiza portada, secciones y evidencias en un paquete final. Aun así, revísalo antes de entregarlo: es tu portafolio y vale la pena darle una última mirada.</p>
+            </div>
+            <div class="qa">
+              <h3>¿La herramienta guarda mis datos?</h3>
+              <p>No hay cuenta, backend propio ni base de datos del proyecto. El ZIP se prepara en tu navegador. Para permitir la descarga, el archivo puede guardarse temporalmente en el almacenamiento de ese navegador y se borra después de descargarlo.</p>
+            </div>
           </div>
         </div>
       </section>
 
-      <section class="faq-manual reveal" aria-label="Preguntas y respuestas">
-        <div class="container">
-          <div class="faq-manual__layout">
-            <aside class="faq-manual__index" aria-label="Categorías del FAQ">
-              <p class="faq-kicker">Manual rápido</p>
+      <section class="section section--tint" aria-label="Preguntas y respuestas">
+        <div class="wrap">
+          <div class="manual">
+            <aside class="manual__index" aria-label="Categorías del FAQ">
               <a href="#faq-confianza">Confianza</a>
               <a href="#faq-archivos">Archivos</a>
               <a href="#faq-entrega">Entrega</a>
               <a href="#faq-proyecto">Proyecto</a>
             </aside>
 
-            <div class="faq-manual__content">
+            <div>
               <section class="faq-group" id="faq-confianza" aria-labelledby="faq-confianza-heading">
-                <h2 id="faq-confianza-heading">Confianza</h2>
-                <div class="faq-accordion">
-                  <details class="faq-item">
-                    <summary class="faq-item__question">¿Esto reemplaza revisar las indicaciones del profesor?</summary>
-                    <div class="faq-item__answer">
-                      <p>
-                        No. Úsalo como ayuda para armar el paquete, pero confirma siempre
-                        si tu profesor pidió nombres, secciones o archivos adicionales.
-                      </p>
-                    </div>
-                  </details>
+                              <h2 id="faq-confianza-heading">Confianza</h2>
+                              <div class="faq-accordion">
+                                <details class="faq-item">
+                                  <summary class="faq-item__question">¿Esto reemplaza revisar las indicaciones del profesor?</summary>
+                                  <div class="faq-item__answer">
+                                    <p>
+                                      No. Úsalo como ayuda para armar el paquete, pero confirma siempre
+                                      si tu profesor pidió nombres, secciones o archivos adicionales.
+                                    </p>
+                                  </div>
+                                </details>
 
-                  <details class="faq-item">
-                    <summary class="faq-item__question">¿Quién puede usar ArmaPortafolio?</summary>
-                    <div class="faq-item__answer">
-                      <p>
-                        Cualquier estudiante que necesite preparar un portafolio con una
-                        estructura compatible con la que genera esta herramienta.
-                      </p>
-                    </div>
-                  </details>
+                                <details class="faq-item">
+                                  <summary class="faq-item__question">¿Quién puede usar ArmaPortafolio?</summary>
+                                  <div class="faq-item__answer">
+                                    <p>
+                                      Cualquier estudiante que necesite preparar un portafolio con una
+                                      estructura compatible con la que genera esta herramienta.
+                                    </p>
+                                  </div>
+                                </details>
 
-                  <details class="faq-item">
-                    <summary class="faq-item__question">¿Qué pasa con mis archivos y datos?</summary>
-                    <div class="faq-item__answer">
-                      <p>
-                        No se crea una cuenta ni se guarda un perfil del estudiante. Los
-                        datos que escribes y los archivos que agregas se usan para armar
-                        el paquete en tu navegador. El sitio puede guardar temporalmente
-                        el ZIP en el almacenamiento local del navegador, conocido como
-                        IndexedDB, para que la página de descarga pueda encontrarlo. Al
-                        descargarlo, la herramienta intenta borrar esa copia temporal.
-                      </p>
-                    </div>
-                  </details>
+                                <details class="faq-item">
+                                  <summary class="faq-item__question">¿Qué pasa con mis archivos y datos?</summary>
+                                  <div class="faq-item__answer">
+                                    <p>
+                                      No se crea una cuenta ni se guarda un perfil del estudiante. Los
+                                      datos que escribes y los archivos que agregas se usan para armar
+                                      el paquete en tu navegador. El sitio puede guardar temporalmente
+                                      el ZIP en el almacenamiento local del navegador, conocido como
+                                      IndexedDB, para que la página de descarga pueda encontrarlo. Al
+                                      descargarlo, la herramienta intenta borrar esa copia temporal.
+                                    </p>
+                                  </div>
+                                </details>
 
-                  <details class="faq-item">
-                    <summary class="faq-item__question">¿Qué mide Cloudflare Web Analytics?</summary>
-                    <div class="faq-item__answer">
-                      <p>
-                        Mide tráfico general del sitio, como visitas y páginas abiertas,
-                        para saber si la herramienta se está usando y dónde falla el flujo.
-                        No recibe tus archivos, no lee el contenido del ZIP y no crea una
-                        cuenta de usuario dentro de ArmaPortafolio.
-                      </p>
-                    </div>
-                  </details>
-                </div>
-              </section>
+                                <details class="faq-item">
+                                  <summary class="faq-item__question">¿Qué mide Cloudflare Web Analytics?</summary>
+                                  <div class="faq-item__answer">
+                                    <p>
+                                      Mide tráfico general del sitio, como visitas y páginas abiertas,
+                                      para saber si la herramienta se está usando y dónde falla el flujo.
+                                      No recibe tus archivos, no lee el contenido del ZIP y no crea una
+                                      cuenta de usuario dentro de ArmaPortafolio.
+                                    </p>
+                                  </div>
+                                </details>
+                              </div>
+                            </section>
 
               <section class="faq-group" id="faq-archivos" aria-labelledby="faq-archivos-heading">
-                <h2 id="faq-archivos-heading">Archivos</h2>
-                <div class="faq-accordion">
-                  <details class="faq-item">
-                    <summary class="faq-item__question">¿Qué archivos acepta?</summary>
-                    <div class="faq-item__answer">
-                      <p>
-                        Depende de la sección. Plan de contenido acepta PDF o Word;
-                        parciales aceptan documentos e imágenes; proyectos y laboratorios
-                        aceptan código, documentos, imágenes y ZIP. Cada archivo puede
-                        pesar hasta 10 MB. La portada sí se genera como PDF.
-                      </p>
-                    </div>
-                  </details>
+                              <h2 id="faq-archivos-heading">Archivos</h2>
+                              <div class="faq-accordion">
+                                <details class="faq-item">
+                                  <summary class="faq-item__question">¿Qué archivos acepta?</summary>
+                                  <div class="faq-item__answer">
+                                    <p>
+                                      Depende de la sección. Plan de contenido acepta PDF o Word;
+                                      parciales aceptan documentos e imágenes; proyectos y laboratorios
+                                      aceptan código, documentos, imágenes y ZIP. Cada archivo puede
+                                      pesar hasta 10 MB. La portada sí se genera como PDF.
+                                    </p>
+                                  </div>
+                                </details>
 
-                  <details class="faq-item">
-                    <summary class="faq-item__question">¿La herramienta convierte mis archivos a PDF?</summary>
-                    <div class="faq-item__answer">
-                      <p>
-                        No. ArmaPortafolio no convierte archivos. Los ordena y los
-                        empaqueta tal como los subes. Si tu profesor exige PDF, convierte
-                        esos archivos antes de generar o entregar el portafolio.
-                      </p>
-                    </div>
-                  </details>
+                                <details class="faq-item">
+                                  <summary class="faq-item__question">¿La herramienta convierte mis archivos a PDF?</summary>
+                                  <div class="faq-item__answer">
+                                    <p>
+                                      No. ArmaPortafolio no convierte archivos. Los ordena y los
+                                      empaqueta tal como los subes. Si tu profesor exige PDF, convierte
+                                      esos archivos antes de generar o entregar el portafolio.
+                                    </p>
+                                  </div>
+                                </details>
 
-                  <details class="faq-item">
-                    <summary class="faq-item__question">¿Tengo que subir documentos en todas las secciones?</summary>
-                    <div class="faq-item__answer">
-                      <p>
-                        No. Puedes dejar secciones vacías si no tienes archivos para esa
-                        parte. El generador no debería bloquearte por una carpeta sin archivos.
-                      </p>
-                    </div>
-                  </details>
+                                <details class="faq-item">
+                                  <summary class="faq-item__question">¿Tengo que subir documentos en todas las secciones?</summary>
+                                  <div class="faq-item__answer">
+                                    <p>
+                                      No. Puedes dejar secciones vacías si no tienes archivos para esa
+                                      parte. El generador no debería bloquearte por una carpeta sin archivos.
+                                    </p>
+                                  </div>
+                                </details>
 
-                  <details class="faq-item">
-                    <summary class="faq-item__question">¿Puedo subir una carpeta de proyecto?</summary>
-                    <div class="faq-item__answer">
-                      <p>
-                        Sí, en las secciones con múltiples evidencias puedes añadir una
-                        carpeta. El ZIP conserva la estructura interna con nombres seguros.
-                      </p>
-                    </div>
-                  </details>
+                                <details class="faq-item">
+                                  <summary class="faq-item__question">¿Puedo subir una carpeta de proyecto?</summary>
+                                  <div class="faq-item__answer">
+                                    <p>
+                                      Sí, en las secciones con múltiples evidencias puedes añadir una
+                                      carpeta. El ZIP conserva la estructura interna con nombres seguros.
+                                    </p>
+                                  </div>
+                                </details>
 
-                  <details class="faq-item">
-                    <summary class="faq-item__question">¿Qué incluye el ZIP final?</summary>
-                    <div class="faq-item__answer">
-                      <p>
-                        Incluye la portada PDF generada, las carpetas del portafolio y las
-                        evidencias que agregaste en cada sección.
-                      </p>
-                    </div>
-                  </details>
-                </div>
-              </section>
+                                <details class="faq-item">
+                                  <summary class="faq-item__question">¿Qué incluye el ZIP final?</summary>
+                                  <div class="faq-item__answer">
+                                    <p>
+                                      Incluye la portada PDF generada, las carpetas del portafolio y las
+                                      evidencias que agregaste en cada sección.
+                                    </p>
+                                  </div>
+                                </details>
+                              </div>
+                            </section>
 
               <section class="faq-group" id="faq-entrega" aria-labelledby="faq-entrega-heading">
-                <h2 id="faq-entrega-heading">Entrega</h2>
-                <div class="faq-accordion">
-                  <details class="faq-item">
-                    <summary class="faq-item__question">¿Puedo generar el ZIP más de una vez?</summary>
-                    <div class="faq-item__answer">
-                      <p>
-                        Sí. Si notas un error, vuelve al generador, corrige datos o archivos
-                        y descarga un ZIP nuevo.
-                      </p>
-                    </div>
-                  </details>
+                              <h2 id="faq-entrega-heading">Entrega</h2>
+                              <div class="faq-accordion">
+                                <details class="faq-item">
+                                  <summary class="faq-item__question">¿Puedo generar el ZIP más de una vez?</summary>
+                                  <div class="faq-item__answer">
+                                    <p>
+                                      Sí. Si notas un error, vuelve al generador, corrige datos o archivos
+                                      y descarga un ZIP nuevo.
+                                    </p>
+                                  </div>
+                                </details>
 
-                  <details class="faq-item">
-                    <summary class="faq-item__question">¿Qué hago si el navegador no descarga el ZIP?</summary>
-                    <div class="faq-item__answer">
-                      <p>
-                        Revisa si el navegador bloqueó descargas automáticas, intenta otra vez
-                        o prueba desde un navegador de escritorio. Si llegaste a la página de
-                        descarga y no aparece el archivo, vuelve al generador y crea un ZIP
-                        nuevo. Para problemas paso a paso, ve a la página de ayuda.
-                      </p>
-                    </div>
-                  </details>
+                                <details class="faq-item">
+                                  <summary class="faq-item__question">¿Qué hago si el navegador no descarga el ZIP?</summary>
+                                  <div class="faq-item__answer">
+                                    <p>
+                                      Revisa si el navegador bloqueó descargas automáticas, intenta otra vez
+                                      o prueba desde un navegador de escritorio. Si llegaste a la página de
+                                      descarga y no aparece el archivo, vuelve al generador y crea un ZIP
+                                      nuevo. Para problemas paso a paso, ve a la página de ayuda.
+                                    </p>
+                                  </div>
+                                </details>
 
-                  <details class="faq-item">
-                    <summary class="faq-item__question">¿La conclusión es obligatoria?</summary>
-                    <div class="faq-item__answer">
-                      <p>
-                        No. Por ahora puede dejarse vacía. Si tu profesor pide una conclusión,
-                        escríbela manualmente antes de generar el paquete.
-                      </p>
-                    </div>
-                  </details>
-                </div>
-              </section>
+                                <details class="faq-item">
+                                  <summary class="faq-item__question">¿La conclusión es obligatoria?</summary>
+                                  <div class="faq-item__answer">
+                                    <p>
+                                      No. Por ahora puede dejarse vacía. Si tu profesor pide una conclusión,
+                                      escríbela manualmente antes de generar el paquete.
+                                    </p>
+                                  </div>
+                                </details>
+                              </div>
+                            </section>
 
               <section class="faq-group" id="faq-proyecto" aria-labelledby="faq-proyecto-heading">
-                <h2 id="faq-proyecto-heading">Proyecto</h2>
-                <div class="faq-accordion">
-                  <details class="faq-item">
-                    <summary class="faq-item__question">¿Por qué existe esta herramienta?</summary>
-                    <div class="faq-item__answer">
-                      <p>
-                        Porque armar el portafolio a mano puede quitar demasiado tiempo justo
-                        cuando más importa entregar bien. La idea es reducir esa fricción.
-                      </p>
-                    </div>
-                  </details>
+                              <h2 id="faq-proyecto-heading">Proyecto</h2>
+                              <div class="faq-accordion">
+                                <details class="faq-item">
+                                  <summary class="faq-item__question">¿Por qué existe esta herramienta?</summary>
+                                  <div class="faq-item__answer">
+                                    <p>
+                                      Porque armar el portafolio a mano puede quitar demasiado tiempo justo
+                                      cuando más importa entregar bien. La idea es reducir esa fricción.
+                                    </p>
+                                  </div>
+                                </details>
 
-                  <details class="faq-item">
-                    <summary class="faq-item__question">¿Va a cambiar con el tiempo?</summary>
-                    <div class="faq-item__answer">
-                      <p>
-                        Sí. ArmaPortafolio está en mejora. Si cambian requisitos o aparecen
-                        errores reales, la herramienta se puede ajustar.
-                      </p>
-                    </div>
-                  </details>
-                </div>
-              </section>
+                                <details class="faq-item">
+                                  <summary class="faq-item__question">¿Va a cambiar con el tiempo?</summary>
+                                  <div class="faq-item__answer">
+                                    <p>
+                                      Sí. ArmaPortafolio está en mejora. Si cambian requisitos o aparecen
+                                      errores reales, la herramienta se puede ajustar.
+                                    </p>
+                                  </div>
+                                </details>
+                              </div>
+                            </section>
             </div>
           </div>
         </div>
       </section>
 
-      <section class="help-report help-report--compact section--paper reveal" aria-labelledby="faq-help-heading">
-        <div class="container container--narrow">
-          <div class="help-report__box">
-            <div>
-              <h2 id="faq-help-heading" class="help-report__title">
-                ¿No encontraste lo que buscabas?
-              </h2>
-              <p class="help-report__text">La página de ayuda reúne el flujo básico, requisitos de archivos y problemas comunes.</p>
-            </div>
-            <a href="ayuda.html" class="btn btn--primary">Ir a Ayuda</a>
+      <section class="section" aria-labelledby="faq-help-heading">
+        <div class="wrap callout">
+          <div>
+            <h2 class="display display--md" id="faq-help-heading">¿No encontraste lo que buscabas?</h2>
+            <p>La página de ayuda reúne el flujo básico, requisitos de archivos y problemas comunes.</p>
           </div>
+          <a href="ayuda.html" class="btn btn--primary">Ir a Ayuda</a>
         </div>
       </section>
     </main>
 
     <footer class="footer">
-      <div class="footer__main container">
+      <div class="wrap">
         <div>
-          <a href="index.html" class="wordmark footer__brand">ArmaPortafolio</a>
-          <p class="footer__tagline">Proyecto estudiantil independiente</p>
+          <a href="index.html" class="footer__brand">ArmaPortafolio</a>
+          <p>Proyecto estudiantil independiente de apoyo académico</p>
         </div>
-        <nav class="footer__nav" aria-label="Pie de página">
-          <a href="nosotros.html">Nosotros</a>
+        <nav aria-label="Pie de página">
+          <a href="nosotros.html">El proyecto</a>
           <a href="faq.html">FAQ</a>
           <a href="ayuda.html">Ayuda</a>
         </nav>
-        <p class="footer__license">Proyecto estudiantil de apoyo académico</p>
       </div>
     </footer>
   </body>

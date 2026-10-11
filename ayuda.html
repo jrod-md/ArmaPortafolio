@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="es">
   <head>
     <meta charset="UTF-8" />
@@ -22,47 +22,44 @@
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Lora:ital,wght@0,500;0,600;0,700;1,500;1,600&display=swap"
+      href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Newsreader:opsz,wght@6..72,400;6..72,500;6..72,600&family=Young+Serif&display=swap"
       rel="stylesheet"
     />
-    <link rel="stylesheet" href="css/styles.css?v=18" />
+    <link rel="stylesheet" href="css/folleto.css?v=3" />
+    <link rel="stylesheet" href="css/sitio.css?v=2" />
     <link rel="icon" type="image/svg+xml" href="favicon.svg" />
   </head>
   <body>
-    <header class="navbar reveal">
-      <div class="navbar__inner container">
-        <a href="index.html" class="wordmark">ArmaPortafolio</a>
-        <nav class="navbar__nav" aria-label="Principal">
-          <a href="nosotros.html">Nosotros</a>
-          <span class="navbar__sep" aria-hidden="true">·</span>
-          <a href="faq.html">FAQ</a>
-          <span class="navbar__sep" aria-hidden="true">·</span>
-          <a href="ayuda.html" aria-current="page">Ayuda</a>
-          <a href="generar.html" class="btn btn--outline btn--sm">Crear portafolio</a>
-        </nav>
-      </div>
+    <a class="skip-link" href="#contenido">Saltar al contenido</a>
+    <header class="band">
+      <a href="index.html" class="wordmark">ArmaPortafolio</a>
+      <nav class="band__nav" aria-label="Principal">
+        <a href="nosotros.html">El proyecto</a>
+        <a href="faq.html">FAQ</a>
+        <a href="ayuda.html" aria-current="page">Ayuda</a>
+        <a href="generar.html" class="band__cta">Crear portafolio</a>
+      </nav>
     </header>
 
-    <main>
-      <header class="hero">
-        <div class="hero__inner container">
-          <div class="hero__content reveal">
-            <h1 class="title-xl">Ayuda</h1>
-            <p class="body-lg hero__sub">
-              Guías rápidas para preparar y descargar tu portafolio sin crear una cuenta.
-            </p>
-          </div>
+    <main id="contenido">
+      <header class="page-head">
+        <div class="wrap">
+          <p class="kicker">Ayuda</p>
+          <h1 class="display display--xl">Ayuda</h1>
+          <p class="lead">Guías rápidas para preparar y descargar tu portafolio sin crear una cuenta.</p>
         </div>
       </header>
 
-      <section class="section help-guides section--paper reveal" aria-labelledby="guides-heading">
-        <div class="container container--narrow">
-          <h2 id="guides-heading" class="section__title title-lg">Guías</h2>
-          <ol class="editorial-list">
-            <li class="editorial-item reveal">
-              <span class="editorial-item__num" aria-hidden="true">I</span>
-              <h3 class="editorial-item__title">Cómo empezar</h3>
-              <div class="editorial-item__desc">
+      <section class="section" aria-labelledby="guides-heading">
+        <div class="wrap">
+          <div class="section__head">
+            <h2 class="display display--lg" id="guides-heading">Guías</h2>
+          </div>
+          <ol class="guides">
+            <li class="guide">
+              <span class="guide__num" aria-hidden="true">I</span>
+              <h3 class="display display--sm">Cómo empezar</h3>
+              <div class="guide__body">
                 <ol>
                   <li>Entra al generador desde el botón Crear portafolio.</li>
                   <li>Completa el asistente paso a paso.</li>
@@ -71,11 +68,10 @@
                 </ol>
               </div>
             </li>
-
-            <li class="editorial-item reveal">
-              <span class="editorial-item__num" aria-hidden="true">II</span>
-              <h3 class="editorial-item__title">Generar tu portafolio</h3>
-              <div class="editorial-item__desc">
+            <li class="guide">
+              <span class="guide__num" aria-hidden="true">II</span>
+              <h3 class="display display--sm">Generar tu portafolio</h3>
+              <div class="guide__body">
                 <ol>
                   <li>Completa tus datos: nombre, cédula, curso, departamento, facilitador, semestre y año disponible.</li>
                   <li>Sube tus evidencias o carpetas en las categorías que tengas disponibles.</li>
@@ -86,11 +82,10 @@
                 </ol>
               </div>
             </li>
-
-            <li class="editorial-item reveal">
-              <span class="editorial-item__num" aria-hidden="true">III</span>
-              <h3 class="editorial-item__title">Problemas comunes</h3>
-              <div class="editorial-item__desc">
+            <li class="guide">
+              <span class="guide__num" aria-hidden="true">III</span>
+              <h3 class="display display--sm">Problemas comunes</h3>
+              <div class="guide__body">
                 <ul>
                   <li><strong>No se acepta un archivo:</strong> verifica que corresponda a esa sección y que no supere 10 MB.</li>
                   <li><strong>No tengo todos los documentos:</strong> puedes continuar con las categorías que sí tengas.</li>
@@ -104,11 +99,13 @@
         </div>
       </section>
 
-      <section class="section help-files reveal" aria-labelledby="files-heading">
-        <div class="container container--narrow">
-          <h2 id="files-heading" class="title-lg">Requisitos de archivos</h2>
-          <div class="help-table-wrap">
-            <table class="editorial-table">
+      <section class="section section--tint" aria-labelledby="files-heading">
+        <div class="wrap">
+          <div class="section__head">
+            <h2 class="display display--lg" id="files-heading">Requisitos de archivos</h2>
+          </div>
+          <div class="table-wrap">
+            <table class="spec">
               <thead>
                 <tr>
                   <th scope="col">Requisito</th>
@@ -116,89 +113,90 @@
                 </tr>
               </thead>
               <tbody>
-                <tr>
-                  <td>Conversión de archivos</td>
-                  <td>No se convierten. El ZIP conserva el formato original de cada evidencia.</td>
-                </tr>
-                <tr>
-                  <td>Tamaño máximo por archivo</td>
-                  <td>10 MB</td>
-                </tr>
-                <tr>
-                  <td>Plan de contenido</td>
-                  <td>Máximo 1 archivo; PDF o Word</td>
-                </tr>
-                <tr>
-                  <td>Tareas</td>
-                  <td>Máximo 32 archivos; documentos, hojas, presentaciones, código, imágenes o ZIP</td>
-                </tr>
-                <tr>
-                  <td>Parciales</td>
-                  <td>Máximo 12 archivos; documentos o imágenes</td>
-                </tr>
-                <tr>
-                  <td>Proyectos</td>
-                  <td>Máximo 120 archivos; documentos, código, imágenes, hojas, presentaciones o ZIP</td>
-                </tr>
-                <tr>
-                  <td>Laboratorios y talleres</td>
-                  <td>Máximo 120 archivos; documentos, hojas, código, imágenes o ZIP</td>
-                </tr>
-                <tr>
-                  <td>Material didáctico</td>
-                  <td>Máximo 64 archivos; documentos, hojas, presentaciones, imágenes o ZIP</td>
-                </tr>
-                <tr>
-                  <td>Carpetas</td>
-                  <td>Disponibles en secciones con múltiples evidencias; se conserva la estructura interna.</td>
-                </tr>
-                <tr>
-                  <td>Categorías vacías</td>
-                  <td>Se pueden dejar vacías si no tienes archivos para esa sección.</td>
-                </tr>
-                <tr>
-                  <td>Conclusión final</td>
-                  <td>Opcional; puede escribirse manualmente.</td>
-                </tr>
-                <tr>
-                  <td>Descarga temporal</td>
-                  <td>El ZIP puede guardarse de forma temporal en el navegador para completar la descarga.</td>
-                </tr>
-              </tbody>
+                              <tr>
+                                <td>Conversión de archivos</td>
+                                <td>No se convierten. El ZIP conserva el formato original de cada evidencia.</td>
+                              </tr>
+                              <tr>
+                                <td>Tamaño máximo por archivo</td>
+                                <td>10 MB</td>
+                              </tr>
+                              <tr>
+                                <td>Plan de contenido</td>
+                                <td>Máximo 1 archivo; PDF o Word</td>
+                              </tr>
+                              <tr>
+                                <td>Tareas</td>
+                                <td>Máximo 32 archivos; documentos, hojas, presentaciones, código, imágenes o ZIP</td>
+                              </tr>
+                              <tr>
+                                <td>Parciales</td>
+                                <td>Máximo 12 archivos; documentos o imágenes</td>
+                              </tr>
+                              <tr>
+                                <td>Proyectos</td>
+                                <td>Máximo 120 archivos; documentos, código, imágenes, hojas, presentaciones o ZIP</td>
+                              </tr>
+                              <tr>
+                                <td>Laboratorios y talleres</td>
+                                <td>Máximo 120 archivos; documentos, hojas, código, imágenes o ZIP</td>
+                              </tr>
+                              <tr>
+                                <td>Material didáctico</td>
+                                <td>Máximo 64 archivos; documentos, hojas, presentaciones, imágenes o ZIP</td>
+                              </tr>
+                              <tr>
+                                <td>Carpetas</td>
+                                <td>Disponibles en secciones con múltiples evidencias; se conserva la estructura interna.</td>
+                              </tr>
+                              <tr>
+                                <td>Categorías vacías</td>
+                                <td>Se pueden dejar vacías si no tienes archivos para esa sección.</td>
+                              </tr>
+                              <tr>
+                                <td>Conclusión final</td>
+                                <td>Opcional; puede escribirse manualmente.</td>
+                              </tr>
+                              <tr>
+                                <td>Descarga temporal</td>
+                                <td>El ZIP puede guardarse de forma temporal en el navegador para completar la descarga.</td>
+                              </tr>
+                            </tbody>
             </table>
           </div>
-          <p class="body-lg help-files__note">
+          <p class="after-table">
             ArmaPortafolio no exige completar todas las categorías. Si te faltan algunos documentos,
             puedes continuar con los archivos que sí tengas.
           </p>
         </div>
       </section>
 
-      <section class="help-report reveal" aria-labelledby="report-heading">
-        <div class="container container--narrow">
-          <h2 id="report-heading" class="help-report__title">¿Encontraste un error?</h2>
-          <p class="help-report__text">
-            Si algo no funciona como debería, anota qué estabas haciendo, qué
-            navegador usaste y qué mensaje de error viste. Eso ayuda a reproducir
-            el problema sin perder tiempo.
-          </p>
-          <a href="faq.html" class="btn btn--outline">Revisar FAQ</a>
+      <section class="section" aria-labelledby="report-heading">
+        <div class="wrap callout">
+          <div>
+            <h2 class="display display--md" id="report-heading">¿Encontraste un error?</h2>
+            <p>
+              Si algo no funciona como debería, anota qué estabas haciendo, qué
+              navegador usaste y qué mensaje de error viste. Eso ayuda a reproducir
+              el problema sin perder tiempo.
+            </p>
+          </div>
+          <a href="faq.html" class="btn">Revisar FAQ</a>
         </div>
       </section>
     </main>
 
     <footer class="footer">
-      <div class="footer__main container">
+      <div class="wrap">
         <div>
-          <a href="index.html" class="wordmark footer__brand">ArmaPortafolio</a>
-          <p class="footer__tagline">Proyecto estudiantil independiente</p>
+          <a href="index.html" class="footer__brand">ArmaPortafolio</a>
+          <p>Proyecto estudiantil independiente de apoyo académico</p>
         </div>
-        <nav class="footer__nav" aria-label="Pie de página">
-          <a href="nosotros.html">Nosotros</a>
+        <nav aria-label="Pie de página">
+          <a href="nosotros.html">El proyecto</a>
           <a href="faq.html">FAQ</a>
           <a href="ayuda.html">Ayuda</a>
         </nav>
-        <p class="footer__license">Proyecto estudiantil de apoyo académico</p>
       </div>
     </footer>
   </body>

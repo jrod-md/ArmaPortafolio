@@ -144,6 +144,7 @@ const UPLOAD_CONFIG = {
 };
 
 let currentStep = 1;
+let furthestStep = 1;
 let uploadSequence = 0;
 let previewIsCompiling = false;
 let appInitialized = false;
@@ -579,13 +580,14 @@ function updateSidebar() {
       "wizard-step--future"
     );
 
-    if (step < currentStep) {
-      button.classList.add("wizard-step--complete");
-      button.disabled = false;
-    } else if (step === currentStep) {
+    if (step === currentStep) {
       button.classList.add("wizard-step--active");
       button.disabled = false;
       button.setAttribute("aria-current", "step");
+    } else if (step <= furthestStep) {
+      // Pasos ya visitados: se puede volver o saltar a ellos sin repetir "Siguiente".
+      button.classList.add("wizard-step--complete");
+      button.disabled = false;
     } else {
       button.classList.add("wizard-step--future");
       button.disabled = true;
@@ -637,6 +639,7 @@ function setStep(step) {
   if (step < 1 || step > TOTAL_STEPS) return;
   const direction = step >= currentStep ? 1 : -1;
   currentStep = step;
+  furthestStep = Math.max(furthestStep, step);
   showPanel(step, direction);
   updateSidebar();
   updateProgress();
@@ -862,7 +865,10 @@ function addFilesToUpload(key, files) {
     }
 
     if (nextEntries.length >= config.maxFiles) {
-      feedbackMessage = `${config.label} permite hasta ${config.maxFiles} archivos.`;
+      feedbackMessage =
+        config.maxFiles === 1
+          ? `${config.label} permite un solo archivo. Quita el actual para cambiarlo.`
+          : `${config.label} permite hasta ${config.maxFiles} archivos.`;
       break;
     }
 
