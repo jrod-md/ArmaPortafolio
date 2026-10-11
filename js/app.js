@@ -148,6 +148,7 @@ let uploadSequence = 0;
 let previewIsCompiling = false;
 let appInitialized = false;
 let leavingForDownload = false;
+const RECEIPT_STORAGE_KEY = "armaportafolio-recibo";
 
 const uploads = {};
 
@@ -468,6 +469,23 @@ function downloadZipDirectly(payload) {
   link.click();
   link.remove();
   window.setTimeout(() => URL.revokeObjectURL(url), 3000);
+}
+
+// Resumen sin datos personales para la página de descarga.
+function saveReceipt(conclusionText) {
+  const rows = [{ label: "01_Portada", count: 1 }];
+
+  Object.values(UPLOAD_CONFIG).forEach((config) => {
+    const count = getAllUploadEntries().filter((entry) => entry.zipPath.startsWith(config.path)).length;
+    if (count > 0) rows.push({ label: config.path.replace(/\/$/, ""), count });
+  });
+  if (conclusionText) rows.push({ label: "06_Conclusion_Final", count: 1 });
+
+  try {
+    window.sessionStorage.setItem(RECEIPT_STORAGE_KEY, JSON.stringify({ rows }));
+  } catch {
+    // Sin sessionStorage la descarga solo muestra el nombre y el peso del ZIP.
+  }
 }
 
 async function deliverGeneratedZip(payload) {
@@ -1070,6 +1088,7 @@ async function handleGenerate() {
       throw new Error("zip_not_created");
     }
 
+    saveReceipt(conclusionText);
     const deliveryMode = await deliverGeneratedZip(zipResult);
     await waitForPreviewTransition();
 
