@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="es">
   <head>
     <meta charset="UTF-8" />
@@ -12,57 +12,65 @@
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Lora:ital,wght@0,500;0,600;0,700;1,500;1,600&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;700&family=Lora:ital,wght@1,600&family=Special+Elite&display=swap"
       rel="stylesheet"
     />
-    <link rel="stylesheet" href="css/styles.css?v=18" />
+    <link rel="stylesheet" href="css/escritorio.css?v=5" />
     <link rel="icon" type="image/svg+xml" href="favicon.svg" />
   </head>
   <body class="page-descarga">
-    <header class="navbar reveal">
-      <div class="navbar__inner container">
-        <a href="index.html" class="wordmark">ArmaPortafolio</a>
-        <nav class="navbar__nav" aria-label="Principal">
-          <a href="nosotros.html">Nosotros</a>
-          <span class="navbar__sep" aria-hidden="true">·</span>
-          <a href="faq.html">FAQ</a>
-          <span class="navbar__sep" aria-hidden="true">·</span>
-          <a href="ayuda.html">Ayuda</a>
-        </nav>
-      </div>
+    <svg class="ink-defs" aria-hidden="true">
+      <filter id="tinta">
+        <feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="2" result="n" />
+        <feDisplacementMap in="SourceGraphic" in2="n" scale="3" result="d" />
+        <feColorMatrix in="n" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 -1.1 1.35" result="m" />
+        <feComposite in="d" in2="m" operator="in" />
+      </filter>
+    </svg>
+
+    <header class="top">
+      <a class="dymo" href="index.html">ArmaPortafolio</a>
+      <nav class="top__nav" aria-label="Principal">
+        <a href="nosotros.html">Nosotros</a>
+        <a href="faq.html">FAQ</a>
+        <a href="ayuda.html">Ayuda</a>
+      </nav>
     </header>
 
-    <main class="descarga-main reveal">
-      <div class="descarga-inner">
-        <section class="success-hero">
-          <div class="success-hero__badge" aria-hidden="true">
-            <svg width="86" height="86" viewBox="0 0 86 86" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <circle cx="43" cy="43" r="42" fill="#123D25" fill-opacity="0.14" stroke="#123D25" stroke-opacity="0.22" />
-              <path d="M26 44l11 11 23-23" stroke="#123D25" stroke-width="6" stroke-linecap="round" stroke-linejoin="round" />
-            </svg>
+    <main class="desk desk--entrega">
+      <section class="closed-folder" aria-labelledby="descarga-title">
+        <div class="closed-folder__tab" aria-hidden="true">Para entregar</div>
+        <div class="closed-folder__front">
+          <div class="closed-folder__label">
+            <p class="closed-folder__kicker">Portafolio Digital</p>
+            <h1 class="closed-folder__title descarga-title" id="descarga-title">Tu portafolio está listo</h1>
+            <p class="descarga-filename">portafolio.zip</p>
           </div>
-          <p class="success-hero__eyebrow">Completado</p>
-          <h1 class="descarga-title">Tu portafolio está listo</h1>
-          <p class="descarga-lead">
-            Todo quedó estructurado en el formato solicitado: portada, carpetas y documentos organizados.
-          </p>
-        </section>
-
-        <section class="descarga-preview" aria-label="Vista previa">
-          <p class="descarga-filename">portafolio_Lopez_BasesDeDatos_I2026.zip</p>
-          <button type="button" class="btn btn--primary descarga-btn">Descargar ZIP</button>
-        </section>
-
-        <div class="descarga-actions">
-          <a href="generar.html" class="btn btn--outline descarga-btn-secondary">Generar otro portafolio</a>
-          <p class="descarga-panel-link"><a href="index.html">Ir al inicio</a></p>
         </div>
+        <div class="stamp" aria-hidden="true">LISTO<small>ArmaPortafolio</small></div>
+      </section>
 
-        <p class="descarga-note" hidden></p>
+      <section class="receipt" aria-labelledby="recibo-title">
+        <h2 class="receipt__title" id="recibo-title">Recibo de armado</h2>
+        <p class="receipt__sub" id="recibo-fecha"></p>
+        <ul class="receipt__list" id="recibo-lista">
+          <li class="receipt__row"><span>01_Portada</span><span>1</span></li>
+        </ul>
+        <p class="receipt__total"><span>Peso del ZIP</span><span id="recibo-peso">-</span></p>
+        <p class="receipt__note">Abre la portada y revísala antes de entregar.</p>
+      </section>
+
+      <div class="entrega-actions">
+        <p class="desk-message descarga-note" data-type="error" hidden></p>
+        <button type="button" class="seal__btn descarga-btn">Descargar ZIP</button>
+        <p class="entrega-links">
+          <a href="generar.html">Armar otro portafolio</a>
+          <a href="index.html">Ir al inicio</a>
+        </p>
       </div>
     </main>
 
     <script src="js/zip.js?v=7"></script>
-    <script src="js/download.js?v=8"></script>
+    <script src="js/download.js?v=9"></script>
   </body>
 </html>

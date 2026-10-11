@@ -2,7 +2,6 @@ const generatePortadaFn = globalThis.PortafolioFiscGenerate?.generatePortada;
 const buildZipFn = globalThis.PortafolioFiscZip?.buildZip;
 const saveGeneratedZipFn = globalThis.PortafolioFiscZip?.saveGeneratedZip;
 
-const TOTAL_STEPS = 5;
 const MAX_FULL_NAME_LENGTH = 80;
 const MAX_COURSE_NAME_LENGTH = 80;
 const MAX_FACILITATOR_LENGTH = 80;
@@ -143,70 +142,6 @@ const UPLOAD_CONFIG = {
   },
 };
 
-let currentStep = 1;
-let uploadSequence = 0;
-let previewActiveSection = "portada";
-let previewIsCompiling = false;
-let appInitialized = false;
-let panelTransitionId = 0;
-
-const uploads = {};
-
-const PREVIEW_SECTIONS = [
-  {
-    id: "portada",
-    label: "01_Portada",
-    empty: "Portada preparada",
-    copy: "La portada oficial queda preparada desde los datos del estudiante.",
-  },
-  {
-    id: "asignaciones",
-    label: "02_Asignaciones",
-    empty: "Sin evidencias todavía",
-    copy: "Cada archivo entra en la carpeta correcta.",
-  },
-  {
-    id: "parciales",
-    label: "03_Parciales",
-    empty: "Sin parciales todavía",
-    copy: "Los parciales se agrupan sin mezclar el resto de evidencias.",
-  },
-  {
-    id: "laboratorios",
-    label: "04_Laboratorios",
-    empty: "Sin laboratorios todavía",
-    copy: "Los laboratorios y talleres quedan archivados como una sección propia.",
-  },
-  {
-    id: "proyectos",
-    label: "05_Proyectos",
-    empty: "Sin proyectos todavía",
-    copy: "Los proyectos se guardan aparte para revisar la estructura final.",
-  },
-  {
-    id: "conclusion",
-    label: "06_Conclusión",
-    empty: "Conclusión opcional",
-    copy: "La conclusión se añade solo si decides incluirla.",
-  },
-];
-
-const PREVIEW_UPLOAD_SECTIONS = {
-  planContenido: "asignaciones",
-  tareas: "asignaciones",
-  material: "asignaciones",
-  parciales: "parciales",
-  labs: "laboratorios",
-  proyectos: "proyectos",
-};
-
-const PREVIEW_STEP_SECTIONS = {
-  1: "portada",
-  2: "asignaciones",
-  3: "asignaciones",
-  4: "conclusion",
-};
-
 function $(id) {
   return document.getElementById(id);
 }
@@ -294,39 +229,54 @@ function makeUniqueZipPath(zipPath, entries) {
   return `${directory}${base}_${Date.now()}${extension}`;
 }
 
-function getMessageNode() {
-  let node = $("wizard-message");
-  if (node) return node;
+const RECEIPT_STORAGE_KEY = "armaportafolio-recibo";
+const STUDENT_FIELD_IDS = ["sf-nombre", "sf-cedula", "sf-curso", "sf-facilitador", "sf-depto", "sf-semestre", "sf-anio"];
+const COVER_PAGE_WIDTH = 966;
+// Mismos tamaños y anchos que usa generate.js, para que la vista previa coincida con el PDF.
+const COVER_FIELDS = [
+  { id: "cover-depto", key: "department", initialSize: 14.5, minimumSize: 12, maxWidth: 280 },
+  { id: "cover-curso", key: "courseName", initialSize: 17.5, minimumSize: 14.5, maxWidth: 560 },
+  { id: "cover-nombre", key: "fullName", initialSize: 19, minimumSize: 14.5, maxWidth: 280 },
+  { id: "cover-cedula", key: "cedula", initialSize: 18.5, minimumSize: 15, maxWidth: 210 },
+  { id: "cover-facil", key: "facilitator", initialSize: 17, minimumSize: 14.5, maxWidth: 285 },
+  { id: "cover-anio", key: "year", initialSize: 17, minimumSize: 15, maxWidth: 96 },
+];
+const COVER_FONT_FAMILY = '"Liberation Sans Cover", Arial, Helvetica, sans-serif';
+const CLIP_ICON =
+  '<svg class="slip__clip" viewBox="0 0 18 40" aria-hidden="true"><path d="M5 12v18a4 4 0 0 0 8 0V8a3 3 0 0 0-6 0v20a1.5 1.5 0 0 0 3 0V12"/></svg>';
 
-  const progress = document.querySelector(".wizard-progress");
-  if (!progress || !progress.parentNode) return null;
+let uploadSequence = 0;
+let appInitialized = false;
+let isGenerating = false;
+let leavingForDownload = false;
+let coverMeasureContext = null;
 
-  node = document.createElement("div");
-  node.id = "wizard-message";
-  node.className = "wizard-inline-message";
-  node.hidden = true;
-  progress.insertAdjacentElement("afterend", node);
-  return node;
+const uploads = {};
+
+function prefersReducedMotion() {
+  return Boolean(window.matchMedia?.("(prefers-reduced-motion: reduce)")?.matches);
 }
 
 function showMessage(message, type = "error") {
-  const node = getMessageNode();
+  const node = $("desk-message");
   if (!node) return;
   node.hidden = false;
   node.textContent = message;
   node.dataset.type = type;
   node.setAttribute("role", type === "error" ? "alert" : "status");
-  node.setAttribute("aria-live", type === "error" ? "assertive" : "polite");
 }
 
 function clearMessage() {
-  const node = getMessageNode();
+  const node = $("desk-message");
   if (!node) return;
   node.hidden = true;
   node.textContent = "";
   node.dataset.type = "";
   node.removeAttribute("role");
-  node.removeAttribute("aria-live");
+}
+
+function getSemesterValue() {
+  return (document.querySelector('input[name="semestre"]:checked')?.value || "").trim();
 }
 
 function getStudentData() {
@@ -341,7 +291,7 @@ function getStudentData() {
     courseName: clampText($("sf-curso")?.value, MAX_COURSE_NAME_LENGTH),
     department,
     facilitator: clampText($("sf-facilitador")?.value, MAX_FACILITATOR_LENGTH),
-    semester: ($("sf-semestre")?.value || "").trim(),
+    semester: getSemesterValue(),
     year: ($("sf-anio")?.value || "").trim(),
     faculty: "fisc",
   };
@@ -367,388 +317,262 @@ function getAllUploadEntries() {
   return Object.values(uploads).flat().filter((entry) => entry?.file);
 }
 
-function getPreviewSectionConfig(sectionId) {
-  return PREVIEW_SECTIONS.find((section) => section.id === sectionId) || PREVIEW_SECTIONS[0];
+function hasUnsavedWork() {
+  const student = getStudentData();
+  return Boolean(
+    getAllUploadEntries().length ||
+      getConclusionText() ||
+      student.fullName ||
+      student.cedula ||
+      student.courseName ||
+      student.facilitator
+  );
 }
 
-function getPreviewSectionForUploadKey(key) {
-  return PREVIEW_UPLOAD_SECTIONS[key] || "asignaciones";
+/* ---------- Carpeta: pestañas ---------- */
+
+function getTabs() {
+  return Array.from(document.querySelectorAll("#portfolio-folder [role='tab']"));
 }
 
-function getPreviewData() {
-  const sections = PREVIEW_SECTIONS.map((section) => ({
-    ...section,
-    entries: [],
-  }));
-  const sectionMap = Object.fromEntries(sections.map((section) => [section.id, section]));
+function selectTab(key, options = {}) {
+  const tabs = getTabs();
+  const target = tabs.find((tab) => tab.dataset.tab === key);
+  if (!target) return;
 
-  sectionMap.portada.entries.push({
-    id: "preview-portada-generated",
-    name: "Portada_Oficial.pdf",
-    sectionId: "portada",
-    sectionLabel: "01_Portada",
+  tabs.forEach((tab) => {
+    const active = tab === target;
+    tab.setAttribute("aria-selected", String(active));
+    tab.tabIndex = active ? 0 : -1;
+    const sheet = $(tab.getAttribute("aria-controls"));
+    if (sheet) sheet.hidden = !active;
   });
 
-  Object.entries(uploads).forEach(([key, entries]) => {
-    const sectionId = getPreviewSectionForUploadKey(key);
-    const section = sectionMap[sectionId];
-    if (!section) return;
+  if (options.focus) {
+    target.focus();
+  }
+}
 
-    entries.forEach((entry) => {
-      section.entries.push({
-        id: entry.id,
-        name: sanitizeFileName(entry.name),
-        sectionId,
-        sectionLabel: section.label,
-      });
+function bindTabs() {
+  const tabs = getTabs();
+
+  tabs.forEach((tab, index) => {
+    const key = tab.dataset.tab;
+
+    tab.addEventListener("click", () => selectTab(key));
+
+    tab.addEventListener("keydown", (event) => {
+      let nextIndex = -1;
+      if (event.key === "ArrowRight") nextIndex = (index + 1) % tabs.length;
+      if (event.key === "ArrowLeft") nextIndex = (index - 1 + tabs.length) % tabs.length;
+      if (event.key === "Home") nextIndex = 0;
+      if (event.key === "End") nextIndex = tabs.length - 1;
+      if (nextIndex < 0) return;
+
+      event.preventDefault();
+      selectTab(tabs[nextIndex].dataset.tab, { focus: true });
+    });
+
+    if (!UPLOAD_CONFIG[key]) return;
+
+    // Arrastrar archivos sobre una pestaña abre esa sección y los guarda ahí.
+    tab.addEventListener("dragover", (event) => {
+      event.preventDefault();
+      tab.classList.add("is-drag");
+      selectTab(key);
+    });
+    tab.addEventListener("dragleave", () => tab.classList.remove("is-drag"));
+    tab.addEventListener("drop", (event) => {
+      event.preventDefault();
+      tab.classList.remove("is-drag");
+      addFilesToUpload(key, Array.from(event.dataTransfer?.files || []));
     });
   });
+}
 
-  if (getConclusionText()) {
-    sectionMap.conclusion.entries.push({
-      id: "preview-conclusion-final",
-      name: "conclusion_final.txt",
-      sectionId: "conclusion",
-      sectionLabel: "06_Conclusión",
-    });
+function setSealed(isSealed) {
+  const folder = $("portfolio-folder");
+  if (!folder) return;
+
+  if (isSealed) {
+    // Reinicia la animación si ya estaba sellada.
+    folder.classList.remove("is-sealed");
+    void folder.offsetWidth;
   }
-
-  return sections;
+  folder.classList.toggle("is-sealed", isSealed);
 }
 
-function getMostRelevantPreviewSection(sections = getPreviewData()) {
-  const activeSection = sections.find((section) => section.id === previewActiveSection);
-  if (activeSection?.entries.length) {
-    return activeSection.id;
+/* ---------- Portada en vivo ---------- */
+
+function measureCoverText(text, size) {
+  if (!coverMeasureContext) {
+    coverMeasureContext = document.createElement("canvas").getContext("2d");
   }
+  if (!coverMeasureContext) return 0;
+  coverMeasureContext.font = `700 ${size}px ${COVER_FONT_FAMILY}`;
+  return coverMeasureContext.measureText(text).width;
+}
 
-  for (let index = sections.length - 1; index >= 0; index -= 1) {
-    if (sections[index].entries.length > 0) {
-      return sections[index].id;
-    }
+function fitCoverSize(text, field) {
+  for (let size = field.initialSize; size >= field.minimumSize; size -= 0.5) {
+    if (measureCoverText(text, size) <= field.maxWidth) return size;
   }
-
-  return "portada";
+  return field.minimumSize;
 }
 
-function previewText(value) {
-  const text = String(value || "").trim();
-  return text || "—";
-}
-
-function setPreviewText(id, value) {
-  const node = $(id);
-  if (!node) return;
-
-  const nextValue = previewText(value);
-  if (node.textContent === nextValue) return;
-
-  node.textContent = nextValue;
-
-  if (window.matchMedia?.("(prefers-reduced-motion: reduce)")?.matches) return;
-  node.classList.remove("vertical-dossier__value--updated");
-  window.requestAnimationFrame?.(() => {
-    node.classList.add("vertical-dossier__value--updated");
-  });
-}
-
-function syncPreviewSectionToStep() {
-  if (currentStep === 5) {
-    previewActiveSection = getMostRelevantPreviewSection();
-    return;
-  }
-
-  previewActiveSection = PREVIEW_STEP_SECTIONS[currentStep] || previewActiveSection || "portada";
-}
-
-function updateDossierPreview(options = {}) {
-  const root = $("portfolio-live-preview");
-  if (!root) return;
-
-  const sections = getPreviewData();
-  const student = getStudentData();
-  const isFinalStep = currentStep === 5;
-  const requestedSection = options.activeSection || options.incomingSection;
-
-  if (sections.some((section) => section.id === requestedSection)) {
-    previewActiveSection = requestedSection;
-  }
-
-  const activeSection = previewActiveSection || getMostRelevantPreviewSection(sections);
-  const subtitleParts = ["FISC", "UTP", student.year].filter(Boolean);
-  const completedCount = sections.filter((section) => section.entries.length > 0).length;
-
-  root.dataset.activeSection = activeSection;
-  root.dataset.completedSections = String(completedCount);
-
-  setPreviewText("preview-dossier-title", student.courseName || "Portafolio Digital");
-  setPreviewText("preview-dossier-subtitle", subtitleParts.join(" · "));
-  setPreviewText("preview-meta-nombre", student.fullName);
-  setPreviewText("preview-meta-cedula", student.cedula);
-  setPreviewText("preview-meta-curso", student.courseName);
-  setPreviewText("preview-meta-facilitador", student.facilitator);
-  setPreviewText("preview-meta-departamento", student.department);
-  setPreviewText("preview-meta-semestre", student.semester);
-  setPreviewText("preview-meta-anio", student.year);
-
-  const stamp = $("preview-ready-stamp");
-  const showReadyStamp = previewIsCompiling || isFinalStep;
-  root.classList.toggle("vertical-dossier--ready", showReadyStamp);
-  if (stamp) {
-    stamp.setAttribute("aria-hidden", showReadyStamp ? "false" : "true");
-  }
-}
-
-function renderPortfolioPreview(options = {}) {
-  updateDossierPreview(options);
-}
-
-function setPortfolioPreviewCompiling(isCompiling) {
-  previewIsCompiling = Boolean(isCompiling);
-  renderPortfolioPreview();
-}
-
-function waitForPreviewTransition() {
-  const reducedMotion = window.matchMedia?.("(prefers-reduced-motion: reduce)")?.matches;
-  const delay = reducedMotion ? 80 : 520;
-  return new Promise((resolve) => window.setTimeout(resolve, delay));
-}
-
-function downloadZipDirectly(payload) {
-  if (!payload?.blob || !payload?.filename) {
-    throw new Error("zip_payload_invalid");
-  }
-
-  const url = URL.createObjectURL(payload.blob);
-  const link = document.createElement("a");
-  link.href = url;
-  link.download = payload.filename || "portafolio_fisc.zip";
-  document.body.appendChild(link);
-  link.click();
-  link.remove();
-  window.setTimeout(() => URL.revokeObjectURL(url), 3000);
-}
-
-async function deliverGeneratedZip(payload) {
-  if (saveGeneratedZipFn) {
-    try {
-      await saveGeneratedZipFn(payload);
-      return "saved";
-    } catch (error) {
-      console.warn("Falling back to direct ZIP download.", error);
-    }
-  }
-
-  downloadZipDirectly(payload);
-  return "downloaded";
-}
-
-function refreshSummary() {
-  const student = getStudentData();
-
-  const summary = {
-    sumNombre: student.fullName || "-",
-    sumCedula: student.cedula || "-",
-    sumCurso: student.courseName || "-",
-    sumDepto: student.department || "-",
-    sumFacil: student.facilitator || "-",
-    sumSem: `${student.semester || "-"} · ${student.year || "-"}`,
+function getCoverValues(student = getStudentData()) {
+  return {
+    department: student.department.replace(/^departamento\s+de\s+/i, "").toLocaleUpperCase("es-PA"),
+    courseName: student.courseName,
+    fullName: student.fullName,
+    cedula: student.cedula,
+    facilitator: student.facilitator,
+    year: student.year || "2026",
   };
+}
 
-  Object.entries(summary).forEach(([id, value]) => {
-    const node = $(id);
-    if (node) {
-      node.textContent = value;
+function updateCoverPreview() {
+  const values = getCoverValues();
+
+  COVER_FIELDS.forEach((field) => {
+    const node = $(field.id);
+    if (!node) return;
+
+    const text = values[field.key] || "";
+    node.textContent = text;
+    node.style.fontSize = `${((fitCoverSize(text, field) / COVER_PAGE_WIDTH) * 100).toFixed(3)}cqw`;
+  });
+}
+
+/* ---------- Estado de la carpeta ---------- */
+
+function updateFolderStatus() {
+  const entries = getAllUploadEntries();
+  const conclusionText = getConclusionText();
+
+  Object.keys(UPLOAD_CONFIG).forEach((key) => {
+    const count = getUploadEntries(key).length;
+    const tab = $(`tab-${key}`);
+    const badge = tab?.querySelector(".tab__count");
+    if (badge) badge.textContent = count > 0 ? String(count) : "";
+    if (tab) {
+      const label = UPLOAD_CONFIG[key].label;
+      tab.setAttribute("aria-label", count > 0 ? `${label}, ${count} ${count === 1 ? "archivo" : "archivos"}` : label);
     }
   });
 
-  const filesNode = $("sum-files");
-  if (filesNode) {
+  const conclusionBadge = $("tab-conclusion")?.querySelector(".tab__count");
+  if (conclusionBadge) conclusionBadge.textContent = conclusionText ? "✓" : "";
+
+  const counter = $("conclusion-count");
+  if (counter) {
+    counter.textContent = `${($("conclusionFinal")?.value || "").length} / ${MAX_CONCLUSION_LENGTH}`;
+  }
+
+  const tally = $("folder-tally");
+  if (tally) {
     const parts = [];
-    const uploadedCount = getAllUploadEntries().length;
-    parts.push(`Archivos cargados: ${uploadedCount}`);
-
-    Object.entries(UPLOAD_CONFIG).forEach(([key, config]) => {
-      const count = getUploadEntries(key).length;
-      if (count > 0) {
-        parts.push(`${config.label}: ${count}`);
-      }
-    });
-
-    filesNode.textContent = parts.join(" · ");
-  }
-
-  const conclusionNode = $("sum-conclusion");
-  if (conclusionNode) {
-    const conclusionText = getConclusionText();
-    if (conclusionText) {
-      conclusionNode.textContent = "Incluida";
-    } else {
-      conclusionNode.textContent = "No incluida";
+    if (entries.length > 0) {
+      parts.push(
+        `${entries.length} ${entries.length === 1 ? "evidencia" : "evidencias"} · ${formatBytes(getTotalUploadSize(entries))} de ${formatBytes(MAX_TOTAL_UPLOAD_SIZE_BYTES)}`
+      );
     }
-  }
-
-  renderPortfolioPreview();
-}
-
-function updateProgress() {
-  const meta = $("wizard-progress-meta");
-  const track = document.querySelector(".wizard-progress__track");
-
-  if (meta) {
-    meta.textContent = `Paso ${currentStep} de ${TOTAL_STEPS}`;
-  }
-  if (track) {
-    track.setAttribute("aria-valuenow", String(currentStep));
-    track.dataset.step = String(currentStep);
+    if (conclusionText) parts.push("conclusión incluida");
+    const nextText = parts.length > 0 ? `${parts.join(" · ")}.` : "Carpeta vacía por ahora.";
+    if (tally.textContent !== nextText) tally.textContent = nextText;
   }
 }
 
-function updateSidebar() {
-  const steps = document.querySelector(".wizard-steps");
-  if (steps) {
-    steps.dataset.step = String(currentStep);
-  }
-
-  for (let step = 1; step <= TOTAL_STEPS; step += 1) {
-    const button = $(`wizard-nav-${step}`);
-    if (!button) continue;
-
-    button.classList.remove(
-      "wizard-step--active",
-      "wizard-step--complete",
-      "wizard-step--future"
-    );
-
-    if (step < currentStep) {
-      button.classList.add("wizard-step--complete");
-      button.disabled = false;
-    } else if (step === currentStep) {
-      button.classList.add("wizard-step--active");
-      button.disabled = false;
-      button.setAttribute("aria-current", "step");
-    } else {
-      button.classList.add("wizard-step--future");
-      button.disabled = true;
-    }
-
-    if (step !== currentStep) {
-      button.removeAttribute("aria-current");
-    }
-    if (button.disabled) {
-      button.setAttribute("aria-disabled", "true");
-    } else {
-      button.removeAttribute("aria-disabled");
-    }
-  }
+function handleWorkChanged() {
+  if (isGenerating) return;
+  setSealed(false);
+  updateCoverPreview();
+  updateFolderStatus();
 }
 
-function showPanel(step) {
-  const reducedMotion = window.matchMedia?.("(prefers-reduced-motion: reduce)")?.matches;
-  panelTransitionId += 1;
-  const transitionId = panelTransitionId;
+/* ---------- Validación de la ficha ---------- */
 
-  for (let index = 1; index <= TOTAL_STEPS; index += 1) {
-    const panel = $(`wizard-panel-${index}`);
-    if (!panel) continue;
-
-    panel.classList.remove("wizard-panel--enter", "wizard-panel--entered");
-
-    if (index === step) {
-      panel.hidden = false;
-      panel.classList.remove("wizard-panel--exit");
-
-      if (!reducedMotion) {
-        panel.classList.add("wizard-panel--enter");
-        window.requestAnimationFrame?.(() => {
-          panel.classList.add("wizard-panel--entered");
-        });
-        window.setTimeout(() => {
-          panel.classList.remove("wizard-panel--enter", "wizard-panel--entered");
-        }, 280);
-      }
-      continue;
-    }
-
-    if (!panel.hidden && !reducedMotion) {
-      panel.classList.add("wizard-panel--exit");
-      window.setTimeout(() => {
-        if (transitionId !== panelTransitionId || index === currentStep) return;
-        panel.hidden = true;
-        panel.classList.remove("wizard-panel--exit");
-      }, 170);
-    } else {
-      panel.hidden = true;
-      panel.classList.remove("wizard-panel--exit");
-    }
-  }
-}
-
-function focusPanelHeading(step) {
-  const heading = $(`wizard-h${step}`);
-  if (!heading) return;
-
-  try {
-    heading.focus({ preventScroll: true });
-  } catch {
-    heading.focus();
-  }
-}
-
-function setStep(step) {
-  if (step < 1 || step > TOTAL_STEPS) return;
-  currentStep = step;
-  showPanel(step);
-  updateSidebar();
-  updateProgress();
-  clearMessage();
-  syncPreviewSectionToStep();
-
-  if (step === 5) {
-    refreshSummary();
-  } else {
-    renderPortfolioPreview();
-  }
-
-  const reducedMotion = window.matchMedia?.("(prefers-reduced-motion: reduce)")?.matches;
-  window.scrollTo({ top: 0, behavior: reducedMotion ? "auto" : "smooth" });
-  focusPanelHeading(step);
-}
-
-function validateStepOne() {
+function validateStudent() {
   const student = getStudentData();
+  const errors = [];
 
   if (!student.fullName || student.fullName.length < 3) {
-    return "Completa el nombre del estudiante.";
+    errors.push({ id: "sf-nombre", message: "falta tu nombre" });
   }
   if (!student.cedula) {
-    return "Completa la cédula del estudiante.";
+    errors.push({ id: "sf-cedula", message: "falta la cédula" });
   }
   if (!student.courseName || student.courseName.length < 3) {
-    return "Completa el nombre del curso.";
-  }
-  if (!$("sf-depto")?.value) {
-    return "Selecciona un departamento.";
+    errors.push({ id: "sf-curso", message: "falta el curso" });
   }
   if (!student.facilitator || student.facilitator.length < 3) {
-    return "Completa el nombre del facilitador.";
+    errors.push({ id: "sf-facilitador", message: "falta el facilitador" });
+  }
+  if (!$("sf-depto")?.value) {
+    errors.push({ id: "sf-depto", message: "elige el departamento" });
   }
   if (!student.semester || !student.year) {
-    return "Selecciona el semestre y el anio.";
+    errors.push({ id: "sf-semestre", message: "encierra el semestre" });
   }
 
-  return null;
+  return errors;
 }
 
-function validateStepTwo() {
-  return null;
+function setFieldError(id, message) {
+  const field = $(id);
+  const note = $(`${id}-error`);
+
+  if (field) {
+    if (message) {
+      field.setAttribute("aria-invalid", "true");
+    } else {
+      field.removeAttribute("aria-invalid");
+    }
+  }
+  if (note) {
+    note.textContent = message || "";
+    note.hidden = !message;
+  }
 }
 
-function validateCurrentStep() {
-  if (currentStep === 1) return validateStepOne();
-  if (currentStep === 2) return validateStepTwo();
-  return null;
+function showFieldErrors(errors) {
+  const byId = Object.fromEntries(errors.map((error) => [error.id, error.message]));
+  STUDENT_FIELD_IDS.forEach((id) => setFieldError(id, byId[id] || ""));
 }
+
+function focusField(id) {
+  const field = id === "sf-semestre" ? document.querySelector('input[name="semestre"]') : $(id);
+  field?.focus();
+}
+
+function bindStudentFields() {
+  ["sf-nombre", "sf-cedula", "sf-curso", "sf-facilitador", "sf-depto", "sf-anio"].forEach((id) => {
+    const field = $(id);
+    if (!field) return;
+
+    const onChange = () => {
+      setFieldError(id, "");
+      handleWorkChanged();
+    };
+    field.addEventListener("input", onChange);
+    field.addEventListener("change", onChange);
+  });
+
+  document.querySelectorAll('input[name="semestre"]').forEach((radio) => {
+    radio.addEventListener("change", () => {
+      setFieldError("sf-semestre", "");
+      handleWorkChanged();
+    });
+  });
+}
+
+function bindConclusionUi() {
+  const conclusionText = $("conclusionFinal");
+  if (!conclusionText) return;
+  conclusionText.addEventListener("input", handleWorkChanged);
+}
+
+/* ---------- Evidencias ---------- */
 
 function getAcceptAttributeForConfig(config) {
   return (config?.allowedExtensions || EVIDENCE_EXTENSIONS)
@@ -789,6 +613,8 @@ function buildUploadEntry(key, file, existingEntries) {
     name: file.webkitRelativePath || file.name,
     size: file.size,
     zipPath,
+    // Inclinación fija por archivo: cada papelito queda un poco torcido, siempre igual.
+    tilt: ((uploadSequence * 37) % 25) / 10 - 1.2,
   };
 }
 
@@ -804,22 +630,8 @@ function renderUploadUI(key, options = {}) {
   const incomingIds = new Set(options.incomingEntryIds || []);
 
   if (metaLine && config) {
-    const previousCount = Number(metaLine.dataset.uploadCount || 0);
-    const hasRenderedCount = Object.prototype.hasOwnProperty.call(metaLine.dataset, "uploadCount");
     const unit = config.maxFiles === 1 ? "archivo" : "archivos";
     metaLine.textContent = `${entries.length}/${config.maxFiles} ${unit} · Máx. 10MB por archivo`;
-    metaLine.dataset.uploadCount = String(entries.length);
-
-    if (
-      hasRenderedCount &&
-      previousCount !== entries.length &&
-      !window.matchMedia?.("(prefers-reduced-motion: reduce)")?.matches
-    ) {
-      metaLine.classList.remove("upload-zone__meta-line--tick");
-      window.requestAnimationFrame?.(() => {
-        metaLine.classList.add("upload-zone__meta-line--tick");
-      });
-    }
   }
 
   if (config?.formatsLabel && metaLine) {
@@ -839,12 +651,15 @@ function renderUploadUI(key, options = {}) {
       fileList.hidden = false;
       fileList.innerHTML = entries
         .map((entry) => {
-          const itemClass = incomingIds.has(entry.id)
-            ? "upload-zone__file-item upload-zone__file-item--new"
-            : "upload-zone__file-item";
-          return `<li class="${itemClass}"><span>${escapeHtml(entry.name)}</span> <span>${formatBytes(entry.size)}</span> <button type="button" data-upload-remove="${entry.id}">Quitar</button></li>`;
+          const itemClass = incomingIds.has(entry.id) ? "slip slip--new" : "slip";
+          const name = escapeHtml(entry.name);
+          return `<li class="${itemClass}">${CLIP_ICON}<span class="slip__name">${name}</span><span class="slip__size">${formatBytes(entry.size)}</span><button type="button" class="slip__remove" data-upload-remove="${entry.id}" aria-label="Quitar ${name}">×</button></li>`;
         })
         .join("");
+
+      Array.from(fileList.children).forEach((item, index) => {
+        item.style.setProperty("--tilt", `${entries[index].tilt.toFixed(2)}deg`);
+      });
     }
   }
 
@@ -853,7 +668,7 @@ function renderUploadUI(key, options = {}) {
 
 function addFilesToUpload(key, files) {
   const config = UPLOAD_CONFIG[key];
-  if (!config || files.length === 0) return;
+  if (!config || files.length === 0 || isGenerating) return;
 
   const currentEntries = getUploadEntries(key);
   const nextEntries = [...currentEntries];
@@ -879,7 +694,10 @@ function addFilesToUpload(key, files) {
     }
 
     if (nextEntries.length >= config.maxFiles) {
-      feedbackMessage = `${config.label} permite hasta ${config.maxFiles} archivos.`;
+      feedbackMessage =
+        config.maxFiles === 1
+          ? `${config.label} permite un solo archivo. Quita el actual para cambiarlo.`
+          : `${config.label} permite hasta ${config.maxFiles} archivos.`;
       break;
     }
 
@@ -898,17 +716,7 @@ function addFilesToUpload(key, files) {
   renderUploadUI(key, {
     incomingEntryIds: addedEntries.map((entry) => entry.id),
   });
-  refreshSummary();
-
-  if (addedEntries.length > 0) {
-    const incomingSection = getPreviewSectionForUploadKey(key);
-    previewActiveSection = incomingSection;
-    renderPortfolioPreview({
-      activeSection: incomingSection,
-      incomingSection,
-      incomingEntryIds: addedEntries.map((entry) => entry.id),
-    });
-  }
+  handleWorkChanged();
 
   if (feedbackMessage) {
     showMessage(feedbackMessage, "error");
@@ -918,6 +726,8 @@ function addFilesToUpload(key, files) {
 }
 
 function removeUploadEntry(key, entryId) {
+  if (isGenerating) return;
+
   const nextEntries = getUploadEntries(key).filter((entry) => entry.id !== entryId);
   if (nextEntries.length > 0) {
     uploads[key] = nextEntries;
@@ -926,8 +736,9 @@ function removeUploadEntry(key, entryId) {
   }
 
   renderUploadUI(key);
-  refreshSummary();
+  handleWorkChanged();
   clearMessage();
+  document.querySelector(`[data-upload-key="${key}"] .upload-zone__add`)?.focus();
 }
 
 function bindUploadZone(root) {
@@ -956,8 +767,8 @@ function bindUploadZone(root) {
 
     folderButton = document.createElement("button");
     folderButton.type = "button";
-    folderButton.className = "btn btn--outline btn--sm upload-zone__add-folder";
-    folderButton.textContent = "+ Añadir carpeta";
+    folderButton.className = "paper-btn upload-zone__add-folder";
+    folderButton.textContent = "Elegir carpeta";
 
     const actions = document.createElement("div");
     actions.className = "upload-zone__actions";
@@ -1021,73 +832,87 @@ function bindUploadZone(root) {
   renderUploadUI(key);
 }
 
-function bindNavigation() {
-  document.querySelectorAll("[data-wizard-next]").forEach((button) => {
-    button.addEventListener("click", () => {
-      const error = validateCurrentStep();
-      if (error) {
-        showMessage(error, "error");
-        return;
-      }
+/* ---------- Generar ---------- */
 
-      setStep(currentStep + 1);
-    });
+function waitForStamp() {
+  const delay = prefersReducedMotion() ? 80 : 900;
+  return new Promise((resolve) => window.setTimeout(resolve, delay));
+}
+
+function downloadZipDirectly(payload) {
+  if (!payload?.blob || !payload?.filename) {
+    throw new Error("zip_payload_invalid");
+  }
+
+  const url = URL.createObjectURL(payload.blob);
+  const link = document.createElement("a");
+  link.href = url;
+  link.download = payload.filename || "portafolio_fisc.zip";
+  document.body.appendChild(link);
+  link.click();
+  link.remove();
+  window.setTimeout(() => URL.revokeObjectURL(url), 3000);
+}
+
+async function deliverGeneratedZip(payload) {
+  if (saveGeneratedZipFn) {
+    try {
+      await saveGeneratedZipFn(payload);
+      return "saved";
+    } catch (error) {
+      console.warn("Falling back to direct ZIP download.", error);
+    }
+  }
+
+  downloadZipDirectly(payload);
+  return "downloaded";
+}
+
+// Resumen sin datos personales para el recibo de la página de descarga.
+function saveReceipt(conclusionText) {
+  const rows = [{ label: "01_Portada", count: 1 }];
+
+  Object.entries(UPLOAD_CONFIG).forEach(([key, config]) => {
+    const count = getUploadEntries(key).length;
+    if (count > 0) rows.push({ label: config.path.replace(/\/$/, ""), count });
   });
+  if (conclusionText) rows.push({ label: "06_Conclusion_Final", count: 1 });
 
-  document.querySelectorAll("[data-wizard-prev]").forEach((button) => {
-    button.addEventListener("click", () => {
-      setStep(currentStep - 1);
-    });
-  });
-
-  for (let step = 1; step <= TOTAL_STEPS; step += 1) {
-    const nav = $(`wizard-nav-${step}`);
-    if (!nav) continue;
-
-    nav.addEventListener("click", () => {
-      if (step > currentStep) {
-        const error = validateCurrentStep();
-        if (error) {
-          showMessage(error, "error");
-          return;
-        }
-      }
-
-      setStep(step);
-    });
+  try {
+    window.sessionStorage.setItem(RECEIPT_STORAGE_KEY, JSON.stringify({ rows }));
+  } catch {
+    // Sin sessionStorage el recibo solo muestra el nombre y el peso del ZIP.
   }
 }
 
-function bindConclusionUi() {
-  const conclusionText = $("conclusionFinal");
-
-  if (conclusionText) {
-    conclusionText.addEventListener("input", () => {
-      previewActiveSection = "conclusion";
-      refreshSummary();
-    });
+function setGenerating(nextValue) {
+  isGenerating = nextValue;
+  const button = $("btn-generar-portafolio");
+  if (button) {
+    button.disabled = nextValue;
+    button.textContent = nextValue ? "Armando…" : "Sellar y armar";
   }
+  $("portfolio-folder")?.setAttribute("aria-busy", String(nextValue));
 }
 
 async function handleGenerate() {
-  const error = validateStepOne() || validateStepTwo();
-  if (error) {
-    showMessage(error, "error");
+  if (isGenerating) return;
+
+  const errors = validateStudent();
+  showFieldErrors(errors);
+  if (errors.length > 0) {
+    showMessage(
+      errors.length === 1
+        ? "Falta un dato en la ficha. Está marcado en rojo."
+        : `Faltan ${errors.length} datos en la ficha. Están marcados en rojo.`,
+      "error"
+    );
+    focusField(errors[0].id);
     return;
   }
 
-  const button = $("btn-generar-portafolio");
-  const idle = $("wizard-step5-idle");
-  const loading = $("wizard-step5-loading");
-
-  if (button) {
-    button.disabled = true;
-    button.textContent = "Generando...";
-  }
-  if (idle) idle.hidden = true;
-  if (loading) loading.hidden = false;
   clearMessage();
-  setPortfolioPreviewCompiling(true);
+  setGenerating(true);
 
   try {
     if (!generatePortadaFn || !buildZipFn) {
@@ -1112,35 +937,28 @@ async function handleGenerate() {
       throw new Error("zip_not_created");
     }
 
+    saveReceipt(conclusionText);
     const deliveryMode = await deliverGeneratedZip(zipResult);
-    await waitForPreviewTransition();
+    selectTab("portada");
+    setSealed(true);
+    await waitForStamp();
 
     if (deliveryMode === "saved") {
+      leavingForDownload = true;
       window.location.href = "descarga.html";
       return;
     }
 
-    setPortfolioPreviewCompiling(false);
+    setGenerating(false);
     showMessage("ZIP generado. Si la descarga no empezó, revisa las descargas del navegador.", "success");
-    if (idle) idle.hidden = false;
-    if (loading) loading.hidden = true;
-    if (button) {
-      button.disabled = false;
-      button.textContent = "Generar portafolio";
-    }
   } catch (error) {
     console.error("No se pudo generar el portafolio.", error);
-    setPortfolioPreviewCompiling(false);
+    setGenerating(false);
+    setSealed(false);
     showMessage(
       "No se pudo generar el portafolio. Revisa tus datos y vuelve a intentar.",
       "error"
     );
-    if (idle) idle.hidden = false;
-    if (loading) loading.hidden = true;
-    if (button) {
-      button.disabled = false;
-      button.textContent = "Generar portafolio";
-    }
   }
 }
 
@@ -1153,20 +971,18 @@ function bindGenerateButton() {
   });
 }
 
-function bindDossierPreviewInputs() {
-  [
-    "sf-nombre",
-    "sf-cedula",
-    "sf-curso",
-    "sf-facilitador",
-    "sf-semestre",
-    "sf-anio",
-    "sf-depto",
-  ].forEach((id) => {
-    const field = $(id);
-    if (!field) return;
-    field.addEventListener("input", () => updateDossierPreview());
-    field.addEventListener("change", () => updateDossierPreview());
+function bindPageGuards() {
+  // Un archivo soltado fuera de la carpeta no debe abrirse en la pestaña y borrar el trabajo.
+  ["dragover", "drop"].forEach((type) => {
+    window.addEventListener(type, (event) => {
+      if (!event.defaultPrevented) event.preventDefault();
+    });
+  });
+
+  window.addEventListener("beforeunload", (event) => {
+    if (leavingForDownload || !hasUnsavedWork()) return;
+    event.preventDefault();
+    event.returnValue = "";
   });
 }
 
@@ -1180,14 +996,15 @@ function initApp() {
   }
 
   document.querySelectorAll("[data-upload-key]").forEach(bindUploadZone);
-  bindNavigation();
+  bindTabs();
+  bindStudentFields();
   bindConclusionUi();
   bindGenerateButton();
-  bindDossierPreviewInputs();
-  refreshSummary();
-  updateSidebar();
-  updateProgress();
-  showPanel(1);
+  bindPageGuards();
+  updateCoverPreview();
+  updateFolderStatus();
+  // Vuelve a medir cuando carga la fuente de la portada.
+  document.fonts?.load?.(`700 17px ${COVER_FONT_FAMILY}`).then(updateCoverPreview, () => {});
   document.body.dataset.appReady = "true";
 }
 
@@ -1196,6 +1013,3 @@ if (document.readyState === "loading") {
 } else {
   initApp();
 }
-
-
-
