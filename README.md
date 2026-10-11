@@ -10,7 +10,6 @@ La aplicación procesa los datos del portafolio en el navegador. No tiene backen
 
 Demo en vivo: [armaport.pages.dev](https://armaport.pages.dev)
 
-> Nota de alcance: este repositorio es una exportación estática pública, no una plataforma operativa. No implementa colaboración, validación en servidor, monitoreo en tiempo real, mensajería, verificación de campo ni funciones de IA.
 
 ## Capturas
 
