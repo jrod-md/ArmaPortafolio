@@ -81,33 +81,40 @@ The upload workflow applies category-specific allowlists and limits:
 
 ## Local development
 
-The app can be served by any simple static HTTP server. For example:
+The site itself has no dependencies and no build step. The repository includes a small Node toolchain (Node 22 or newer) for checking, testing and publishing it.
 
 ```powershell
-python -m http.server 8081
+npm install
+npx playwright install chromium
 ```
 
-Open `http://127.0.0.1:8081/` and test the complete flow from `index.html` to `generar.html` and `descarga.html`. The generator loads local assets through HTTP, so opening the HTML files directly with `file://` is not the representative runtime.
+| Command | What it does |
+|---|---|
+| `npm run serve` | Serves the checkout at `http://127.0.0.1:4173` with the response headers from `_headers`, including the Content-Security-Policy. |
+| `npm run check` | Static review: missing files and links, inline code the CSP would block, external origins the CSP does not allow, duplicate or dangling ids, JavaScript syntax. |
+| `npm run test:e2e` | Builds `dist/`, serves it with the production headers and runs the browser tests: every page loads without console errors or horizontal overflow, validation, file rejection, and a full run that generates a ZIP and checks its folder structure. |
+| `npm test` | `check` followed by the browser tests. |
+| `npm run build` | Writes the public export to `dist/`. |
 
-Basic JavaScript syntax checks can be run without installing project dependencies:
+Use `npm run serve` rather than a plain static server when testing by hand. A plain server does not send the Content-Security-Policy, so it will not show what production blocks. Opening the HTML files with `file://` is not a representative runtime either.
 
-```powershell
-node --check js/app.js
-node --check js/generate.js
-node --check js/zip.js
-node --check js/download.js
-node --check js/landing.js
-```
+## Continuous integration
+
+`.github/workflows/ci.yml` runs on every pull request and on every push to `main`: `npm run check`, then the browser tests against `dist/` served with the production headers.
 
 ## Deployment
 
-The live demo is a Cloudflare Pages Direct Upload deployment at [armaport.pages.dev](https://armaport.pages.dev). A GitHub push does not create a Cloudflare deployment automatically. The command deploys the folder supplied to Wrangler, so use the curated public export folder rather than the checkout root if documentation and screenshots should remain outside the hosted site.
+The workflow does not publish the site. Deployment stays with Cloudflare Pages, in one of two ways:
+
+- **Git integration**: if the Pages project is connected to this repository, Cloudflare builds and publishes each push by itself and no token is needed here. Set the build command to `node scripts/build-export.mjs` and the output directory to `dist`, so only the public files are published.
+- **Manual upload**:
 
 ```powershell
-npx wrangler@latest pages deploy .\deploy --project-name armaport
+npm run build
+npx wrangler@4 pages deploy dist --project-name armaport
 ```
 
-The deployment folder should contain only public files. Do not upload `.git/`, `.wrangler/`, `_old/`, local screenshots, documentation source files that are excluded from the public export, or private environment files.
+`dist/` contains only the public files: the HTML pages, `css/`, `js/`, `assets/`, `vendor/`, `_headers`, `_redirects`, `robots.txt`, `sitemap.xml`, `favicon.svg` and `LICENSE`.
 
 ## Documentation
 

@@ -890,6 +890,7 @@ textarea {
   min-height: calc(100vh - var(--band-height));
   margin: 0 auto;
   padding: 40px var(--gutter) 56px;
+  overflow-x: clip;
 }
 
 .descarga-main .wizard-panel {
