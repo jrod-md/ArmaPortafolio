@@ -1,0 +1,15 @@
+{
+  "name": "armaportafolio",
+  "private": true,
+  "description": "Herramientas de revisión, prueba y publicación. El sitio en sí no tiene dependencias ni paso de compilación.",
+  "scripts": {
+    "check": "node scripts/check-site.mjs",
+    "build": "node scripts/build-export.mjs",
+    "serve": "node scripts/serve.mjs",
+    "test": "npm run check && playwright test",
+    "test:e2e": "playwright test"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.49.0"
+  }
+}

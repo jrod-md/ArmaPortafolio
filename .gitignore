@@ -21,3 +21,5 @@ Thumbs.db
 .edge-*/
 Deploy/
 dist/
+test-results/
+playwright-report/
