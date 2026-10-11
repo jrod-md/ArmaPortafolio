@@ -1,6 +1,8 @@
 # ArmaPortafolio
 
-ArmaPortafolio is a static, browser-based tool for assembling academic portfolios. It helps a student enter cover-page information, add course evidence, organize files into a predictable folder structure, and download a final ZIP package.
+**English** · [Español](README.es.md)
+
+ArmaPortafolio is a static, browser-based tool for assembling academic portfolios. It helps a student enter cover-page information, add course evidence, organize files into the folder structure the faculty requires, and download a final ZIP package.
 
 The application processes portfolio data in the browser. It has no application backend, server-side file upload, user account system, or server database. A generated ZIP may be stored temporarily in the browser's IndexedDB so the download page can retrieve it, and the app falls back to a direct browser download when that handoff is unavailable.
 
@@ -24,7 +26,7 @@ Generated `Portada.pdf` showing the cover included in the final portfolio packag
 
 ![Validated portfolio structure](assets/showcase/03-estructura-final.png)
 
-Example of the predictable folder structure produced inside the downloaded ZIP.
+Example of the folder structure inside the downloaded ZIP.
 
 The generator runs locally in the browser without an account or server-side file upload. It includes practical technical limits—10 MB per file and 160 MB per package—which are described below.
 
@@ -61,11 +63,14 @@ The upload workflow applies category-specific allowlists and limits:
 
 ```text
 .
-|-- assets/       Cover template, fonts, and retained reference assets
+|-- .github/      Integration and publishing workflow
+|-- assets/       Cover template, fonts, and sample captures
 |-- css/          Application styles
-|-- docs/         Technical, legal, and deployment documentation
+|-- docs/         Legal and third-party notices
 |-- js/           Generator, validation, ZIP, download, and landing logic
 |-- screenshots/  Public README screenshots
+|-- scripts/      Static check, local server, and public export
+|-- tests/        Browser tests
 |-- vendor/       Vendored pdf-lib and fontkit builds
 |-- *.html        Static application pages
 |-- _headers      Cloudflare Pages response headers
