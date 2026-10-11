@@ -1,4 +1,4 @@
-name: CI
+name: CI/CD
 
 on:
   pull_request:
@@ -49,3 +49,40 @@ jobs:
             playwright-report/
             test-results/
           retention-days: 7
+
+  deploy:
+    name: Publicar en Cloudflare Pages
+    needs: test
+    if: github.ref == 'refs/heads/main' && github.event_name != 'pull_request'
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    environment:
+      name: production
+      url: https://armaport.pages.dev
+    env:
+      CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+      CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Armar la carpeta pública
+        run: node scripts/build-export.mjs
+
+      # Sin los dos secretos no se publica nada: el trabajo termina bien y deja un aviso.
+      - name: Comprobar credenciales
+        id: credentials
+        run: |
+          if [ -z "$CLOUDFLARE_API_TOKEN" ] || [ -z "$CLOUDFLARE_ACCOUNT_ID" ]; then
+            echo "configured=false" >> "$GITHUB_OUTPUT"
+            echo "::notice title=Sin publicar::Faltan los secretos CLOUDFLARE_API_TOKEN y CLOUDFLARE_ACCOUNT_ID. No se publicó nada."
+          else
+            echo "configured=true" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Publicar
+        if: steps.credentials.outputs.configured == 'true'
+        run: npx --yes wrangler@4 pages deploy dist --project-name armaport --branch main

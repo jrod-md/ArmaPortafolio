@@ -12,19 +12,15 @@ Live demo: [armaport.pages.dev](https://armaport.pages.dev)
 
 ![Landing page overview](screenshots/01-overview.png)
 
-Landing page showing the problem framing, portfolio package concept, and entry point to the generator.
+Landing page with the entry point to the generator and the portfolio shown as a stack of folders.
 
 ![Portfolio generator](screenshots/02-generator.png)
 
-Generator screen showing the five-step workflow, student metadata form, progress state, and live package preview.
+Generator screen showing the five-step workflow, the student data form, the folder stack that fills as evidence is added, and the live cover preview.
 
 ![Generated portfolio cover](assets/showcase/01-portada-generada.png)
 
 Generated `Portada.pdf` showing the cover included in the final portfolio package.
-
-![Client-side generator workflow](assets/showcase/02-flujo-del-generador.png)
-
-Client-side workflow with the student data form, five-step progress indicator, and live preview of the package cover.
 
 ![Validated portfolio structure](assets/showcase/03-estructura-final.png)
 
@@ -42,12 +38,12 @@ The generator runs locally in the browser without an account or server-side file
 
 ## Technical implementation
 
-- Static HTML, CSS, and vanilla JavaScript. There is no `package.json`, framework, or build step in the repository.
+- Static HTML, CSS, and vanilla JavaScript, with no framework and no build step. The `package.json` in the repository only holds the checking and testing tools.
 - `pdf-lib` creates the PDF document and embeds the supplied cover image and fonts.
 - `fontkit` is registered with `pdf-lib` so the bundled Liberation Sans fonts can be embedded in the generated PDF.
 - `js/zip.js` contains a custom stored-ZIP writer. It writes local file headers, central-directory entries, end-of-central-directory data, and CRC-32 checksums. The project does not use JSZip.
 - IndexedDB stores only the latest generated ZIP Blob, filename, and creation time for the handoff to `descarga.html`.
-- The landing page loads GSAP, ScrollTrigger, and Lenis from CDN for motion and scroll behavior. These libraries are not used by the generator workflow.
+- Motion is plain CSS plus a small script (`js/landing.js`). No animation library is loaded.
 
 ## File handling and limits
 
@@ -98,16 +94,21 @@ npx playwright install chromium
 
 Use `npm run serve` rather than a plain static server when testing by hand. A plain server does not send the Content-Security-Policy, so it will not show what production blocks. Opening the HTML files with `file://` is not a representative runtime either.
 
-## Continuous integration
+## Continuous integration and deployment
 
-`.github/workflows/ci.yml` runs on every pull request and on every push to `main`: `npm run check`, then the browser tests against `dist/` served with the production headers.
+`.github/workflows/ci.yml` runs on every pull request and on every push to `main`:
 
-## Deployment
+1. **Revisar y probar**: `npm run check`, then the browser tests against `dist/` served with the production headers.
+2. **Publicar en Cloudflare Pages**: only on `main`, and only if step 1 passed. It builds `dist/` and uploads it to the `armaport` Pages project.
 
-The workflow does not publish the site. Deployment stays with Cloudflare Pages, in one of two ways:
+The Pages project is a Direct Upload project, so Cloudflare does not build from this repository by itself; the workflow does the upload. It needs two repository secrets:
 
-- **Git integration**: if the Pages project is connected to this repository, Cloudflare builds and publishes each push by itself and no token is needed here. Set the build command to `node scripts/build-export.mjs` and the output directory to `dist`, so only the public files are published.
-- **Manual upload**:
+- `CLOUDFLARE_API_TOKEN`: an API token with the *Account / Cloudflare Pages / Edit* permission.
+- `CLOUDFLARE_ACCOUNT_ID`: the account id shown in the Cloudflare dashboard.
+
+Without them the publish job ends with a notice and uploads nothing. The job runs in the `production` environment; adding a required reviewer there turns each publish into a manual approval.
+
+To publish by hand instead:
 
 ```powershell
 npm run build
@@ -118,6 +119,5 @@ npx wrangler@4 pages deploy dist --project-name armaport
 
 ## Documentation
 
-- [Production checklist](docs/PRODUCTION_CHECKLIST.md)
 - [Third-party notices](docs/THIRD_PARTY_NOTICES.md)
 - [Asset notices](docs/ASSET_NOTICES.md)
