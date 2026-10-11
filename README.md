@@ -1,128 +1,151 @@
 # ArmaPortafolio
 
-**English** · [Español](README.es.md)
+[![CI/CD](https://github.com/jrod-md/ArmaPortafolio/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/jrod-md/ArmaPortafolio/actions/workflows/ci.yml)
 
-ArmaPortafolio is a static, browser-based tool for assembling academic portfolios. It helps a student enter cover-page information, add course evidence, organize files into the folder structure the faculty requires, and download a final ZIP package.
+[English](README.en.md) · **Español**
 
-The application processes portfolio data in the browser. It has no application backend, server-side file upload, user account system, or server database. A generated ZIP may be stored temporarily in the browser's IndexedDB so the download page can retrieve it, and the app falls back to a direct browser download when that handoff is unavailable.
+ArmaPortafolio es una herramienta estática que funciona en el navegador para armar portafolios académicos. Ayuda al estudiante a ingresar los datos de la portada, añadir las evidencias del curso, ordenar los archivos en la estructura de carpetas que pide la facultad y descargar un ZIP final.
 
-Live demo: [armaport.pages.dev](https://armaport.pages.dev)
+La aplicación procesa los datos del portafolio en el navegador. No tiene backend propio, subida de archivos a un servidor, sistema de cuentas ni base de datos. El ZIP generado puede guardarse de forma temporal en IndexedDB para que la página de descarga lo encuentre; si ese paso no está disponible, la aplicación lo descarga directamente.
 
-> Scope note: this repository is a public static export, not a live operational platform. It does not implement collaboration, server-side validation, real-time monitoring, messaging, field verification, or AI features.
+Demo en vivo: [armaport.pages.dev](https://armaport.pages.dev)
 
-## Screenshots
+> Nota de alcance: este repositorio es una exportación estática pública, no una plataforma operativa. No implementa colaboración, validación en servidor, monitoreo en tiempo real, mensajería, verificación de campo ni funciones de IA.
 
-![Landing page overview](screenshots/01-overview.png)
+## Capturas
 
-Landing page with the entry point to the generator and the portfolio shown as a stack of folders.
+![Página de inicio](screenshots/01-inicio.png)
 
-![Portfolio generator](screenshots/02-generator.png)
+Página de inicio: el problema, la propuesta y el acceso al generador, con el portafolio representado como una pila de carpetas.
 
-Generator screen showing the five-step workflow, the student data form, the folder stack that fills as evidence is added, and the live cover preview.
+![Cómo funciona](screenshots/02-como-funciona.png)
 
-![Generated portfolio cover](assets/showcase/01-portada-generada.png)
+El proceso en cuatro pasos, de los datos del curso a la descarga.
 
-Generated `Portada.pdf` showing the cover included in the final portfolio package.
+![Pasos 1 y 2: datos del estudiante y plan del curso](screenshots/03-pasos-1-y-2.png)
 
-![Validated portfolio structure](assets/showcase/03-estructura-final.png)
+Pasos 1 y 2. El formulario llena la portada oficial mientras se escribe; el paso 2 usa esta misma pantalla para cargar, de forma opcional, el plan de contenido.
 
-Example of the folder structure inside the downloaded ZIP.
+![Paso 3: evidencias por sección](screenshots/04-paso-3-evidencias.png)
 
-The generator runs locally in the browser without an account or server-side file upload. It includes practical technical limits—10 MB per file and 160 MB per package—which are described below.
+Paso 3. Tareas, parciales, proyectos, laboratorios y material, con archivos sueltos o carpetas completas. La pila de la derecha se llena a medida que se añaden.
 
-## Core workflow
+![Paso 4: conclusión](screenshots/05-paso-4-conclusion.png)
 
-1. Collect student, course, department, facilitator, semester, and year information.
-2. Accept optional evidence uploads grouped into predefined portfolio categories.
-3. Generate a `Portada.pdf` cover in the browser using the supplied template and fonts.
-4. Add the cover, uploaded files, and optional conclusion text to a structured ZIP package.
-5. Save the latest ZIP temporarily in IndexedDB, open the download screen, and clear the stored copy after download.
+Paso 4. Texto opcional de cierre que se incluye en el paquete.
 
-## Technical implementation
+![Paso 5: revisión](screenshots/06-paso-5-revision.png)
 
-- Static HTML, CSS, and vanilla JavaScript, with no framework and no build step. The `package.json` in the repository only holds the checking and testing tools.
-- `pdf-lib` creates the PDF document and embeds the supplied cover image and fonts.
-- `fontkit` is registered with `pdf-lib` so the bundled Liberation Sans fonts can be embedded in the generated PDF.
-- `js/zip.js` contains a custom stored-ZIP writer. It writes local file headers, central-directory entries, end-of-central-directory data, and CRC-32 checksums. The project does not use JSZip.
-- IndexedDB stores only the latest generated ZIP Blob, filename, and creation time for the handoff to `descarga.html`.
-- Motion is plain CSS plus a small script (`js/landing.js`). No animation library is loaded.
+Paso 5. Resumen de los datos y vista previa de la portada antes de generar.
 
-## File handling and limits
+![Portafolio listo](screenshots/07-descarga.png)
 
-The upload workflow applies category-specific allowlists and limits:
+El ZIP armado, con el detalle de cada carpeta y su peso total.
 
-- Maximum file size: 10 MB.
-- Maximum package size: 160 MB.
-- Category limits range from 1 to 120 files, depending on the section.
-- Supported groups include documents, spreadsheets, presentations, source code, images, and archives.
-- Dangerous executable or script-like extensions are rejected.
-- Filenames and relative paths are sanitized before entering the ZIP. Path traversal segments are removed, names are normalized, and duplicate ZIP paths receive suffixes such as `_2`.
-- Required student fields and text lengths are validated before generation.
+![Portada generada](assets/showcase/01-portada-generada.png)
 
-## Repository layout
+`Portada.pdf` generada, tal como queda incluida en el paquete final.
+
+![Estructura del portafolio](assets/showcase/03-estructura-final.png)
+
+Ejemplo de la estructura de carpetas dentro del ZIP descargado.
+
+El generador funciona de forma local en el navegador, sin cuenta y sin subir archivos a un servidor. Tiene límites técnicos prácticos (10 MB por archivo y 160 MB por paquete), que se describen más abajo.
+
+## Flujo principal
+
+1. Recoge los datos del estudiante, el curso, el departamento, el facilitador, el semestre y el año.
+2. Acepta evidencias opcionales, agrupadas en las categorías del portafolio.
+3. Genera la portada `Portada.pdf` en el navegador con la plantilla y las fuentes incluidas.
+4. Añade la portada, los archivos subidos y la conclusión opcional a un ZIP estructurado.
+5. Guarda el último ZIP de forma temporal en IndexedDB, abre la pantalla de descarga y borra la copia guardada después de descargarla.
+
+## Implementación técnica
+
+- HTML, CSS y JavaScript sin frameworks ni paso de compilación. El `package.json` del repositorio solo contiene las herramientas de revisión y pruebas.
+- `pdf-lib` crea el documento PDF e incrusta la imagen de la portada y las fuentes.
+- `fontkit` se registra en `pdf-lib` para poder incrustar las fuentes Liberation Sans en el PDF generado.
+- `js/zip.js` contiene un escritor de ZIP propio, sin compresión. Escribe las cabeceras locales, las entradas del directorio central, el registro de fin de directorio central y las sumas CRC-32. El proyecto no usa JSZip.
+- IndexedDB guarda únicamente el Blob del último ZIP generado, su nombre y su fecha de creación, para entregarlo a `descarga.html`.
+- El movimiento es CSS más un script pequeño (`js/landing.js`). No se carga ninguna biblioteca de animación.
+
+## Manejo de archivos y límites
+
+El flujo de subida aplica listas de formatos permitidos y límites por categoría:
+
+- Tamaño máximo por archivo: 10 MB.
+- Tamaño máximo del paquete: 160 MB.
+- Los límites por categoría van de 1 a 120 archivos, según la sección.
+- Se aceptan documentos, hojas de cálculo, presentaciones, código fuente, imágenes y archivos comprimidos.
+- Se rechazan las extensiones ejecutables o de script peligrosas.
+- Los nombres de archivo y las rutas relativas se limpian antes de entrar al ZIP. Se eliminan los segmentos de salto de directorio, se normalizan los nombres y las rutas repetidas reciben sufijos como `_2`.
+- Los campos obligatorios del estudiante y la longitud de los textos se validan antes de generar.
+
+## Estructura del repositorio
 
 ```text
 .
-|-- .github/      Integration and publishing workflow
-|-- assets/       Cover template, fonts, and sample captures
-|-- css/          Application styles
-|-- docs/         Legal and third-party notices
-|-- js/           Generator, validation, ZIP, download, and landing logic
-|-- screenshots/  Public README screenshots
-|-- scripts/      Static check, local server, and public export
-|-- tests/        Browser tests
-|-- vendor/       Vendored pdf-lib and fontkit builds
-|-- *.html        Static application pages
-|-- _headers      Cloudflare Pages response headers
-|-- _redirects    Cloudflare Pages redirects
+|-- .github/      Flujo de integración y publicación
+|-- assets/       Plantilla de la portada, fuentes y capturas de muestra
+|-- css/          Estilos de la aplicación
+|-- docs/         Avisos legales y de terceros
+|-- js/           Generador, validación, ZIP, descarga e inicio
+|-- screenshots/  Capturas públicas del README
+|-- scripts/      Revisión estática, servidor local y exportación pública
+|-- tests/        Pruebas en navegador
+|-- vendor/       Copias de pdf-lib y fontkit
+|-- *.html        Páginas estáticas de la aplicación
+|-- _headers      Cabeceras de respuesta de Cloudflare Pages
+|-- _redirects    Redirecciones de Cloudflare Pages
 |-- robots.txt
 |-- sitemap.xml
 `-- LICENSE
 ```
 
-## Local development
+## Desarrollo local
 
-The site itself has no dependencies and no build step. The repository includes a small Node toolchain (Node 22 or newer) for checking, testing and publishing it.
+El sitio no tiene dependencias ni paso de compilación. El repositorio incluye un conjunto pequeño de herramientas en Node (versión 22 o superior) para revisarlo, probarlo y publicarlo.
 
 ```powershell
 npm install
 npx playwright install chromium
 ```
 
-| Command | What it does |
+| Comando | Qué hace |
 |---|---|
-| `npm run serve` | Serves the checkout at `http://127.0.0.1:4173` with the response headers from `_headers`, including the Content-Security-Policy. |
-| `npm run check` | Static review: missing files and links, inline code the CSP would block, external origins the CSP does not allow, duplicate or dangling ids, JavaScript syntax. |
-| `npm run test:e2e` | Builds `dist/`, serves it with the production headers and runs the browser tests: every page loads without console errors or horizontal overflow, validation, file rejection, and a full run that generates a ZIP and checks its folder structure. |
-| `npm test` | `check` followed by the browser tests. |
-| `npm run build` | Writes the public export to `dist/`. |
+| `npm run serve` | Sirve la carpeta en `http://127.0.0.1:4173` con las cabeceras de `_headers`, incluida la Content-Security-Policy. |
+| `npm run check` | Revisión estática: archivos y enlaces que no existen, código en línea que la CSP bloquearía, orígenes externos que la CSP no permite, ids repetidos o inexistentes y sintaxis de JavaScript. |
+| `npm run test:e2e` | Arma `dist/`, la sirve con las cabeceras de producción y corre las pruebas en navegador: cada página carga sin errores de consola ni desborde horizontal, validación, rechazo de archivos y un recorrido completo que genera un ZIP y revisa su estructura de carpetas. |
+| `npm test` | `check` y luego las pruebas en navegador. |
+| `npm run build` | Escribe la exportación pública en `dist/`. |
 
-Use `npm run serve` rather than a plain static server when testing by hand. A plain server does not send the Content-Security-Policy, so it will not show what production blocks. Opening the HTML files with `file://` is not a representative runtime either.
+Para probar a mano, usa `npm run serve` en lugar de un servidor estático cualquiera. Un servidor simple no envía la Content-Security-Policy, así que no muestra lo que producción bloquea. Abrir los archivos HTML con `file://` tampoco es un entorno representativo.
 
-## Continuous integration and deployment
+## Integración continua y publicación
 
-`.github/workflows/ci.yml` runs on every pull request and on every push to `main`:
+`.github/workflows/ci.yml` corre en cada pull request y en cada push a `main`:
 
-1. **Revisar y probar**: `npm run check`, then the browser tests against `dist/` served with the production headers.
-2. **Publicar en Cloudflare Pages**: only on `main`, and only if step 1 passed. It builds `dist/` and uploads it to the `armaport` Pages project.
+1. **Revisar y probar**: `npm run check` y luego las pruebas en navegador contra `dist/`, servida con las cabeceras de producción.
+2. **Publicar en Cloudflare Pages**: solo en `main` y solo si el paso 1 pasó. Arma `dist/` y la sube al proyecto `armaport` de Pages.
 
-The Pages project is a Direct Upload project, so Cloudflare does not build from this repository by itself; the workflow does the upload. It needs two repository secrets:
+El proyecto de Pages es de subida directa, así que Cloudflare no construye desde este repositorio por su cuenta; la subida la hace el flujo. Necesita dos secretos en el repositorio:
 
-- `CLOUDFLARE_API_TOKEN`: an API token with the *Account / Cloudflare Pages / Edit* permission.
-- `CLOUDFLARE_ACCOUNT_ID`: the account id shown in the Cloudflare dashboard.
+- `CLOUDFLARE_API_TOKEN`: un token de API con el permiso *Account / Cloudflare Pages / Edit*.
+- `CLOUDFLARE_ACCOUNT_ID`: el identificador de cuenta que muestra el panel de Cloudflare.
 
-Without them the publish job ends with a notice and uploads nothing. The job runs in the `production` environment; adding a required reviewer there turns each publish into a manual approval.
+Sin ellos, el trabajo de publicación termina con un aviso y no sube nada. El trabajo corre en el entorno `production`; si se le agrega un revisor obligatorio, cada publicación pasa a requerir aprobación manual.
 
-To publish by hand instead:
+Para publicar a mano:
 
 ```powershell
 npm run build
 npx wrangler@4 pages deploy dist --project-name armaport
 ```
 
-`dist/` contains only the public files: the HTML pages, `css/`, `js/`, `assets/`, `vendor/`, `_headers`, `_redirects`, `robots.txt`, `sitemap.xml`, `favicon.svg` and `LICENSE`.
+`dist/` contiene solo los archivos públicos: las páginas HTML, `css/`, `js/`, `assets/`, `vendor/`, `_headers`, `_redirects`, `robots.txt`, `sitemap.xml`, `favicon.svg` y `LICENSE`.
 
-## Documentation
+## Documentación
 
-- [Third-party notices](docs/THIRD_PARTY_NOTICES.md)
-- [Asset notices](docs/ASSET_NOTICES.md)
+- [Avisos de terceros](docs/THIRD_PARTY_NOTICES.md)
+- [Avisos sobre los recursos](docs/ASSET_NOTICES.md)
+- [Licencia en español](LICENSE.es.md)
