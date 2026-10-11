@@ -23,6 +23,14 @@
         button.disabled = true;
         button.setAttribute("aria-disabled", "true");
       }
+      document.body.classList.add("is-empty");
+      const setText = (id, text) => {
+        const node = document.getElementById(id);
+        if (node) node.textContent = text;
+      };
+      setText("descarga-kicker", "Sin portafolio");
+      setText("descarga-title", "Aquí todavía no hay nada.");
+      setText("descarga-lead", "Esta página guarda el último ZIP que armaste en este navegador.");
       showMessage("No se encontró un ZIP generado. Vuelve a generar el portafolio.");
       return;
     }

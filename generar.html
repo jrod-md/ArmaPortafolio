@@ -3,13 +3,13 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Generar portafolio - Portafolio FISC</title>
+    <title>Generar portafolio - ArmaPortafolio</title>
     <meta
       name="description"
       content="Completa los datos del curso, añade evidencias opcionales y genera el ZIP del Portafolio Digital Estudiantil."
     />
     <link rel="canonical" href="https://armaport.pages.dev/generar.html" />
-    <meta property="og:title" content="Generar portafolio - Portafolio FISC" />
+    <meta property="og:title" content="Generar portafolio - ArmaPortafolio" />
     <meta
       property="og:description"
       content="Formulario para generar la portada y estructura ZIP del portafolio estudiantil."
@@ -17,79 +17,59 @@
     <meta property="og:url" content="https://armaport.pages.dev/generar.html" />
     <meta property="og:type" content="website" />
     <meta property="og:locale" content="es_PA" />
-    <meta property="og:site_name" content="Portafolio FISC" />
+    <meta property="og:site_name" content="ArmaPortafolio" />
     <meta name="twitter:card" content="summary" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Lora:ital,wght@0,500;0,600;0,700;1,500;1,600&display=swap"
+      href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Newsreader:opsz,wght@6..72,400;6..72,500;6..72,600&family=Young+Serif&display=swap"
       rel="stylesheet"
     />
-    <link rel="stylesheet" href="css/styles.css?v=18" />
+    <link rel="stylesheet" href="css/folleto.css?v=1" />
     <link rel="icon" type="image/svg+xml" href="favicon.svg" />
   </head>
   <body class="page-wizard">
     <a class="skip-link" href="#generador">Saltar al generador</a>
-    <header class="navbar reveal">
-      <div class="navbar__inner container">
-        <a href="index.html" class="wordmark">ArmaPortafolio</a>
-        <nav class="navbar__nav" aria-label="Principal">
-          <a href="nosotros.html">Nosotros</a>
-          <span class="navbar__sep" aria-hidden="true">·</span>
-          <a href="faq.html">FAQ</a>
-          <span class="navbar__sep" aria-hidden="true">·</span>
-          <a href="ayuda.html">Ayuda</a>
-        </nav>
-      </div>
+    <header class="band">
+      <a href="index.html" class="wordmark">ArmaPortafolio</a>
+      <nav class="band__nav" aria-label="Principal">
+        <a href="nosotros.html">Nosotros</a>
+        <a href="faq.html">FAQ</a>
+        <a href="ayuda.html">Ayuda</a>
+      </nav>
     </header>
 
-    <main class="wizard-layout reveal" id="generador" aria-labelledby="generator-title" tabindex="-1">
+    <main class="wizard-layout" id="generador" data-step="1" aria-labelledby="generator-title" tabindex="-1">
       <h1 class="visually-hidden" id="generator-title">Generar portafolio</h1>
       <aside class="wizard-sidebar" aria-label="Pasos del asistente">
-        <h2 class="wizard-sidebar__title">Pasos</h2>
         <ol class="wizard-steps">
           <li>
             <button type="button" class="wizard-step wizard-step--active" id="wizard-nav-1" data-step="1" aria-current="step" aria-controls="wizard-panel-1">
-              <span class="wizard-step__circle" aria-hidden="true">
-                <span class="wizard-step__num">1</span>
-                <span class="wizard-step__check">✓</span>
-              </span>
+              <span class="wizard-step__mark" aria-hidden="true"><span class="wizard-step__num">01</span><span class="wizard-step__check">✓</span></span>
               <span class="wizard-step__label">Datos del estudiante</span>
             </button>
           </li>
           <li>
             <button type="button" class="wizard-step" id="wizard-nav-2" data-step="2" aria-controls="wizard-panel-2">
-              <span class="wizard-step__circle" aria-hidden="true">
-                <span class="wizard-step__num">2</span>
-                <span class="wizard-step__check">✓</span>
-              </span>
+              <span class="wizard-step__mark" aria-hidden="true"><span class="wizard-step__num">02</span><span class="wizard-step__check">✓</span></span>
               <span class="wizard-step__label">Documentos del curso</span>
             </button>
           </li>
           <li>
             <button type="button" class="wizard-step" id="wizard-nav-3" data-step="3" aria-controls="wizard-panel-3">
-              <span class="wizard-step__circle" aria-hidden="true">
-                <span class="wizard-step__num">3</span>
-                <span class="wizard-step__check">✓</span>
-              </span>
+              <span class="wizard-step__mark" aria-hidden="true"><span class="wizard-step__num">03</span><span class="wizard-step__check">✓</span></span>
               <span class="wizard-step__label">Actividades y materiales</span>
             </button>
           </li>
           <li>
             <button type="button" class="wizard-step" id="wizard-nav-4" data-step="4" aria-controls="wizard-panel-4">
-              <span class="wizard-step__circle" aria-hidden="true">
-                <span class="wizard-step__num">4</span>
-                <span class="wizard-step__check">✓</span>
-              </span>
+              <span class="wizard-step__mark" aria-hidden="true"><span class="wizard-step__num">04</span><span class="wizard-step__check">✓</span></span>
               <span class="wizard-step__label">Conclusión (opcional)</span>
             </button>
           </li>
           <li>
             <button type="button" class="wizard-step" id="wizard-nav-5" data-step="5" aria-controls="wizard-panel-5">
-              <span class="wizard-step__circle" aria-hidden="true">
-                <span class="wizard-step__num">5</span>
-                <span class="wizard-step__check">✓</span>
-              </span>
+              <span class="wizard-step__mark" aria-hidden="true"><span class="wizard-step__num">05</span><span class="wizard-step__check">✓</span></span>
               <span class="wizard-step__label">Revisar y generar</span>
             </button>
           </li>
@@ -97,33 +77,31 @@
       </aside>
 
       <div class="wizard-main">
-        <div class="wizard-progress" aria-live="polite">
-          <div class="wizard-progress__top">
-            <span class="wizard-progress__eyebrow" id="wizard-progress-label">Progreso</span>
-            <span class="wizard-progress__meta" id="wizard-progress-meta">Paso 1 de 5</span>
-          </div>
-          <div class="wizard-progress__track" role="progressbar" aria-valuemin="1" aria-valuemax="5" aria-valuenow="1" aria-labelledby="wizard-progress-label wizard-progress-meta" data-step="1">
-            <span class="wizard-progress__bar" id="wizard-progress-bar"></span>
-          </div>
-        </div>
+        <div class="wizard-inline-message" id="wizard-message" hidden></div>
+
         <section class="wizard-panel" id="wizard-panel-1" aria-labelledby="wizard-h1">
-          <h2 class="wizard-panel__title" id="wizard-h1" tabindex="-1">Datos del estudiante</h2>
+          <p class="wizard-kicker">Paso 1 de 5</p>
+          <h2 class="wizard-panel__title" id="wizard-h1" tabindex="-1">Primero, tus datos.</h2>
+          <p class="wizard-panel__subtitle">Con esto se escribe la portada oficial. Lo llenas una sola vez.</p>
           <div class="wizard-form">
-            <div class="wizard-field">
+            <div class="wizard-field wizard-field--wide">
               <label class="wizard-label" for="sf-nombre">Nombre completo</label>
-              <input class="wizard-input" type="text" id="sf-nombre" name="nombre" required maxlength="80" placeholder="Juan Carlos López Rodríguez" autocomplete="name" />
+              <input class="wizard-input" type="text" id="sf-nombre" name="nombre" required maxlength="80" placeholder="Juan Carlos López Rodríguez" autocomplete="name" aria-describedby="sf-nombre-error" />
+              <p class="wizard-field__error" id="sf-nombre-error" hidden></p>
             </div>
             <div class="wizard-field">
               <label class="wizard-label" for="sf-cedula">Cédula</label>
-              <input class="wizard-input" type="text" id="sf-cedula" name="cedula" required placeholder="8-123-4567" />
+              <input class="wizard-input" type="text" id="sf-cedula" name="cedula" required placeholder="8-123-4567" aria-describedby="sf-cedula-error" />
+              <p class="wizard-field__error" id="sf-cedula-error" hidden></p>
             </div>
             <div class="wizard-field">
               <label class="wizard-label" for="sf-curso">Nombre del curso</label>
-              <input class="wizard-input" type="text" id="sf-curso" name="curso" required maxlength="80" placeholder="Bases de Datos I" />
+              <input class="wizard-input" type="text" id="sf-curso" name="curso" required maxlength="80" placeholder="Bases de Datos I" aria-describedby="sf-curso-error" />
+              <p class="wizard-field__error" id="sf-curso-error" hidden></p>
             </div>
-            <div class="wizard-field">
+            <div class="wizard-field wizard-field--wide">
               <label class="wizard-label" for="sf-depto">Departamento FISC</label>
-              <select class="wizard-select" id="sf-depto" name="depto" required>
+              <select class="wizard-select" id="sf-depto" name="depto" required aria-describedby="sf-depto-error">
                 <option value="" disabled selected>Selecciona un departamento</option>
                 <option>Arquitectura y Redes de Computadoras</option>
                 <option>Computación y Simulación de Sistemas</option>
@@ -131,265 +109,164 @@
                 <option>Programación de Computadoras</option>
                 <option>Sistemas de Información, Control y Evaluación de Recursos Informáticos</option>
               </select>
+              <p class="wizard-field__error" id="sf-depto-error" hidden></p>
+            </div>
+            <div class="wizard-field wizard-field--wide">
+              <label class="wizard-label" for="sf-facilitador">Facilitador(a)</label>
+              <input class="wizard-input" type="text" id="sf-facilitador" name="facilitador" required maxlength="80" placeholder="Ing. María González" aria-describedby="sf-facilitador-error" />
+              <p class="wizard-field__error" id="sf-facilitador-error" hidden></p>
             </div>
             <div class="wizard-field">
-              <label class="wizard-label" for="sf-facilitador">Facilitador(a)</label>
-              <input class="wizard-input" type="text" id="sf-facilitador" name="facilitador" required maxlength="80" placeholder="Ing. María González" />
+              <span class="wizard-label" id="sf-semestre-label">Semestre</span>
+              <div class="wizard-segment" id="sf-semestre" role="radiogroup" aria-labelledby="sf-semestre-label" aria-describedby="sf-semestre-error">
+                <label><input class="visually-hidden" type="radio" name="semestre" value="I" />I</label>
+                <label><input class="visually-hidden" type="radio" name="semestre" value="II" />II</label>
+                <label><input class="visually-hidden" type="radio" name="semestre" value="Verano" />Verano</label>
+              </div>
+              <p class="wizard-field__error" id="sf-semestre-error" hidden></p>
             </div>
-            <div class="wizard-field-row">
-              <div class="wizard-field">
-                <label class="wizard-label" for="sf-semestre">Semestre</label>
-                <select class="wizard-select" id="sf-semestre" name="semestre" required>
-                  <option value="" disabled selected>—</option>
-                  <option>I</option>
-                  <option>II</option>
-                  <option>Verano</option>
-                </select>
-              </div>
-              <div class="wizard-field">
-                <label class="wizard-label" for="sf-anio">Año</label>
-                <select class="wizard-select" id="sf-anio" name="anio" required>
-                  <option selected>2026</option>
-                </select>
-              </div>
+            <div class="wizard-field">
+              <label class="wizard-label" for="sf-anio">Año</label>
+              <select class="wizard-select" id="sf-anio" name="anio" required>
+                <option selected>2026</option>
+              </select>
             </div>
           </div>
           <footer class="wizard-panel__footer wizard-panel__footer--end">
-            <button type="button" class="btn btn--primary" data-wizard-next>Siguiente →</button>
+            <button type="button" class="btn btn--primary" data-wizard-next>Siguiente <span class="btn__arrow" aria-hidden="true">→</span></button>
           </footer>
         </section>
 
         <section class="wizard-panel" id="wizard-panel-2" hidden aria-labelledby="wizard-h2">
-          <h2 class="wizard-panel__title" id="wizard-h2" tabindex="-1">Documentos del curso</h2>
-          <p class="wizard-panel__subtitle">Cada evidencia entra en la carpeta correcta. Los archivos se empaquetan tal como los subes; si tu profesor exige PDF, conviértelos antes de entregar.</p>
+          <p class="wizard-kicker">Paso 2 de 5</p>
+          <h2 class="wizard-panel__title" id="wizard-h2" tabindex="-1">El plan del curso.</h2>
+          <p class="wizard-panel__subtitle">Si tienes el plan de contenido, va aquí. Es opcional.</p>
           <div class="wizard-upload-stack">
             <div class="upload-zone" data-upload-key="planContenido">
-              <input type="file" class="upload-zone__input" accept=".pdf,.doc,.docx" hidden aria-label="Plan de Contenido, evidencia" />
+              <input type="file" class="upload-zone__input" hidden aria-label="Plan de Contenido, evidencias" />
               <p class="upload-zone__title">Plan de Contenido</p>
-              <p class="upload-zone__hint">Opcional</p>
               <p class="upload-zone__meta-line">0/1 archivo · Máx. 10MB por archivo</p>
-              <button type="button" class="btn btn--outline btn--sm upload-zone__add">+ Añadir archivo</button>
+              <button type="button" class="btn upload-zone__add">Añadir archivo</button>
               <ul class="upload-zone__file-list" hidden></ul>
             </div>
           </div>
-          <footer class="wizard-panel__footer wizard-panel__footer--split">
-            <button type="button" class="btn btn--outline" data-wizard-prev>← Anterior</button>
-            <button type="button" class="btn btn--primary" data-wizard-next>Siguiente →</button>
+          <footer class="wizard-panel__footer">
+            <button type="button" class="btn" data-wizard-prev><span class="btn__arrow btn__arrow--back" aria-hidden="true">←</span> Anterior</button>
+            <button type="button" class="btn btn--primary" data-wizard-next>Siguiente <span class="btn__arrow" aria-hidden="true">→</span></button>
           </footer>
         </section>
 
-                <section class="wizard-panel" id="wizard-panel-3" hidden aria-labelledby="wizard-h3">
-          <h2 class="wizard-panel__title" id="wizard-h3" tabindex="-1">Actividades y materiales</h2>
+        <section class="wizard-panel" id="wizard-panel-3" hidden aria-labelledby="wizard-h3">
+          <p class="wizard-kicker">Paso 3 de 5</p>
+          <h2 class="wizard-panel__title" id="wizard-h3" tabindex="-1">Ahora, tus evidencias.</h2>
           <p class="wizard-panel__subtitle">
-            Puedes cargar archivos sueltos o carpetas. Portafolio FISC no convierte tus evidencias:
-            las ordena en la carpeta correcta y conserva su formato original.
+            Añade lo que tengas en cada sección, o arrástralo encima. Se guardan tal como las subes; si tu profesor exige PDF, conviértelas antes.
           </p>
-
-          <div class="wizard-disclosures">
-            <details class="wizard-disclosure">
-              <summary class="wizard-disclosure__summary">
-                Tareas
-              </summary>
-              <div class="wizard-disclosure__body">
-                <div class="upload-zone" data-upload-key="tareas">
-                  <input type="file" class="upload-zone__input" accept=".pdf,.doc,.docx,.xls,.xlsx,.csv,.ppt,.pptx,.txt,.rtf,.odt,.ods,.odp,.java,.py,.js,.ts,.html,.css,.sql,.json,.xml,.md,.c,.cpp,.cs,.php,.ipynb,.zip,.rar,.7z,.png,.jpg,.jpeg,.gif,.webp" multiple hidden aria-label="Tareas, evidencias" />
-                  <p class="upload-zone__hint">Opcional</p>
-                  <p class="upload-zone__meta-line">0/32 archivos · Máx. 10MB por archivo</p>
-                  <button type="button" class="btn btn--outline btn--sm upload-zone__add">+ Añadir archivo</button>
-                  <ul class="upload-zone__file-list" hidden></ul>
-                </div>
-              </div>
-            </details>
-
-            <details class="wizard-disclosure">
-              <summary class="wizard-disclosure__summary">
-                Parciales
-              </summary>
-              <div class="wizard-disclosure__body">
-                <div class="upload-zone" data-upload-key="parciales">
-                  <input type="file" class="upload-zone__input" accept=".pdf,.doc,.docx,.txt,.rtf,.odt,.md,.png,.jpg,.jpeg,.gif,.webp" multiple hidden aria-label="Parciales, evidencias" />
-                  <p class="upload-zone__hint">Opcional</p>
-                  <p class="upload-zone__meta-line">0/12 archivos · Máx. 10MB por archivo</p>
-                  <button type="button" class="btn btn--outline btn--sm upload-zone__add">+ Añadir archivo</button>
-                  <ul class="upload-zone__file-list" hidden></ul>
-                </div>
-              </div>
-            </details>
-
-            <details class="wizard-disclosure">
-              <summary class="wizard-disclosure__summary">
-                Proyectos
-              </summary>
-              <div class="wizard-disclosure__body">
-                <div class="upload-zone" data-upload-key="proyectos">
-                  <input type="file" class="upload-zone__input" accept=".pdf,.doc,.docx,.xls,.xlsx,.csv,.ppt,.pptx,.txt,.rtf,.odt,.ods,.odp,.java,.py,.js,.ts,.html,.css,.sql,.json,.xml,.md,.c,.cpp,.cs,.php,.ipynb,.zip,.rar,.7z,.png,.jpg,.jpeg,.gif,.webp" multiple hidden aria-label="Proyectos, evidencias" />
-                  <p class="upload-zone__hint">Opcional</p>
-                  <p class="upload-zone__meta-line">0/120 archivos · Máx. 10MB por archivo</p>
-                  <button type="button" class="btn btn--outline btn--sm upload-zone__add">+ Añadir archivo</button>
-                  <ul class="upload-zone__file-list" hidden></ul>
-                </div>
-              </div>
-            </details>
-
-            <details class="wizard-disclosure">
-              <summary class="wizard-disclosure__summary">
-                Laboratorios y talleres
-              </summary>
-              <div class="wizard-disclosure__body">
-                <div class="upload-zone" data-upload-key="labs">
-                  <input type="file" class="upload-zone__input" accept=".pdf,.doc,.docx,.txt,.rtf,.odt,.md,.xls,.xlsx,.csv,.ods,.java,.py,.js,.ts,.html,.css,.sql,.json,.xml,.c,.cpp,.cs,.php,.ipynb,.zip,.rar,.7z,.png,.jpg,.jpeg,.gif,.webp" multiple hidden aria-label="Laboratorios y talleres, evidencias" />
-                  <p class="upload-zone__hint">Opcional</p>
-                  <p class="upload-zone__meta-line">0/120 archivos · Máx. 10MB por archivo</p>
-                  <button type="button" class="btn btn--outline btn--sm upload-zone__add">+ Añadir archivo</button>
-                  <ul class="upload-zone__file-list" hidden></ul>
-                </div>
-              </div>
-            </details>
-
-            <details class="wizard-disclosure">
-              <summary class="wizard-disclosure__summary">
-                Material didáctico
-              </summary>
-              <div class="wizard-disclosure__body">
-                <div class="upload-zone" data-upload-key="material">
-                  <input type="file" class="upload-zone__input" accept=".pdf,.doc,.docx,.txt,.rtf,.odt,.md,.xls,.xlsx,.csv,.ods,.ppt,.pptx,.odp,.zip,.rar,.7z,.png,.jpg,.jpeg,.gif,.webp" multiple hidden aria-label="Material didáctico, evidencias" />
-                  <p class="upload-zone__hint">Opcional</p>
-                  <p class="upload-zone__meta-line">0/64 archivos · Máx. 10MB por archivo</p>
-                  <button type="button" class="btn btn--outline btn--sm upload-zone__add">+ Añadir archivo</button>
-                  <ul class="upload-zone__file-list" hidden></ul>
-                </div>
-              </div>
-            </details>
-
+          <div class="wizard-upload-stack">
+            <div class="upload-zone" data-upload-key="tareas">
+              <input type="file" class="upload-zone__input" multiple hidden aria-label="Tareas, evidencias" />
+              <p class="upload-zone__title">Tareas</p>
+              <p class="upload-zone__meta-line">0/32 archivos · Máx. 10MB por archivo</p>
+              <button type="button" class="btn upload-zone__add">Añadir archivos</button>
+              <ul class="upload-zone__file-list" hidden></ul>
+            </div>
+            <div class="upload-zone" data-upload-key="parciales">
+              <input type="file" class="upload-zone__input" multiple hidden aria-label="Parciales, evidencias" />
+              <p class="upload-zone__title">Parciales</p>
+              <p class="upload-zone__meta-line">0/12 archivos · Máx. 10MB por archivo</p>
+              <button type="button" class="btn upload-zone__add">Añadir archivos</button>
+              <ul class="upload-zone__file-list" hidden></ul>
+            </div>
+            <div class="upload-zone" data-upload-key="proyectos">
+              <input type="file" class="upload-zone__input" multiple hidden aria-label="Proyectos, evidencias" />
+              <p class="upload-zone__title">Proyectos</p>
+              <p class="upload-zone__meta-line">0/120 archivos · Máx. 10MB por archivo</p>
+              <button type="button" class="btn upload-zone__add">Añadir archivos</button>
+              <ul class="upload-zone__file-list" hidden></ul>
+            </div>
+            <div class="upload-zone" data-upload-key="labs">
+              <input type="file" class="upload-zone__input" multiple hidden aria-label="Laboratorios y talleres, evidencias" />
+              <p class="upload-zone__title">Laboratorios y talleres</p>
+              <p class="upload-zone__meta-line">0/120 archivos · Máx. 10MB por archivo</p>
+              <button type="button" class="btn upload-zone__add">Añadir archivos</button>
+              <ul class="upload-zone__file-list" hidden></ul>
+            </div>
+            <div class="upload-zone" data-upload-key="material">
+              <input type="file" class="upload-zone__input" multiple hidden aria-label="Material didáctico, evidencias" />
+              <p class="upload-zone__title">Material didáctico</p>
+              <p class="upload-zone__meta-line">0/64 archivos · Máx. 10MB por archivo</p>
+              <button type="button" class="btn upload-zone__add">Añadir archivos</button>
+              <ul class="upload-zone__file-list" hidden></ul>
+            </div>
           </div>
-
-          <footer class="wizard-panel__footer wizard-panel__footer--split">
-            <button type="button" class="btn btn--outline" data-wizard-prev>← Anterior</button>
-            <button type="button" class="btn btn--primary" data-wizard-next>Siguiente →</button>
+          <footer class="wizard-panel__footer">
+            <button type="button" class="btn" data-wizard-prev><span class="btn__arrow btn__arrow--back" aria-hidden="true">←</span> Anterior</button>
+            <button type="button" class="btn btn--primary" data-wizard-next>Siguiente <span class="btn__arrow" aria-hidden="true">→</span></button>
           </footer>
         </section>
 
         <section class="wizard-panel" id="wizard-panel-4" hidden aria-labelledby="wizard-h4">
-          <h2 class="wizard-panel__title" id="wizard-h4" tabindex="-1">Conclusión final del curso</h2>
-          <p class="wizard-panel__subtitle">
-            Puedes escribir tu conclusión manualmente y editarla antes de generar el ZIP.
-          </p>
-          <div class="wizard-form">
-            <div class="wizard-field">
-              <label class="wizard-label" for="conclusionFinal">Conclusión final del curso</label>
-              <textarea
-                class="wizard-textarea"
-                id="conclusionFinal"
-                name="conclusion_final"
-                maxlength="2000"
-                rows="8"
-                placeholder="Escribe tu conclusión aquí..."
-              ></textarea>
-            </div>
+          <p class="wizard-kicker">Paso 4 de 5</p>
+          <h2 class="wizard-panel__title" id="wizard-h4" tabindex="-1">Una conclusión, si quieres.</h2>
+          <p class="wizard-panel__subtitle">Unas líneas sobre lo que te dejó el curso. Si la dejas en blanco, no se incluye.</p>
+          <div class="wizard-field">
+            <label class="wizard-label" for="conclusionFinal">Conclusión final del curso</label>
+            <textarea class="wizard-textarea" id="conclusionFinal" name="conclusion_final" maxlength="2000" rows="8" placeholder="Escribe tu conclusión aquí…" aria-describedby="conclusion-count"></textarea>
+            <span class="wizard-count" id="conclusion-count">0 / 2000</span>
           </div>
-          <footer class="wizard-panel__footer wizard-panel__footer--split">
-            <button type="button" class="btn btn--outline" data-wizard-prev>← Anterior</button>
-            <button type="button" class="btn btn--primary" data-wizard-next>Siguiente →</button>
+          <footer class="wizard-panel__footer">
+            <button type="button" class="btn" data-wizard-prev><span class="btn__arrow btn__arrow--back" aria-hidden="true">←</span> Anterior</button>
+            <button type="button" class="btn btn--primary" data-wizard-next>Siguiente <span class="btn__arrow" aria-hidden="true">→</span></button>
           </footer>
         </section>
 
         <section class="wizard-panel" id="wizard-panel-5" hidden aria-labelledby="wizard-h5">
-          <h2 class="wizard-panel__title" id="wizard-h5" tabindex="-1">Revisar y generar</h2>
-          <p class="wizard-panel__subtitle">Revisa la estructura final antes de descargar. La portada PDF y tus evidencias quedan empaquetadas en un solo ZIP.</p>
-          <div class="wizard-summary">
-            <h2 class="wizard-summary__heading">Resumen del paquete</h2>
-            <dl class="wizard-summary__grid">
-              <dt>Estudiante</dt><dd id="sumNombre">—</dd>
-              <dt>Cédula</dt><dd id="sumCedula">—</dd>
-              <dt>Curso</dt><dd id="sumCurso">—</dd>
-              <dt>Departamento</dt><dd id="sumDepto">—</dd>
-              <dt>Facilitador(a)</dt><dd id="sumFacil">—</dd>
-              <dt>Ciclo Académico</dt><dd id="sumSem">—</dd>
-            </dl>
-            
-            <div class="wizard-summary__footer">
-              <div class="wizard-summary__meta">
-                <span class="wizard-label">Documentos</span>
-                <p id="sum-files">Archivos cargados: 0</p>
-              </div>
-              <div class="wizard-summary__meta">
-                <span class="wizard-label">Conclusión</span>
-                <p id="sum-conclusion">No incluida</p>
-              </div>
+          <p class="wizard-kicker">Paso 5 de 5</p>
+          <h2 class="wizard-panel__title" id="wizard-h5" tabindex="-1">Revisa y genera.</h2>
+          <p class="wizard-panel__subtitle">Esto es lo que va dentro del ZIP. La portada y tus evidencias quedan en un solo archivo.</p>
+          <dl class="wizard-summary__grid">
+            <dt>Estudiante</dt><dd id="sumNombre">—</dd>
+            <dt>Cédula</dt><dd id="sumCedula">—</dd>
+            <dt>Curso</dt><dd id="sumCurso">—</dd>
+            <dt>Departamento</dt><dd id="sumDepto">—</dd>
+            <dt>Facilitador(a)</dt><dd id="sumFacil">—</dd>
+            <dt>Ciclo académico</dt><dd id="sumSem">—</dd>
+            <dt>Evidencias</dt><dd id="sum-files">Archivos cargados: 0</dd>
+            <dt>Conclusión</dt><dd id="sum-conclusion">No incluida</dd>
+          </dl>
+          <footer class="wizard-panel__footer">
+            <button type="button" class="btn" data-wizard-prev><span class="btn__arrow btn__arrow--back" aria-hidden="true">←</span> Anterior</button>
+            <div id="wizard-step5-idle">
+              <button type="button" class="btn btn--primary wizard-btn-generate" id="btn-generar-portafolio">Generar portafolio</button>
             </div>
-          </div>
-          <div class="wizard-warn-box" role="status">
-            Sin nombres de carpetas incorrectos. Tus evidencias no se convierten; se empaquetan en su formato original.
-          </div>
-          <div id="wizard-step5-idle">
-            <button type="button" class="btn btn--primary wizard-btn-generate" id="btn-generar-portafolio">Generar portafolio</button>
-          </div>
-          <div id="wizard-step5-loading" class="wizard-loading" hidden>
-            <div class="wizard-spinner" aria-hidden="true"></div>
-            <p>Generando tu portafolio...</p>
-          </div>
-          <footer class="wizard-panel__footer wizard-panel__footer--start">
-            <button type="button" class="btn btn--outline" data-wizard-prev>← Anterior</button>
+            <p id="wizard-step5-loading" class="wizard-loading" role="status" hidden>Armando tu portafolio…</p>
           </footer>
         </section>
       </div>
 
-      <aside class="portfolio-preview" aria-label="Vista del paquete del portafolio">
-        <div class="portfolio-preview__panel">
-          <div class="portfolio-preview__eyebrow">Vista en tiempo real</div>
-          <h2 class="portfolio-preview__title">Paquete oficial</h2>
-          
-          <div class="vertical-dossier" id="portfolio-live-preview">
-            <div class="vertical-dossier__spine" aria-hidden="true"></div>
-            <div class="vertical-dossier__body">
-              <div class="vertical-dossier__cover">
-                <div class="vertical-dossier__header">
-                  <div class="vertical-dossier__mock-logo"></div>
-                  <div class="vertical-dossier__title" id="preview-dossier-title">Portafolio Digital</div>
-                  <div class="vertical-dossier__subtitle" id="preview-dossier-subtitle">FISC · UTP</div>
-                </div>
-                
-                <div class="vertical-dossier__metadata">
-                  <div class="vertical-dossier__meta-row vertical-dossier__meta-row--primary">
-                    <span class="vertical-dossier__meta-label">Estudiante</span>
-                    <span class="vertical-dossier__meta-value" id="preview-meta-nombre">—</span>
-                  </div>
-                  <div class="vertical-dossier__meta-row vertical-dossier__meta-row--primary">
-                    <span class="vertical-dossier__meta-label">Cédula</span>
-                    <span class="vertical-dossier__meta-value" id="preview-meta-cedula">—</span>
-                  </div>
-                  <div class="vertical-dossier__meta-row vertical-dossier__meta-row--primary">
-                    <span class="vertical-dossier__meta-label">Curso</span>
-                    <span class="vertical-dossier__meta-value" id="preview-meta-curso">—</span>
-                  </div>
-                  <div class="vertical-dossier__meta-row vertical-dossier__meta-row--primary">
-                    <span class="vertical-dossier__meta-label">Facilitador</span>
-                    <span class="vertical-dossier__meta-value" id="preview-meta-facilitador">—</span>
-                  </div>
-
-                  <div class="vertical-dossier__meta-block" aria-label="Metadatos académicos">
-                    <div class="vertical-dossier__meta-row vertical-dossier__meta-row--secondary">
-                      <span class="vertical-dossier__meta-label">Departamento</span>
-                      <span class="vertical-dossier__meta-value" id="preview-meta-departamento">—</span>
-                    </div>
-                    <div class="vertical-dossier__meta-row vertical-dossier__meta-row--secondary">
-                      <span class="vertical-dossier__meta-label">Semestre</span>
-                      <span class="vertical-dossier__meta-value" id="preview-meta-semestre">—</span>
-                    </div>
-                    <div class="vertical-dossier__meta-row vertical-dossier__meta-row--secondary">
-                      <span class="vertical-dossier__meta-label">Año</span>
-                      <span class="vertical-dossier__meta-value" id="preview-meta-anio">—</span>
-                    </div>
-                  </div>
-                </div>
-
-                <div class="vertical-dossier__ready-stamp" id="preview-ready-stamp">LISTO</div>
-              </div>
-
-            </div>
+      <aside class="portfolio-preview" aria-label="Vista del portafolio">
+        <div class="stack-stage" aria-hidden="true">
+          <div class="stack" id="portfolio-stack">
+            <div class="fold" data-folder="conclusion"><i class="back"></i><i class="page"></i><i class="front"><span>Conclusión</span><small></small></i></div>
+            <div class="fold" data-folder="material"><i class="back"></i><i class="page"></i><i class="front"><span>Material</span><small></small></i></div>
+            <div class="fold" data-folder="actividades"><i class="back"></i><i class="page"></i><i class="front"><span>Actividades</span><small></small></i></div>
+            <div class="fold" data-folder="curso"><i class="back"></i><i class="page"></i><i class="front"><span>Curso</span><small></small></i></div>
+            <div class="fold" data-folder="portada"><i class="back"></i><i class="page"></i><i class="front"><span>Portada</span><small></small></i></div>
           </div>
-
         </div>
+        <p class="preview-note"><b id="preview-note-title">Empieza por la portada.</b><span id="preview-note-text">Se escribe sola mientras llenas tus datos.</span></p>
+        <figure class="cover-wrap">
+          <figcaption>01_Portada / Portada.pdf</figcaption>
+          <div class="cover">
+            <img src="assets/templates/portada_base.PNG" alt="Portada oficial con tus datos" width="966" height="714" />
+            <span class="cover__v cover__v--depto" id="cover-depto"></span>
+            <span class="cover__v cover__v--curso" id="cover-curso"></span>
+            <span class="cover__v cover__v--nombre" id="cover-nombre"></span>
+            <span class="cover__v cover__v--cedula" id="cover-cedula"></span>
+            <span class="cover__v cover__v--facil" id="cover-facil"></span>
+            <span class="cover__v cover__v--anio" id="cover-anio"></span>
+          </div>
+        </figure>
       </aside>
     </main>
 
@@ -397,6 +274,6 @@
     <script src="vendor/fontkit/fontkit.umd.min.js?v=1"></script>
     <script src="js/zip.js?v=7"></script>
     <script src="js/generate.js?v=7"></script>
-    <script src="js/app.js?v=10"></script>
+    <script src="js/app.js?v=12"></script>
   </body>
 </html>
